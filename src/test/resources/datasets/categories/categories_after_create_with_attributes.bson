@@ -1,0 +1,65 @@
+{
+    "categories": [
+        {
+            "_id": {
+                "$oid": "59b78ed24daf991ecaafa263"
+            },
+            "_class": "com.etilize.burraq.category.Category",
+            "name": "Parent Category",
+            "description": "some description for parent category",
+            "status": "ACTIVE",
+            "industryId": "59762d7caddb13b4a8440a38",
+            "attributes": []
+        },
+        {
+            "_id": {
+                "$oid": "59b78f244daf991ecaafa264"
+            },
+            "_class": "com.etilize.burraq.category.Category",
+            "name": "Child Category 1",
+            "description": "some description for child catgeory 1",
+            "status": "INACTIVE",
+            "industryId": "59762d7caddb13b4a8440a38",
+            "parentCategoryId": {
+                "$oid": "59b78ed24daf991ecaafa263"
+            },
+            "attributes": []
+        },
+        {
+            "_id": {
+                "$oid": "59b795074daf991ecaafa265"
+            },
+            "_class": "com.etilize.burraq.category.Category",
+            "name": "Child Category 2",
+            "description": "some description for child category 2",
+            "status": "PENDING",
+            "industryId": "59762d7caddb13b4a8440a38",
+            "parentCategoryId": {
+                "$oid": "59b78ed24daf991ecaafa263"
+            },
+            "attributes": [{
+                "attributeId": "59b78ed24daf991ecaafgfh",
+                "source": "INHERITED",
+                "order": 1
+            }]
+        },
+        {
+            "_id": {
+                "$exists": true
+            },
+            "_class": "com.etilize.burraq.category.Category",
+            "name": "Child Catgeory 3",
+            "description": "some description for child category 3",
+            "status": "INACTIVE",
+            "industryId": "59762d7caddb13b4a8440a38",
+            "parentCategoryId": {
+                "$oid": "59b78ed24daf991ecaafa263"
+            },
+            "attributes": [{
+                "attributeId": "attributeId-1",
+                "source": "SELF",
+                "order": 1
+            }]
+        }
+    ]
+}
