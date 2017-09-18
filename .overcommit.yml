@@ -38,7 +38,3 @@ PreCommit:
   # https://github.com/brigade/scss-lint
   ScssLint:
     enabled: true
-
-  # http://www.jslint.com/
-  JsLint:
-    enabled: true

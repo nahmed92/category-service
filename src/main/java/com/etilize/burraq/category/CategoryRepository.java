@@ -26,42 +26,18 @@
  * #endregion
  */
 
-package com.etilize.burraq.category.base;
+package com.etilize.burraq.category;
 
-import java.io.Serializable;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.hateoas.Identifiable;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
- * Abstract mongo entity, extended by model classes
+ * Repository for Category
  *
  * @author Ebad Hashmi
+ * @version 1.0
  *
- * @param <ID> unique identifier of a document
  */
-public abstract class AbstractMongoEntity<ID extends Serializable>
-        implements Identifiable<ID> {
-
-    @Id
-    private ID id;
-
-    @Override
-    public ID getId() {
-        return id;
-    }
-
-    public void setId(final ID id) {
-        this.id = id;
-    }
-
-    @Override
-    public abstract boolean equals(Object object);
-
-    @Override
-    public abstract int hashCode();
-
-    @Override
-    public abstract String toString();
+public interface CategoryRepository extends MongoRepository<Category, ObjectId> {
 
 }
