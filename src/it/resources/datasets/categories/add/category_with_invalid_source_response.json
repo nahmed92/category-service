@@ -1,0 +1,7 @@
+{
+    "cause": {
+        "cause": null,
+        "message": "@contains(value not one of declared Enum instance names: [INHERITED, SELF, SYSTEM])@"
+    },
+    "message": "@contains(value not one of declared Enum instance names: [INHERITED, SELF, SYSTEM])@"
+}

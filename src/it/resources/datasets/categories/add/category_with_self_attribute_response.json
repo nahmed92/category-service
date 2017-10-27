@@ -1,0 +1,22 @@
+{
+    "name": "Cache Memory",
+    "description": "Cache Memory description",
+    "status": "ACTIVE",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "parentCategoryId": "599421f24daf9922d012af76",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SELF",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@contains(/categories)@"
+        },
+        "category": {
+            "href": "@contains(/categories)@"
+        }
+    }
+}

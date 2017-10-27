@@ -1,0 +1,22 @@
+{
+    "name": "Scanners",
+    "description": "Scanners description",
+    "status": "PENDING",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "parentCategoryId": "599421f24daf9922d012af76",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@contains(/categories)@"
+        },
+        "category": {
+            "href": "@contains(/categories)@"
+        }
+    }
+}

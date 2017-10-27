@@ -1,0 +1,21 @@
+{
+    "name": "Printers & Scanners",
+    "description": "Printers & Scanners description",
+    "status": "ACTIVE",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@contains(/categories)@"
+        },
+        "category": {
+            "href": "@contains(/categories)@"
+        }
+    }
+}
