@@ -1,0 +1,14 @@
+{
+    "name": "Battery Doors",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "status": "ACTIVE",
+    "description": "Battery Doors description",
+    "parentCategoryId": "599421f24daf9922d012af76",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "INHERITED",
+            "order": 1
+        }
+    ]
+}
