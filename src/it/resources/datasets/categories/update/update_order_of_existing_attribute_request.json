@@ -1,0 +1,14 @@
+{
+    "industryId": "59762d7caddb13b4a8440a38",
+    "name": "Services",
+    "status": "ACTIVE",
+    "description": "Services description",
+    "parentCategoryId": null,
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 2
+        }
+    ]
+}

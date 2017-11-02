@@ -1,0 +1,26 @@
+{
+    "name": "Services",
+    "description": "Services description",
+    "status": "ACTIVE",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440b2h",
+            "source": "INHERITED",
+            "order": 2
+        },
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@endsWith(${locationHeaderValue})@"
+        },
+        "category": {
+            "href": "@endsWith(${locationHeaderValue})@"
+        }
+    }
+}

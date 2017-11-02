@@ -1,0 +1,10 @@
+{
+    "errors": [
+        {
+            "entity": "Category",
+            "property": "industryId",
+            "invalidValue": "",
+            "message": "industryId is required"
+        }
+    ]
+}
