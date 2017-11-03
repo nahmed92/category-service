@@ -41,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.etilize.burraq.category.test.AbstractIntegrationTest;
+import com.etilize.burraq.category.test.security.WithOAuth2Authentication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Sets;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
@@ -55,6 +56,7 @@ import com.querydsl.core.types.Predicate;
  *
  */
 @UsingDataSet(locations = { "/datasets/categories/categories.bson" })
+@WithOAuth2Authentication(username = "ROLE_PTM")
 public class CategoryRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -76,7 +78,7 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create.bson")
     public void shouldCreateNewCategory() throws Exception {
-        final Category category = new Category("Child Catgeory 3",
+        final Category category = new Category("Child Category 3",
                 "some description for child category 3", Status.INACTIVE,
                 "59762d7caddb13b4a8440a38");
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
@@ -86,7 +88,7 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create_with_attributes.bson")
     public void shouldCreateNewCategoryWithAttributes() throws Exception {
-        final Category category = new Category("Child Catgeory 3",
+        final Category category = new Category("Child Category 3",
                 "some description for child category 3", Status.INACTIVE,
                 "59762d7caddb13b4a8440a38");
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
@@ -98,12 +100,16 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update.bson")
     public void shouldUpdateCategory() throws JsonProcessingException, Exception {
-        final Category category = new Category("Child Catgeory 1 Updated",
+        final Category category = repository.findOne(
+                new ObjectId("59b78f244daf991ecaafa264"));
+        final Category updatedCategory = new Category("Child Category 1 Updated",
                 "some updated description for child category 1", Status.ACTIVE,
                 "59762d7caddb13b4a8440a38");
-        category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setId(new ObjectId("59b78f244daf991ecaafa264"));
-        repository.save(category);
+        updatedCategory.setParentCategoryId(category.getParentCategoryId());
+        updatedCategory.setId(category.getId());
+        updatedCategory.setCreatedBy(category.getCreatedBy());
+        updatedCategory.setCreatedDate(category.getCreatedDate());
+        repository.save(updatedCategory);
     }
 
     @Test
@@ -203,7 +209,7 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         assertThat(category.size(), is(1));
         assertThat(category.get(0).getName(), is("Child Category 1"));
         assertThat(category.get(0).getDescription(),
-                is("some description for child catgeory 1"));
+                is("some description for child category 1"));
         assertThat(category.get(0).getStatus(), is(Status.INACTIVE));
         assertThat(category.get(0).getIndustryId(), is("59762d7caddb13b4a8440a38"));
         assertThat(category.get(0).getParentCategoryId(),

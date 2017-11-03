@@ -26,33 +26,35 @@
  * #endregion
  */
 
-package com.etilize.burraq.category;
+package com.etilize.burraq.category.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
- * Represents the Application class which houses the main entry-point to run the application
  *
- * @author Faisal Feroz
+ * Implementation of AuditorAware based on Spring Security.
+ *
+ * @author Uzair Zafar
  */
-@SpringBootApplication
-@EnableResourceServer
-public class CategoryServiceApplication {
+@EnableMongoAuditing
+@Component
+public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
     /**
-     * protected constructor
-     */
-    CategoryServiceApplication() {
-    }
-
-    /**
-     * main entry-point
+     * @return currentAuditor the current auditor of the application.
      *
-     * @param args cli arguments
+     * @see org.springframework.data.domain.AuditorAware#getCurrentAuditor()
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CategoryServiceApplication.class, args);
+    @Override
+    public String getCurrentAuditor() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        return authentication.getName();
     }
 }

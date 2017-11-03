@@ -32,6 +32,8 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Date;
+
 import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +61,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
     public void shouldFindAllCategories() throws Exception {
-        mockMvc.perform(get("/categories")) //
+        mockMvc.perform(get("/categories") //
+                .with(bearerToken)) //
                 .andExpect(status().isOk()) //
                 .andExpect(jsonPath("$._embedded.categories[*]", hasSize(3))) //
                 .andExpect(jsonPath("$._embedded.categories[*].name", //
@@ -92,7 +95,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
     public void shouldFindCategoryById() throws Exception {
-        mockMvc.perform(get("/categories/59b795074daf991ecaafa265")) //
+        mockMvc.perform(get("/categories/59b795074daf991ecaafa265") //
+                .with(bearerToken)) //
                 .andExpect(status().isOk()).andExpect(
                         jsonPath("$.name", is("Child Category 2"))) //
                 .andExpect(jsonPath("$.description",
@@ -110,12 +114,13 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create.bson")
     public void shouldCreateNewCategory() throws Exception {
-        final Category category = new Category("Child Catgeory 3",
+        final Category category = new Category("Child Category 3",
                 "some description for child category 3", Status.INACTIVE,
                 "59762d7caddb13b4a8440a38");
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isCreated());
@@ -124,7 +129,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create_with_attributes.bson")
     public void shouldCreateNewCategoryWithAttributes() throws Exception {
-        final Category category = new Category("Child Catgeory 3",
+        final Category category = new Category("Child Category 3",
                 "some description for child category 3", Status.INACTIVE,
                 "59762d7caddb13b4a8440a38");
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
@@ -132,6 +137,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, 1)));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isCreated());
@@ -140,12 +146,31 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update.bson")
     public void shouldUpdateCategoryById() throws JsonProcessingException, Exception {
-        final Category category = new Category("Child Catgeory 1 Updated",
+        final Category category = new Category("Child Category 1 Updated",
                 "some updated description for child category 1", Status.ACTIVE,
                 "59762d7caddb13b4a8440a38");
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
+                .with(bearerToken) //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(mapper.writeValueAsString(category))) //
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update.bson")
+    public void shouldNotUpdateCategoryCreatedByAndCreatedDate()
+            throws JsonProcessingException, Exception {
+        final Category category = new Category("Child Category 1 Updated",
+                "some updated description for child category 1", Status.ACTIVE,
+                "59762d7caddb13b4a8440a38");
+        category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
+        category.setCreatedBy("ROLE_PTM");
+        category.setCreatedDate(new Date());
+
+        mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isNoContent());
@@ -154,7 +179,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_delete.bson")
     public void shouldDeleteCategoryById() throws Exception {
-        mockMvc.perform(delete("/categories/59b795074daf991ecaafa265")) //
+        mockMvc.perform(delete("/categories/59b795074daf991ecaafa265") //
+                .with(bearerToken)) //
                 .andExpect(status().isNoContent());
     }
 
@@ -167,6 +193,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isBadRequest()) //
@@ -184,6 +211,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isBadRequest()) //
@@ -200,6 +228,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isBadRequest()) //
@@ -218,6 +247,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setAttributes(Sets.newHashSet(new Attribute(null, Source.SELF, 1)));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isBadRequest()) //
@@ -237,6 +267,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setAttributes(Sets.newHashSet(new Attribute("attributeId-1", null, 1)));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isBadRequest()) //
@@ -256,6 +287,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, null)));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isBadRequest()) //
@@ -273,6 +305,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isConflict());
@@ -287,6 +320,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isConflict());
@@ -294,7 +328,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
 
     @Test
     public void shouldFindCategoryByName() throws Exception {
-        mockMvc.perform(get("/categories?name={name}", "Child Category 2")) //
+        mockMvc.perform(get("/categories?name={name}", "Child Category 2") //
+                .with(bearerToken)) //
                 .andExpect(status().isOk()) //
                 .andExpect(jsonPath("$._embedded.categories[0].name",
                         is("Child Category 2"))) //

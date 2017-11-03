@@ -26,33 +26,40 @@
  * #endregion
  */
 
-package com.etilize.burraq.category;
+package com.etilize.burraq.category.test.security;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import org.springframework.security.test.context.support.WithSecurityContext;
 
 /**
- * Represents the Application class which houses the main entry-point to run the application
+ * Mocks OAuth2Authentication
  *
- * @author Faisal Feroz
+ * @author Uzair Zafar
+ *
  */
-@SpringBootApplication
-@EnableResourceServer
-public class CategoryServiceApplication {
+
+@Target({ ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+@WithSecurityContext(factory = WithOAuth2AuthenticationSecurityContextFactory.class)
+public @interface WithOAuth2Authentication {
 
     /**
-     * protected constructor
-     */
-    CategoryServiceApplication() {
-    }
-
-    /**
-     * main entry-point
      *
-     * @param args cli arguments
+     * @return mocked clientId
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CategoryServiceApplication.class, args);
-    }
+    String clientId() default "burraq";
+
+    /**
+     *
+     * @return mocked username
+     */
+    String username() default "user";
 }

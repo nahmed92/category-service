@@ -16,7 +16,15 @@
                 "$oid": "59b78f244daf991ecaafa264"
             },
             "_class": "com.etilize.burraq.category.Category",
-            "name": "Child Catgeory 1 Updated",
+            "createdBy": "ROLE_PTE",
+            "createdDate": {
+                "$date": "2017-08-11T08:10:47.321Z"
+            },
+            "lastModifiedBy": "ROLE_PTM",
+            "lastModifiedDate": {
+                "$exists": true
+            },
+            "name": "Child Category 1 Updated",
             "description": "some updated description for child category 1",
             "status": "ACTIVE",
             "industryId": "59762d7caddb13b4a8440a38",
