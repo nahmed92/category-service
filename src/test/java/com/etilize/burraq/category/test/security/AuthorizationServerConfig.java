@@ -28,6 +28,8 @@
 
 package com.etilize.burraq.category.test.security;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -139,6 +141,13 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
         inMemoryClientDetailsServiceBuilder.withClient("burraq") //
                 .authorizedGrantTypes("password") //
                 .resourceIds("burraq") //
-                .scopes("myscope");
+                .scopes("category.create", "category.delete", "category.update");
+
+        // creates a new client "unauthorized"
+        inMemoryClientDetailsServiceBuilder.withClient("unauthorized") //
+                .authorizedGrantTypes("password") //
+                .authorities("myauthorities") //
+                .resourceIds("myresource") //
+                .scopes(UUID.randomUUID().toString());
     }
 }

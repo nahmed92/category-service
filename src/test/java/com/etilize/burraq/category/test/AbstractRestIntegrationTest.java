@@ -28,7 +28,6 @@
 
 package com.etilize.burraq.category.test;
 
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
@@ -61,9 +60,13 @@ public abstract class AbstractRestIntegrationTest extends AbstractIntegrationTes
 
     protected RequestPostProcessor revokedToken;
 
-    @Before
+    protected RequestPostProcessor unAuthorizedToken;
+
+    @Override
     public void before() {
+        super.before();
         bearerToken = oAuthHelper.bearerToken("burraq", "ROLE_PTM");
         revokedToken = oAuthHelper.revokedToken("burraq", "ROLE_PTM");
+        unAuthorizedToken = oAuthHelper.bearerToken("unauthorized", "ROLE_PTM");
     }
 }
