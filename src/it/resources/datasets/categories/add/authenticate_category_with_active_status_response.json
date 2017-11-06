@@ -1,18 +1,14 @@
 {
-    "name": "Services",
-    "description": "Services description",
+    "name": "Cache Memory",
+    "description": "Cache Memory description",
     "status": "ACTIVE",
     "industryId": "59762d7caddb13b4a8440a38",
-    "createdBy": null,
-    "createdDate": null,
+    "createdBy": "${username}",
+    "createdDate": "@assertThat(not(isEmptyString())@",
     "lastModifiedBy": "${username}",
     "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "parentCategoryId": "599421f24daf9922d012af76",
     "attributes": [
-        {
-            "attributeId": "59762d7caddb13b4a8440b2h",
-            "source": "INHERITED",
-            "order": 2
-        },
         {
             "attributeId": "59762d7caddb13b4a8440a3g",
             "source": "SYSTEM",
@@ -21,10 +17,10 @@
     ],
     "_links": {
         "self": {
-            "href": "@endsWith(${locationHeaderValue})@"
+            "href": "@contains(/categories)@"
         },
         "category": {
-            "href": "@endsWith(${locationHeaderValue})@"
+            "href": "@contains(/categories)@"
         }
     }
 }

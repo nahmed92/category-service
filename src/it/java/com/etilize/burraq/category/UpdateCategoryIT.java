@@ -32,6 +32,7 @@ import org.junit.*;
 import org.springframework.http.*;
 
 import com.consol.citrus.annotations.*;
+import com.consol.citrus.context.*;
 import com.consol.citrus.message.*;
 import com.etilize.burraq.category.test.base.*;
 
@@ -48,161 +49,221 @@ public class UpdateCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldUpdateNameAndDescription() throws Exception {
+    public void shouldUpdateNameAndDescription(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("Name and description of category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_name_and_description_request.json"));
+                        "/datasets/categories/update/update_category_name_and_description_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_name_and_description_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateStatus() throws Exception {
+    public void shouldUpdateStatus(@CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("Status of category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_status_request.json"));
+                        "/datasets/categories/update/update_category_status_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_status_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateIndustry() throws Exception {
+    public void shouldUpdateIndustry(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("Industry of category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
-                readFile("/datasets/categories/update/update_industry_request.json"));
+                readFile("/datasets/categories/update/update_industry_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile("/datasets/categories/update/update_industry_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateParentCategory() throws Exception {
+    public void shouldUpdateParentCategory(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("Parent category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_parent_category_request.json"));
+                        "/datasets/categories/update/update_parent_category_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_parent_category_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateAttributeIdOfExistingAttribute() throws Exception {
+    public void shouldUpdateAttributeIdOfExistingAttribute(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("Attribute id of existing attribute of a category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_attribute_id_of_existing_attribute_request.json"));
+                        "/datasets/categories/update/update_attribute_id_of_existing_attribute_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_attribute_id_of_existing_attribute_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateSourceOfExistingAttribute() throws Exception {
+    public void shouldUpdateSourceOfExistingAttribute(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("Source of existing attribute of a category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_source_of_existing_attribute_request.json"));
+                        "/datasets/categories/update/update_source_of_existing_attribute_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_source_of_existing_attribute_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateOrderOfExistingAttribute() throws Exception {
+    public void shouldUpdateOrderOfExistingAttribute(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("Order of existing attribute of a category should be updated");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_order_of_existing_attribute_request.json"));
+                        "/datasets/categories/update/update_order_of_existing_attribute_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_order_of_existing_attribute_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldUpdateCategoryByAddingNewAttribute() throws Exception {
+    public void shouldUpdateCategoryByAddingNewAttribute(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("A category should be updated by adding new attributes");
+
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
@@ -210,91 +271,120 @@ public class UpdateCategoryIT extends AbstractIT {
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_and_add_new_attributes_request.json"));
+                        "/datasets/categories/update/update_and_add_new_attributes_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_and_add_new_attributes_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingIndustryIdToEmptyString()
-            throws Exception {
+    public void shouldReturnBadRequestOnUpdatingIndustryIdToEmptyString(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when industry id is updated to empty string");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_industry_id_to_empty_string_request.json"));
+                        "/datasets/categories/update/update_industry_id_to_empty_string_request.json"), //
+                accessToken);
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
-                        "/datasets/categories/update/update_industry_id_to_empty_string_response.json"));
+                        "/datasets/categories/update/update_industry_id_to_empty_string_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingNameToEmptyString() throws Exception {
+    public void shouldReturnBadRequestOnUpdatingNameToEmptyString(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when name is updated to empty string");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_name_to_empty_string_request.json"));
+                        "/datasets/categories/update/update_name_to_empty_string_request.json"), //
+                accessToken);
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
-                        "/datasets/categories/update/update_name_to_empty_string_response.json"));
+                        "/datasets/categories/update/update_name_to_empty_string_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingStatusToEmptyString() throws Exception {
+    public void shouldReturnBadRequestOnUpdatingStatusToEmptyString(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when status is updated to empty string");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_status_to_empty_string_request.json"));
+                        "/datasets/categories/update/update_status_to_empty_string_request.json"), //
+                accessToken);
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
-                        "/datasets/categories/update/update_status_to_empty_string_response.json"));
+                        "/datasets/categories/update/update_status_to_empty_string_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingParentCategoryIdToEmptyString()
-            throws Exception {
+    public void shouldReturnBadRequestOnUpdatingParentCategoryIdToEmptyString(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when parent category id is updated to empty string");
+
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_parent_category_id_to_empty_string_request.json"));
+                        "/datasets/categories/update/update_parent_category_id_to_empty_string_request.json"), //
+                accessToken);
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
-                        "/datasets/categories/update/update_parent_category_id_to_empty_string_response.json"));
+                        "/datasets/categories/update/update_parent_category_id_to_empty_string_response.json"), //
+                accessToken);
     }
 }

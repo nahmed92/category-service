@@ -13,7 +13,7 @@
  * is hereby forbidden to anyone except current ETILIZE employees, managers or
  * contractors who have executed Confidentiality and Non-disclosure agreements
  * explicitly covering such access.
- * 
+ *
  * The copyright notice above does not evidence any actual or intended publication
  * or disclosure of this source code, which includes information that is confidential
  * and/or proprietary, and is a trade secret, of ETILIZE. ANY REPRODUCTION, MODIFICATION,
@@ -27,6 +27,8 @@
  */
 
 package com.etilize.burraq.category.config;
+
+import javax.validation.constraints.*;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -46,12 +48,53 @@ public class IntegrationTestProperties {
      */
     private String serviceUrl = "http://localhost:8080";
 
+    /**
+     * Url at which the deployed authentication service is accessible
+     */
+    private String athenticationServiceUrl = "http://localhost:8080";
+
+    /**
+     * userName to authenticate
+     */
+    @NotNull
+    private String username;
+
+    /**
+     * password to authenticate
+     */
+    @NotNull
+    private String password;
+
     public String getServiceUrl() {
         return serviceUrl;
     }
 
-    public void setServiceUrl(String serviceUrl) {
+    public void setServiceUrl(final String serviceUrl) {
         this.serviceUrl = serviceUrl;
+    }
+
+    public String getAthenticationServiceUrl() {
+        return athenticationServiceUrl;
+    }
+
+    public void setAthenticationServiceUrl(final String athenticationServiceUrl) {
+        this.athenticationServiceUrl = athenticationServiceUrl;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(final String password) {
+        this.password = password;
     }
 
 }

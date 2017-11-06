@@ -31,6 +31,7 @@ package com.etilize.burraq.category;
 import org.junit.*;
 import org.springframework.http.*;
 
+import com.consol.citrus.context.TestContext;
 import com.consol.citrus.annotations.*;
 import com.consol.citrus.message.*;
 import com.etilize.burraq.category.test.base.*;
@@ -46,239 +47,298 @@ public class AddCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithActiveStatus() throws Exception {
+    public void shouldAddCategoryWithActiveStatus(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("A category should be added with active status");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_active_status_request.json"));
-
+                readFile("/datasets/categories/add/category_with_active_status_request.json"), //
+                accessToken);
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+
         verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_with_active_status_response.json"), //
-                "${locationHeaderValue}");
+                readFile("/datasets/categories/add/category_with_active_status_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithPendingStatus() throws Exception {
+    public void shouldAddCategoryWithPendingStatus(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("A category should be added with pending status");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_pending_status_request.json"));
+                readFile("/datasets/categories/add/category_with_pending_status_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_with_pending_status_response.json"), //
-                "${locationHeaderValue}");
+                readFile("/datasets/categories/add/category_with_pending_status_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithInactiveStatus() throws Exception {
+    public void shouldAddCategoryWithInactiveStatus(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("A category should be added with inactive status");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_inactive_status_request.json"));
+                readFile("/datasets/categories/add/category_with_inactive_status_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_with_inactive_status_response.json"), //
-                "${locationHeaderValue}");
+                readFile("/datasets/categories/add/category_with_inactive_status_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnMissingStatus() throws Exception {
+    public void shouldReturnBadRequestOnMissingStatus(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("A category should not be added with missing category status");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_missing_status_request.json"));
+                readFile("/datasets/categories/add/category_with_missing_status_request.json"), //
+                accessToken);
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile(
-                        "/datasets/categories/add/category_with_missing_status_response.json"));
+                readFile("/datasets/categories/add/category_with_missing_status_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnInvalidStatus() throws Exception {
+    public void shouldReturnBadRequestOnInvalidStatus(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
-        description(
-                "Post request should return bad request when a category with invalid status is added");
+        description("Post request should return bad request when a category with invalid status is added");
+
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_invalid_status_request.json"));
+                readFile("/datasets/categories/add/category_with_invalid_status_request.json"), //
+                accessToken);
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile(
-                        "/datasets/categories/add/category_with_invalid_status_response.json"));
+                readFile("/datasets/categories/add/category_with_invalid_status_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithIndustryAttribute() throws Exception {
+    public void shouldAddCategoryWithIndustryAttribute(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("A category should be added with industry attribute");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_industry_attribute_request.json"));
+                        "/datasets/categories/add/category_with_industry_attribute_request.json"),
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_industry_attribute_response.json"), //
-                "${locationHeaderValue}");
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithInheritedAttribute() throws Exception {
+    public void shouldAddCategoryWithInheritedAttribute(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("A category should be added with inherited attribute");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_inherited_attribute_request.json"));
+                readFile("/datasets/categories/add/category_with_inherited_attribute_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_with_inherited_attribute_response.json"), //
-                "${locationHeaderValue}");
+                readFile("/datasets/categories/add/category_with_inherited_attribute_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithSelfAttribute() throws Exception {
+    public void shouldAddCategoryWithSelfAttribute(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("A category should be added with self attribute");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_self_attribute_request.json"));
+                readFile("/datasets/categories/add/category_with_self_attribute_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_with_self_attribute_response.json"), //
-                "${locationHeaderValue}");
+                readFile("/datasets/categories/add/category_with_self_attribute_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldRetrunBadRequestOnInvalidSource() throws Exception {
+    public void shouldRetrunBadRequestOnInvalidSource(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
-        description(
-                "Post request should return bad request when a category with invalid source is added");
+        description("Post request should return bad request when a category with invalid source is added");
+
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_invalid_source_request.json"));
-
+                readFile("/datasets/categories/add/category_with_invalid_source_request.json"), //
+                accessToken);
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile(
-                        "/datasets/categories/add/category_with_invalid_source_response.json"));
+                readFile("/datasets/categories/add/category_with_invalid_source_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldRetrunBadRequestWithoutName() throws Exception {
+    public void shouldRetrunBadRequestWithoutName(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
-        description(
-                "Post request should return bad request when a category without name is added");
+        description("Post request should return bad request when a category without name is added");
+
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_without_name_request.json"));
-
+                readFile("/datasets/categories/add/category_without_name_request.json"), //
+                accessToken);
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile("/datasets/categories/add/category_without_name_response.json"));
+                readFile("/datasets/categories/add/category_without_name_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldRetrunBadRequestOnAddingDuplicateCategory() throws Exception {
+    public void shouldRetrunBadRequestOnAddingDuplicateCategory(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("Post request should return bad request when a duplicate category");
 
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
+
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/duplicate_category_request.json"));
+                readFile("/datasets/categories/add/duplicate_category_request.json"), //
+                accessToken);
 
         // Add again to produce duplicate
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/duplicate_category_request.json"));
-
+                readFile("/datasets/categories/add/duplicate_category_request.json"), //
+                accessToken);
         verifyResponse(HttpStatus.CONFLICT, //
-                readFile("/datasets/categories/add/duplicate_category_response.json"));
+                readFile("/datasets/categories/add/duplicate_category_response.json"), //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithNullInParentCategoryId() throws Exception {
+    public void shouldAddCategoryWithNullInParentCategoryId(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("A category should be added with null in parent category id");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_null_in_parent_category_id_request.json"));
+                readFile("/datasets/categories/add/category_with_null_in_parent_category_id_request.json"),
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
-        verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_with_null_in_parent_category_id_response.json"), //
-                "${locationHeaderValue}");
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+        verifyResponse(HttpStatus.OK, readFile(
+                "/datasets/categories/add/category_with_null_in_parent_category_id_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryWithoutAttributes() throws Exception {
+    public void shouldAddCategoryWithoutAttributes(@CitrusResource TestContext context)
+            throws Exception {
         author("Nimra Inam");
         description("A category should be added without any attributes");
 
-        variable(LOCATION_HEADER_VALUE, "");
+        variable(USER_NAME_LABEL, props.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_without_attributes_request.json"));
+                readFile("/datasets/categories/add/category_without_attributes_request.json"), //
+                accessToken);
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
-        parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
-        verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_without_attributes_response.json"), //
-                "${locationHeaderValue}");
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+        verifyResponse(HttpStatus.OK, readFile(
+                "/datasets/categories/add/category_without_attributes_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
 }
