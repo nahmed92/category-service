@@ -1,6 +1,6 @@
 /*
  * #region
- * Category Service
+ * category-service
  * %%
  * Copyright (C) 2017 Etilize
  * %%
@@ -187,7 +187,8 @@ public class AddCategoryIT extends AbstractIT {
                 "Post request should return bad request when a category with invalid source is added");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_invalid_source_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_invalid_source_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile("/datasets/categories/add/category_with_invalid_source_response.json"));
@@ -256,8 +257,7 @@ public class AddCategoryIT extends AbstractIT {
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile(
-                        "/datasets/categories/add/category_without_attributes_response.json"), //
+                readFile("/datasets/categories/add/category_without_attributes_response.json"), //
                 "${locationHeaderValue}");
     }
 

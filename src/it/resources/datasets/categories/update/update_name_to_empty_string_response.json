@@ -1,0 +1,10 @@
+{
+    "errors": [
+        {
+            "entity": "Category",
+            "property": "name",
+            "invalidValue": "",
+            "message": "name is required"
+        }
+    ]
+}

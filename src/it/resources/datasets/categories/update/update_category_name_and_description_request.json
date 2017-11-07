@@ -1,0 +1,14 @@
+{
+    "industryId": "59762d7caddb13b4a8440a38",
+    "name": "Servers",
+    "status": "ACTIVE",
+    "description": "Servers description",
+    "parentCategoryId": null,
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ]
+}

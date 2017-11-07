@@ -57,6 +57,8 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
 
     protected final static String LOCATION_HEADER_VALUE = "locationHeaderValue";
 
+    protected final static String CATEGORY_ID = "categoryId";
+
     @Autowired
     protected HttpClient serviceClient;
 
@@ -103,6 +105,24 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
                 .post(url) //
                 .payload(payload) //
                 .contentType(APPLICATION_JSON_UTF8_VALUE) //
+                .accept(APPLICATION_JSON_VALUE);
+    }
+
+    /**
+     * It sends put request to service
+     *
+     * @param url Url to use to send request
+     * @param categoryId to update the exact category
+     * @param payload to send with put request
+     */
+    protected void putRequest(final String url, final String categoryId,
+            final String payload) {
+        // Sends a put request to api
+        http().client(serviceClient) //
+                .send() //
+                .put(url + categoryId) //
+                .payload(payload) //
+                .contentType(APPLICATION_JSON_VALUE) //
                 .accept(APPLICATION_JSON_VALUE);
     }
 
