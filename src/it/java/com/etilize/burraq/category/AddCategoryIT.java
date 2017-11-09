@@ -53,12 +53,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_active_status_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_active_status_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_active_status_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_active_status_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -71,12 +73,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_pending_status_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_pending_status_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_pending_status_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_pending_status_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -89,12 +93,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_inactive_status_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_inactive_status_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_inactive_status_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_inactive_status_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -105,10 +111,12 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should not be added with missing category status");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_missing_status_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_missing_status_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile("/datasets/categories/add/category_with_missing_status_response.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_missing_status_response.json"));
     }
 
     @Test
@@ -119,10 +127,12 @@ public class AddCategoryIT extends AbstractIT {
                 "Post request should return bad request when a category with invalid status is added");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_invalid_status_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_invalid_status_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile("/datasets/categories/add/category_with_invalid_status_response.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_invalid_status_response.json"));
     }
 
     @Test
@@ -134,12 +144,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_industry_attribute_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_industry_attribute_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_industry_attribute_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_industry_attribute_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -152,12 +164,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_inherited_attribute_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_inherited_attribute_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_inherited_attribute_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_inherited_attribute_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -170,12 +184,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_self_attribute_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_self_attribute_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_self_attribute_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_self_attribute_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -191,7 +207,8 @@ public class AddCategoryIT extends AbstractIT {
                         "/datasets/categories/add/category_with_invalid_source_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile("/datasets/categories/add/category_with_invalid_source_response.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_invalid_source_response.json"));
     }
 
     @Test
@@ -234,12 +251,14 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_with_null_in_parent_category_id_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_with_null_in_parent_category_id_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/add/category_with_null_in_parent_category_id_response.json"), //
+                readFile(
+                        "/datasets/categories/add/category_with_null_in_parent_category_id_response.json"), //
                 "${locationHeaderValue}");
     }
 
@@ -252,7 +271,8 @@ public class AddCategoryIT extends AbstractIT {
         variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_without_attributes_request.json"));
+                readFile(
+                        "/datasets/categories/add/category_without_attributes_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         parseAndSetVariable(CATEGORY_URL, LOCATION_HEADER_VALUE);

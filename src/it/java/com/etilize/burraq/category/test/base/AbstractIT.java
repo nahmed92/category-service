@@ -1,6 +1,6 @@
 /*
  * #region
- * Category Service
+ * category-service
  * %%
  * Copyright (C) 2017 Etilize
  * %%
@@ -122,6 +122,21 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
                 .send() //
                 .put(url + categoryId) //
                 .payload(payload) //
+                .contentType(APPLICATION_JSON_VALUE) //
+                .accept(APPLICATION_JSON_VALUE);
+    }
+
+    /**
+     * It sends delete request to service
+     *
+     * @param url Url to use to send request
+     * @param categoryId to delete the exact category
+     */
+    protected void deleteRequest(final String url, final String categoryId) {
+        // Sends a delete request to api
+        http().client(serviceClient) //
+                .send() //
+                .delete(url + categoryId) //
                 .contentType(APPLICATION_JSON_VALUE) //
                 .accept(APPLICATION_JSON_VALUE);
     }
