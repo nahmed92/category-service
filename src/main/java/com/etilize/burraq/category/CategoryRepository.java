@@ -30,6 +30,11 @@ package com.etilize.burraq.category;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
+
+import com.querydsl.core.types.dsl.StringPath;
 
 /**
  * Repository for Category
@@ -38,6 +43,14 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @version 1.0
  *
  */
-public interface CategoryRepository extends MongoRepository<Category, ObjectId> {
+public interface CategoryRepository extends MongoRepository<Category, ObjectId>,
+        QueryDslPredicateExecutor<Category>, QuerydslBinderCustomizer<QCategory> {
+
+    @Override
+    default void customize(final QuerydslBindings bindings, final QCategory root) {
+        bindings.bind(String.class).first((final StringPath path, final String value) -> {
+            return path.equalsIgnoreCase(value);
+        });
+    }
 
 }
