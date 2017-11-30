@@ -5,7 +5,7 @@
     "industryId": "59762d7caddb13b4a8440a38",
     "createdBy": "@assertThat(not(isEmptyString())@",
     "createdDate": "@assertThat(not(isEmptyString())@",
-    "lastModifiedBy": "${username}",
+    "lastModifiedBy": "@assertThat(not(isEmptyString())@",
     "lastModifiedDate": "@assertThat(not(isEmptyString())@",
     "attributes": [
         {

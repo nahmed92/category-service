@@ -1,13 +1,5 @@
 {
-    "cause": {
-        "cause": {
-            "cause": {
-                "cause": null,
-                "message": "invalid hexadecimal representation of an ObjectId: []"
-            },
-            "message": "@contains(invalid hexadecimal representation of an ObjectId)@"
-        },
-        "message": "@contains(invalid hexadecimal representation of an ObjectId)@"
-    },
+    "cause": null,
+    "code": 0,
     "message": "@contains(invalid hexadecimal representation of an ObjectId)@"
 }

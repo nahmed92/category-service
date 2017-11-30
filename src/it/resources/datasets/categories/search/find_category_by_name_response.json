@@ -8,7 +8,7 @@
                 "industryId": "${industryId}",
                 "createdBy": "@assertThat(not(isEmptyString())@",
                 "createdDate": "@assertThat(not(isEmptyString())@",
-                "lastModifiedBy": "${username}",
+                "lastModifiedBy": "@assertThat(not(isEmptyString())@",
                 "lastModifiedDate": "@assertThat(not(isEmptyString())@",
                 "attributes": [
                     {

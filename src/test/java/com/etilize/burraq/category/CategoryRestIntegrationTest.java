@@ -308,7 +308,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict()) //
+                .andExpect(jsonPath("$.message", is("name already exists in industry.")));
     }
 
     @Test
@@ -353,5 +354,44 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .andExpect(jsonPath("$.page.totalElements", is(1))) //
                 .andExpect(jsonPath("$.page.totalPages", is(1))) //
                 .andExpect(jsonPath("$.page.number", is(0)));
+    }
+
+    @Test
+    public void shouldReturnBadRequestWhenStatusIsInValid()
+            throws JsonProcessingException, Exception {
+        mockMvc.perform(post("/categories") //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content("{" + "\"name\": \"Child Category 1\","
+                        + "\"description\": \"some description for child catgeory 1\","
+                        + "\"status\": \"INVALID\","
+                        + "\"industryId\": \"59762d7caddb13b4a8440a38\"}") //
+                .with(bearerToken)) //
+                .andExpect(status().isBadRequest()) //
+                .andExpect(jsonPath("$.message",
+                        startsWith("JSON parse error: Can not deserialize value of "
+                                + "type com.etilize.burraq.category.Status from String "
+                                + "\"INVALID\": value not one of declared Enum instance names:"
+                                + " [INACTIVE, ACTIVE, PENDING]")));
+    }
+
+    @Test
+    public void shouldReturnBadRequestWhenAttributeSourceIsInValid()
+            throws JsonProcessingException, Exception {
+        mockMvc.perform(post("/categories") //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content("{" + "\"name\": \"Child Category 1\","
+                        + "\"description\": \"some description for child catgeory 1\","
+                        + "\"status\": \"ACTIVE\","
+                        + "\"industryId\": \"59762d7caddb13b4a8440a38\","
+                        + "\"attributes\":[" + "{"
+                        + "\"attributeId\": \"59762d7caddb13b4a8440a3g\","
+                        + "\"source\": \"Invalid\"," + "\"order\": 1" + "}" + "]" + "}") //
+                .with(bearerToken)) //
+                .andExpect(status().isBadRequest()) //
+                .andExpect(jsonPath("$.message",
+                        startsWith("JSON parse error: Can not deserialize value of"
+                                + " type com.etilize.burraq.category.Source "
+                                + "from String \"Invalid\": value not one of declared "
+                                + "Enum instance names: [INHERITED, SELF, SYSTEM]")));
     }
 }
