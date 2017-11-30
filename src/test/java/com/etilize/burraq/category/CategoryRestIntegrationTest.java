@@ -291,4 +291,32 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .content(mapper.writeValueAsString(category))) //
                 .andExpect(status().isConflict());
     }
+
+    @Test
+    public void shouldFindCategoryByName() throws Exception {
+        mockMvc.perform(get("/categories?name={name}", "Child Category 2")) //
+                .andExpect(status().isOk()) //
+                .andExpect(jsonPath("$._embedded.categories[0].name",
+                        is("Child Category 2"))) //
+                .andExpect(jsonPath("$._embedded.categories[0].description",
+                        is("some description for child category 2"))) //
+                .andExpect(jsonPath("$._embedded.categories[0].status", is("PENDING"))) //
+                .andExpect(jsonPath("$._embedded.categories[0].parentCategoryId",
+                        is("59b78ed24daf991ecaafa263"))) //
+                .andExpect(jsonPath("$._embedded.categories[0].industryId",
+                        is("59762d7caddb13b4a8440a38"))) //
+                .andExpect(jsonPath("$._embedded.categories[0].attributes", hasSize(1))) //
+                .andExpect(jsonPath("$._embedded.categories[0].attributes[0].attributeId",
+                        is("59b78ed24daf991ecaafgfh"))) //
+                .andExpect(jsonPath("$._embedded.categories[0].attributes[0].source",
+                        is("INHERITED"))) //
+                .andExpect(
+                        jsonPath("$._embedded.categories[0].attributes[0].order", is(1))) //
+                .andExpect(jsonPath("$._embedded.categories[0]._links.self.href",
+                        endsWith("/categories/59b795074daf991ecaafa265"))) //
+                .andExpect(jsonPath("$.page.size", is(20))) //
+                .andExpect(jsonPath("$.page.totalElements", is(1))) //
+                .andExpect(jsonPath("$.page.totalPages", is(1))) //
+                .andExpect(jsonPath("$.page.number", is(0)));
+    }
 }

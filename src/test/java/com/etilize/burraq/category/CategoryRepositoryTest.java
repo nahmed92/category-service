@@ -45,6 +45,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Sets;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
+import com.querydsl.core.types.Predicate;
 
 /**
  * Houses repository test cases
@@ -192,5 +193,20 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                 "59762d7caddb13b4a8440a38");
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
+    }
+
+    @Test
+    public void shouldFindCategoryByNameUsingQueryDslPredicate() {
+        QCategory qCategory = new QCategory("name");
+        Predicate predicate = qCategory.name.startsWith("Child Category 1");
+        List<Category> category = (List<Category>) repository.findAll(predicate);
+        assertThat(category.size(), is(1));
+        assertThat(category.get(0).getName(), is("Child Category 1"));
+        assertThat(category.get(0).getDescription(),
+                is("some description for child catgeory 1"));
+        assertThat(category.get(0).getStatus(), is(Status.INACTIVE));
+        assertThat(category.get(0).getIndustryId(), is("59762d7caddb13b4a8440a38"));
+        assertThat(category.get(0).getParentCategoryId(),
+                is(new ObjectId("59b78ed24daf991ecaafa263")));
     }
 }
