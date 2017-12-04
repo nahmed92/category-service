@@ -13,7 +13,7 @@
  * is hereby forbidden to anyone except current ETILIZE employees, managers or
  * contractors who have executed Confidentiality and Non-disclosure agreements
  * explicitly covering such access.
- * 
+ *
  * The copyright notice above does not evidence any actual or intended publication
  * or disclosure of this source code, which includes information that is confidential
  * and/or proprietary, and is a trade secret, of ETILIZE. ANY REPRODUCTION, MODIFICATION,
@@ -36,6 +36,8 @@ import org.springframework.context.annotation.Configuration;
 import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.http.client.HttpClientBuilder;
 import com.consol.citrus.report.MessageTracingTestListener;
+import com.consol.citrus.variable.*;
+import com.etilize.burraq.category.test.base.*;
 
 /**
  * Configuration class that houses all the configs for citrus integration test framework
@@ -72,4 +74,36 @@ public class CitrusConfig {
                 .build();
     }
 
+    /**
+     * {@link HttpClient} for interacting with the authentication service
+     *
+     * @return {@link HttpClient}
+     */
+    @Bean
+    HttpClient authenticationServiceClient() {
+        return new HttpClientBuilder() //
+                .requestUrl(config.getAthenticationServiceUrl()) //
+                .build();
+    }
+
+    /**
+     * {@link userName} for authentication
+     *
+     * @return {@link userName}
+     */
+    @Bean
+    String username() {
+        return config.getUsername();
+
+    }
+
+    /**
+     * {@link password} for authentication
+     *
+     * @return {@link password}
+     */
+    @Bean
+    String password() {
+        return config.getPassword();
+    }
 }

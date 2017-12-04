@@ -31,57 +31,75 @@ package com.etilize.burraq.category;
 import org.junit.*;
 import org.springframework.http.*;
 
+import com.consol.citrus.context.TestContext;
+import com.consol.citrus.http.message.HttpMessage;
 import com.consol.citrus.annotations.*;
-import com.consol.citrus.context.*;
 import com.consol.citrus.message.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
- * This class contains test cases related to delete category functionality
+ * This class contains test cases related Add Category functionality
  *
  * @author Nimra Inam
  * @see AbstractIT
  * @since 1.0.0
  */
-public class DeleteCategoryIT extends AbstractIT {
+public class AuthenticationIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldDeleteCategory(@CitrusResource TestContext context)
-            throws Exception {
+    public void shouldAllowAuthenticationUserToAddCategory(
+            @CitrusResource TestContext context) throws Exception {
+
         author("Nimra Inam");
-        description("A category should be deleted");
+        description("A user should be authenticated");
+
+        /*
+         * Acquires access token from authentication service using behavior instead of
+         * before suits. Following issue is the reason for opting this method:
+         * https://github.com/christophd/citrus/issues/306
+         */
 
         variable(USER_NAME_LABEL, props.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
         String accessToken = context.getVariable("${accessToken}");
 
-        variable(CATEGORY_ID, "59fb01890fcdf847c8eb4cec");
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/authenticate_category_with_active_status_request.json"), //
+                accessToken);
 
-        deleteRequest(CATEGORY_URL, "${" + CATEGORY_ID + "}", accessToken);
-
-        verifyResponse(HttpStatus.NO_CONTENT);
-
-        getRequest("/categories/${" + CATEGORY_ID + "}", accessToken);
-
-        verifyResponse(HttpStatus.NOT_FOUND);
+        extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+        verifyResponse(HttpStatus.OK, //
+                readFile(
+                        "/datasets/categories/add/authenticate_category_with_active_status_response.json"), //
+                categoryLocation, //
+                accessToken);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnNotFoundOnDeletingCategoryIfCategoryIdDoesNotExist(
+    public void shouldNotAllowUnAuthorizedUserToAddCategory(
             @CitrusResource TestContext context) throws Exception {
+
         author("Nimra Inam");
-        description("A category should not be deleted if it does not exist");
+        description("An unauthenticated user should not be allowed to add a category");
 
         variable(USER_NAME_LABEL, props.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
-        String accessToken = context.getVariable("${accessToken}");
 
-        variable(CATEGORY_ID, "59afe1125846b8762efc30e2");
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_active_status_request.json"));
 
-        deleteRequest(CATEGORY_URL, "${" + CATEGORY_ID + "}", accessToken);
+        String payload = readFile("/datasets/categories/add/authentication_error.json");
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(HttpStatus.UNAUTHORIZED)) //
+                .messageType(MessageType.JSON) //
+                .payload(payload));
 
-        verifyResponse(HttpStatus.NOT_FOUND);
     }
 }

@@ -28,21 +28,21 @@
 
 package com.etilize.burraq.category.test.base;
 
+import java.io.IOException;
 import static java.nio.file.Files.*;
 import static java.nio.file.Paths.*;
-import static org.springframework.http.MediaType.*;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.http.*;
-
-import com.consol.citrus.actions.*;
-import com.consol.citrus.context.*;
-import com.consol.citrus.dsl.junit.JUnit4CitrusTestDesigner;
-import com.consol.citrus.http.client.HttpClient;
 import com.consol.citrus.message.*;
+import com.etilize.burraq.category.config.*;
+import com.consol.citrus.http.message.HttpMessage;
+import com.consol.citrus.dsl.junit.JUnit4CitrusTestRunner;
+import com.consol.citrus.http.client.HttpClient;
+
+import static org.springframework.http.MediaType.*;
+import org.springframework.http.*;
+import org.springframework.core.io.ResourceLoader;
+import org.apache.commons.lang3.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class should be extended to write IT test cases. It provides methods to read file,
@@ -51,16 +51,26 @@ import com.consol.citrus.message.*;
  * @author Nimra Inam
  * @since 1.0.0
  */
-public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
+public abstract class AbstractIT extends JUnit4CitrusTestRunner {
 
     protected final static String CATEGORY_URL = "/categories/";
 
+    protected final static String CATEGORY_ID = "categoryId";
+
     protected final static String LOCATION_HEADER_VALUE = "locationHeaderValue";
 
-    protected final static String CATEGORY_ID = "categoryId";
+    protected static final String ATHENTICATION_URL = "/uaa/oauth/token/";
+
+    protected final static String USER_NAME_LABEL = "username";
 
     @Autowired
     protected HttpClient serviceClient;
+
+    @Autowired
+    protected HttpClient authenticationServiceClient;
+
+    @Autowired
+    protected IntegrationTestProperties props;
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -85,12 +95,17 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      * It sends get request to service
      *
      * @param url Url to get request
+     * @param accessToken Holds access token to authenticate operation
      */
-    public void getRequest(final String url) {
-        http().client(serviceClient) //
-                .send() //
-                .get(url) //
-                .contentType(APPLICATION_JSON_VALUE);
+    public void getRequest(final String url, final String accessToken) {
+        send(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .path(url) //
+                        .method(HttpMethod.GET) //
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) //
+                        .contentType(APPLICATION_JSON_VALUE) //
+                        .accept(APPLICATION_JSON_VALUE)));
+
     }
 
     /**
@@ -98,14 +113,31 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      *
      * @param url Url to use to send request
      * @param payload to post
+     * @param accessToken Holds access token to authenticate operation
+     */
+    protected void postRequest(final String url, final String payload,
+            final String accessToken) {
+        final HttpMessage request = new HttpMessage(payload) //
+                .path(url) //
+                .method(HttpMethod.POST) //
+                .contentType(APPLICATION_JSON_VALUE) //
+                .accept(APPLICATION_JSON_VALUE);
+
+        if (StringUtils.isNotEmpty(accessToken)) {
+            request.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
+        }
+        send(builder -> builder.endpoint(serviceClient) //
+                .message(request));
+    }
+
+    /**
+     * It sends post request to service without access token
+     *
+     * @param url Url to use to send request
+     * @param payload to post
      */
     protected void postRequest(final String url, final String payload) {
-        http().client(serviceClient) //
-                .send() //
-                .post(url) //
-                .payload(payload) //
-                .contentType(APPLICATION_JSON_UTF8_VALUE) //
-                .accept(APPLICATION_JSON_VALUE);
+        postRequest(url, payload, null);
     }
 
     /**
@@ -114,16 +146,17 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      * @param url Url to use to send request
      * @param categoryId to update the exact category
      * @param payload to send with put request
+     * @param accessToken Holds access token to authenticate operation
      */
     protected void putRequest(final String url, final String categoryId,
-            final String payload) {
-        // Sends a put request to api
-        http().client(serviceClient) //
-                .send() //
-                .put(url + categoryId) //
-                .payload(payload) //
-                .contentType(APPLICATION_JSON_VALUE) //
-                .accept(APPLICATION_JSON_VALUE);
+            final String payload, final String accessToken) {
+        send(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage(payload) //
+                        .path(url + categoryId) //
+                        .method(HttpMethod.PUT) //
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) //
+                        .contentType(APPLICATION_JSON_VALUE) //
+                        .accept(APPLICATION_JSON_VALUE)));
     }
 
     /**
@@ -131,14 +164,17 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      *
      * @param url Url to use to send request
      * @param categoryId to delete the exact category
+     * @param accessToken Holds access token to authenticate operation
      */
-    protected void deleteRequest(final String url, final String categoryId) {
-        // Sends a delete request to api
-        http().client(serviceClient) //
-                .send() //
-                .delete(url + categoryId) //
-                .contentType(APPLICATION_JSON_VALUE) //
-                .accept(APPLICATION_JSON_VALUE);
+    protected void deleteRequest(final String url, final String categoryId,
+            final String accessToken) {
+        send(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .path(url + categoryId) //
+                        .method(HttpMethod.DELETE) //
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) //
+                        .contentType(APPLICATION_JSON_VALUE) //
+                        .accept(APPLICATION_JSON_VALUE)));
     }
 
     /**
@@ -149,11 +185,11 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      */
     protected void extractHeader(final HttpStatus httpStatus,
             final String httpHeaderName) {
-        http().client(serviceClient) //
-                .receive() //
-                .response(httpStatus) //
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(httpStatus)) //
                 .messageType(MessageType.JSON) //
-                .extractFromHeader(httpHeaderName, "${locationHeaderValue}");
+                .extractFromHeader(httpHeaderName, "${locationHeaderValue}"));
     }
 
     /**
@@ -161,21 +197,17 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      *
      * @param httpStatus HttpStatus status code
      * @param payload response data to verify
-     * @param path header location
+     * @param url hold resource url
+     * @param accessToken Holds access token to authenticate operation
      */
     protected void verifyResponse(final HttpStatus httpStatus, final String payload,
-            final String path) {
-        // Sends get request
-        http().client(serviceClient) //
-                .send() //
-                .get(path) //
-                .payload(payload);
+            final String url, final String accessToken) {
+        getRequest(url, accessToken);
 
-        // Verify Response
-        http().client(serviceClient) //
-                .receive() //
-                .response(httpStatus) //
-                .messageType(MessageType.JSON);
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(httpStatus)) //
+                .messageType(MessageType.JSON).payload(payload));
     }
 
     /**
@@ -185,10 +217,10 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      */
     protected void verifyResponse(final HttpStatus httpStatus) {
         // Verify Response
-        http().client(serviceClient) //
-                .receive() //
-                .response(httpStatus) //
-                .messageType(MessageType.JSON);
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(httpStatus)) //
+                .messageType(MessageType.JSON));
     }
 
     /**
@@ -197,31 +229,28 @@ public abstract class AbstractIT extends JUnit4CitrusTestDesigner {
      *
      * @param httpStatus HttpStatus status code
      * @param payload to verify in response
+     * @param accessToken Holds access token to authenticate operation
      */
-    protected void verifyResponse(final HttpStatus httpStatus, final String payload) {
+    protected void verifyResponse(final HttpStatus httpStatus, final String payload,
+            final String accessToken) {
         // Verify Response
-        http().client(serviceClient) //
-                .receive() //
-                .response(httpStatus) //
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(httpStatus)) //
                 .messageType(MessageType.JSON) //
-                .payload(payload);
+                .payload(payload));
     }
 
     /**
      * It replaces resource location with resource id and set it to context variable.
      *
      * @param url this holds api's URL
-     * @param header_value this holds the rsource's location to parse
+     * @param headerValue this holds complete resource location to parse
+     * @return headerLocation It returns the exact location, omitting the base URL. For
+     *         example: "/units/5a1805530fcdf812bee4dd66"
      */
-    protected void parseAndSetVariable(final String url, final String variable) {
-        action(new AbstractTestAction() {
-
-            @Override
-            public void doExecute(final TestContext context) {
-                final String location = context.getVariable(variable);
-                final String newLocation = location.substring(location.indexOf(url));
-                context.setVariable(variable, newLocation);
-            }
-        });
+    protected String parseAndSetVariable(final String url, final String headerValue) {
+        String headerLocation = headerValue.substring(headerValue.indexOf(url));
+        return headerLocation;
     }
 }
