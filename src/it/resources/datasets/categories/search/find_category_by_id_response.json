@@ -16,10 +16,10 @@
     ],
     "_links": {
         "self": {
-            "href": "@endsWith(${locationHeaderValue})@"
+            "href": "@endsWith(/categories/${categoryId})@"
         },
         "category": {
-            "href": "@endsWith(${locationHeaderValue})@"
+            "href": "@endsWith(/categories/${categoryId})@"
         }
     }
 }

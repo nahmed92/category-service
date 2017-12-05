@@ -3,8 +3,8 @@
     "description": "Services description",
     "status": "ACTIVE",
     "industryId": "59762d7caddb13b4a8440a37",
-    "createdBy": null,
-    "createdDate": null,
+    "createdBy": "@assertThat(not(isEmptyString())@",
+    "createdDate": "@assertThat(not(isEmptyString())@",
     "lastModifiedBy": "${username}",
     "lastModifiedDate": "@assertThat(not(isEmptyString())@",
     "attributes": [

@@ -1,0 +1,20 @@
+{
+    "_embedded": {
+        "categories": []
+    },
+    "_links": {
+        "self": {
+            "href": "@contains(/categories)@",
+            "templated": true
+        },
+        "profile": {
+            "href": "@contains(/categories)@"
+        }
+    },
+    "page": {
+        "size": 20,
+        "totalElements": 0,
+        "totalPages": 0,
+        "number": 0
+    }
+}

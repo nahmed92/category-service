@@ -1,0 +1,46 @@
+{
+    "_embedded": {
+        "categories": [
+            {
+                "name": "${name}",
+                "description": "${description}",
+                "status": "${status}",
+                "industryId": "${industryId}",
+                "createdBy": "@assertThat(not(isEmptyString())@",
+                "createdDate": "@assertThat(not(isEmptyString())@",
+                "lastModifiedBy": "${username}",
+                "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+                "attributes": [
+                    {
+                        "attributeId": "59762d7caddb13b4a8440a3g",
+                        "source": "SYSTEM",
+                        "order": 1
+                    }
+                ],
+                "_links": {
+                    "self": {
+                        "href": "@contains(/categories)@"
+                    },
+                    "category": {
+                        "href": "@contains(/categories)@"
+                    }
+                }
+            }
+        ]
+    },
+    "_links": {
+        "self": {
+            "href": "@contains(/categories)@",
+            "templated": true
+        },
+        "profile": {
+            "href": "@contains(/categories)@"
+        }
+    },
+    "page": {
+        "size": 20,
+        "totalElements": 1,
+        "totalPages": 1,
+        "number": 0
+    }
+}
