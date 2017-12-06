@@ -53,23 +53,29 @@ public class AuthenticationBehavior extends AbstractTestBehavior {
 
     private final String password;
 
+    private final String clientId;
+
+    private final String clientSecret;
+
     public AuthenticationBehavior(final HttpClient authenticationServiceClient,
-            final String username, final String password) {
+            final String username, final String password, final String clientId,
+            final String clientSecret) {
         this.authenticationServiceClient = authenticationServiceClient;
         this.username = username;
         this.password = password;
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
     }
 
     public void apply() {
         variable("accessToken", "");
 
         send(builder -> builder.endpoint(authenticationServiceClient) //
-                .message(new HttpMessage("client_id=app&client_secret=appclientsecret&grant_type=password&username=" //
-                                        + username + "&password=" + password + "&response_type=token") //
-                                        .path("/uaa/oauth/token/") //
-                                        .method(HttpMethod.POST) //
-                                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE) //
-                                        .accept(MediaType.APPLICATION_JSON_VALUE)));
+                .message(new HttpMessage(String.format("client_id=%s&client_secret=%s&grant_type=password&username=%s&password=%s&response_type=token", clientId, clientSecret, username, password)) //
+                                .path("/uaa/oauth/token/") //
+                                .method(HttpMethod.POST) //
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE) //
+                                .accept(MediaType.APPLICATION_JSON_VALUE)));
 
         receive(builder -> builder.endpoint(authenticationServiceClient) //
                 .message(new HttpMessage() //
