@@ -61,7 +61,7 @@ public class AuthenticationIT extends AbstractIT {
          */
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -88,7 +88,7 @@ public class AuthenticationIT extends AbstractIT {
         description("An unauthenticated user should not be allowed to add a category");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
 
         postRequest(CATEGORY_URL, //
                 readFile(

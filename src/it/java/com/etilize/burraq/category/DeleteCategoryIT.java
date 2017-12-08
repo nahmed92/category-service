@@ -53,7 +53,7 @@ public class DeleteCategoryIT extends AbstractIT {
         description("A category should be deleted");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, "59fb01890fcdf847c8eb4cec");
@@ -75,7 +75,7 @@ public class DeleteCategoryIT extends AbstractIT {
         description("A category should not be deleted if it does not exist");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, "59afe1125846b8762efc30e2");

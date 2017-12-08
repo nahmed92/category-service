@@ -86,24 +86,4 @@ public class CitrusConfig {
                 .build();
     }
 
-    /**
-     * {@link userName} for authentication
-     *
-     * @return {@link userName}
-     */
-    @Bean
-    String username() {
-        return config.getUsername();
-
-    }
-
-    /**
-     * {@link password} for authentication
-     *
-     * @return {@link password}
-     */
-    @Bean
-    String password() {
-        return config.getPassword();
-    }
 }

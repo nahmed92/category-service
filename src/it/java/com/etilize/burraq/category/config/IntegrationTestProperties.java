@@ -65,6 +65,18 @@ public class IntegrationTestProperties {
     @NotNull
     private String password;
 
+    /**
+     * clientId to authenticate
+     */
+    @NotNull
+    private String clientId;
+
+    /**
+     * clientSecret to authenticate
+     */
+    @NotNull
+    private String clientSecret;
+
     public String getServiceUrl() {
         return serviceUrl;
     }
@@ -95,6 +107,22 @@ public class IntegrationTestProperties {
 
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(final String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(final String clientSecret) {
+        this.clientSecret = clientSecret;
     }
 
 }

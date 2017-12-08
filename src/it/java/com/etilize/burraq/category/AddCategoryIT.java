@@ -53,7 +53,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with active status");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -77,7 +77,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with pending status");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -101,7 +101,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with inactive status");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -125,7 +125,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should not be added with missing category status");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -145,7 +145,7 @@ public class AddCategoryIT extends AbstractIT {
         description("Post request should return bad request when a category with invalid status is added");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -165,7 +165,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with industry attribute");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -191,7 +191,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with inherited attribute");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -215,7 +215,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with self attribute");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -239,7 +239,7 @@ public class AddCategoryIT extends AbstractIT {
         description("Post request should return bad request when a category with invalid source is added");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -258,7 +258,7 @@ public class AddCategoryIT extends AbstractIT {
         description("Post request should return bad request when a category without name is added");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -277,7 +277,7 @@ public class AddCategoryIT extends AbstractIT {
         description("Post request should return bad request when a duplicate category");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -301,7 +301,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added with null in parent category id");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //
@@ -325,7 +325,7 @@ public class AddCategoryIT extends AbstractIT {
         description("A category should be added without any attributes");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         postRequest(CATEGORY_URL, //

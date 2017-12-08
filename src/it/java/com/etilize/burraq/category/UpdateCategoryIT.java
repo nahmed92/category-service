@@ -55,7 +55,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Name and description of category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -84,7 +84,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Status of category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -114,7 +114,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Industry of category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -142,7 +142,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Parent category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -172,7 +172,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Attribute id of existing attribute of a category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -202,7 +202,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Source of existing attribute of a category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -232,7 +232,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("Order of existing attribute of a category should be updated");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -262,7 +262,7 @@ public class UpdateCategoryIT extends AbstractIT {
         description("A category should be updated by adding new attributes");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
@@ -293,7 +293,7 @@ public class UpdateCategoryIT extends AbstractIT {
                 "A category should not be updated when industry id is updated to empty string");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
@@ -319,7 +319,7 @@ public class UpdateCategoryIT extends AbstractIT {
                 "A category should not be updated when name is updated to empty string");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
@@ -345,7 +345,7 @@ public class UpdateCategoryIT extends AbstractIT {
                 "A category should not be updated when status is updated to empty string");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
@@ -371,7 +371,7 @@ public class UpdateCategoryIT extends AbstractIT {
                 "A category should not be updated when parent category id is updated to empty string");
 
         variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword()));
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
