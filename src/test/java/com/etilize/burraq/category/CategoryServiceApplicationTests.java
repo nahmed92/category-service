@@ -44,7 +44,36 @@ public class CategoryServiceApplicationTests extends AbstractRestIntegrationTest
 
     @Test
     public void shouldRespondToGetRequest() throws Exception {
-        mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON)) //
+        mockMvc.perform(get("/") //
+                .with(bearerToken) //
+                .contentType(MediaType.APPLICATION_JSON)) //
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturnUnauthorizedStatusOnGetRequestWithoutAuthorizationHeader()
+            throws Exception {
+        mockMvc.perform(get("/") //
+                .contentType(MediaType.APPLICATION_JSON)) //
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void shouldReturnUnauthorizedStatusOnGetRequestWithInvalidAuthorizationHeader()
+            throws Exception {
+        mockMvc.perform(get("/") //
+                .with(revokedToken) //
+                .contentType(MediaType.APPLICATION_JSON)) //
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void shouldRespondToCorsRequest() throws Exception {
+        mockMvc.perform(options("/") //
+                .header("Access-Control-Request-Method", "GET") //
+                .header("Origin", "foo.example.com") //
+                .header("Access-Control-Request-Headers", "authorization") //
+                .contentType(MediaType.APPLICATION_JSON)) //
                 .andExpect(status().isOk());
     }
 

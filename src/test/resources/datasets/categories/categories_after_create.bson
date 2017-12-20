@@ -17,7 +17,15 @@
             },
             "_class": "com.etilize.burraq.category.Category",
             "name": "Child Category 1",
-            "description": "some description for child catgeory 1",
+            "createdBy": "ROLE_PTE",
+            "createdDate": {
+                "$date": "2017-08-11T08:10:47.321Z"
+            },
+            "lastModifiedBy": "ROLE_PTE",
+            "lastModifiedDate": {
+                "$date": "2017-08-11T08:10:47.321Z"
+            },
+            "description": "some description for child category 1",
             "status": "INACTIVE",
             "industryId": "59762d7caddb13b4a8440a38",
             "parentCategoryId": {
@@ -48,7 +56,15 @@
                 "$exists": true
             },
             "_class": "com.etilize.burraq.category.Category",
-            "name": "Child Catgeory 3",
+            "name": "Child Category 3",
+            "createdBy": "ROLE_PTM",
+            "createdDate": {
+                "$exists": true
+            },
+            "lastModifiedBy": "ROLE_PTM",
+            "lastModifiedDate": {
+                "$exists": true
+            },          
             "description": "some description for child category 3",
             "status": "INACTIVE",
             "industryId": "59762d7caddb13b4a8440a38",

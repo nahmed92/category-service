@@ -26,33 +26,43 @@
  * #endregion
  */
 
-package com.etilize.burraq.category;
+package com.etilize.burraq.category.test.security;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
 /**
- * Represents the Application class which houses the main entry-point to run the application
+ * SecurityContextFactory that will create a new SecurityContext
  *
- * @author Faisal Feroz
+ * @author Uzair Zafar
+ *
  */
-@SpringBootApplication
-@EnableResourceServer
-public class CategoryServiceApplication {
+public class WithOAuth2AuthenticationSecurityContextFactory
+        implements WithSecurityContextFactory<WithOAuth2Authentication> {
+
+    private final OAuthHelper oAuthHelper;
 
     /**
-     * protected constructor
+     * @param oAuthHelper oAuth lifecycle
      */
-    CategoryServiceApplication() {
+    @Autowired
+    public WithOAuth2AuthenticationSecurityContextFactory(final OAuthHelper oAuthHelper) {
+        this.oAuthHelper = oAuthHelper;
     }
 
     /**
-     * main entry-point
+     * creates security context
      *
-     * @param args cli arguments
+     * @param user mocked user
+     * @return securityContext the SecurityContext to use
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CategoryServiceApplication.class, args);
+    @Override
+    public SecurityContext createSecurityContext(final WithOAuth2Authentication user) {
+        final SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(
+                oAuthHelper.oAuth2Authentication(user.clientId(), user.username()));
+        return context;
     }
 }
