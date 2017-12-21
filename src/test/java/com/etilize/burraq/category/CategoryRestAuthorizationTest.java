@@ -165,4 +165,41 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
                 .andExpect(jsonPath("$.error_description",
                         containsString("Invalid access token:")));
     }
+
+    public void shouldReturnStatusForbiddenWhenUnAuthorizedUserCreatesNewCategory()
+            throws Exception {
+        final Category category = new Category("Child Catgeory 3",
+                "some description for child category 3", Status.INACTIVE,
+                "59762d7caddb13b4a8440a38");
+        category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
+
+        mockMvc.perform(post("/categories") //
+                .with(unAuthorizedToken) //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(mapper.writeValueAsString(category))) //
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void shouldReturnStatusForbiddenWhenUnAuthorizedUserDeletesCategory()
+            throws Exception {
+        mockMvc.perform(delete("/categories/59b795074daf991ecaafa265") //
+                .with(unAuthorizedToken)) //
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void shouldReturnStatusForbiddenWhenUnAuthorizedUserUpdatesCategory()
+            throws Exception {
+        final Category category = new Category("Child Catgeory 1 Updated",
+                "some updated description for child category 1", Status.ACTIVE,
+                "59762d7caddb13b4a8440a38");
+        category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
+
+        mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
+                .with(unAuthorizedToken) //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(mapper.writeValueAsString(category))) //
+                .andExpect(status().isForbidden());
+    }
 }
