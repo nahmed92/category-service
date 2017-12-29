@@ -28,13 +28,16 @@
 
 package com.etilize.burraq.category;
 
+import static com.etilize.burraq.category.config.Role.*;
+
 import org.junit.*;
 import org.springframework.http.*;
 
-import com.consol.citrus.context.TestContext;
-import com.consol.citrus.http.message.HttpMessage;
 import com.consol.citrus.annotations.*;
+import com.consol.citrus.context.*;
+import com.consol.citrus.http.message.HttpMessage;
 import com.consol.citrus.message.*;
+import com.etilize.burraq.category.config.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
@@ -59,10 +62,11 @@ public class SearchCategoryIT extends AbstractIT {
         variable("totalPages", "1");
         variable("pageNumber", "0");
 
-        variable(USER_NAME_LABEL, props.getUsername());
+        final User user = props.getUserByRole(GET);
+        variable(USER_NAME_LABEL, user.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                props.getUsername(), //
-                props.getPassword(), //
+                user.getUsername(), //
+                user.getPassword(), //
                 props.getClientId(), //
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
@@ -102,10 +106,11 @@ public class SearchCategoryIT extends AbstractIT {
 
         variable("categoryId", "59fac5f70fcdf847c8eb4ca5");
 
-        variable(USER_NAME_LABEL, props.getUsername());
+        final User user = props.getUserByRole(GET);
+        variable(USER_NAME_LABEL, user.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                props.getUsername(), //
-                props.getPassword(), //
+                user.getUsername(), //
+                user.getPassword(), //
                 props.getClientId(), //
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
@@ -115,8 +120,7 @@ public class SearchCategoryIT extends AbstractIT {
                 accessToken);
 
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/search/find_category_by_id_response.json"), //
-                accessToken);
+                readFile("/datasets/categories/search/find_category_by_id_response.json"));
     }
 
     @Test
@@ -124,7 +128,8 @@ public class SearchCategoryIT extends AbstractIT {
     public void shouldFindCategoryByNameDescriptionAndIndustryId(
             @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
-        description("should return category with matching name, description and industry id");
+        description(
+                "should return category with matching name, description and industry id");
 
         variable("name", "Servers");
         variable("description", "Servers description");
@@ -132,10 +137,11 @@ public class SearchCategoryIT extends AbstractIT {
         variable("industryId", "59762d7caddb13b4a8440a38");
         variable("categoryId", "59fac5f70fcdf847c8eb4ca5");
 
-        variable(USER_NAME_LABEL, props.getUsername());
+        final User user = props.getUserByRole(GET);
+        variable(USER_NAME_LABEL, user.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                props.getUsername(), //
-                props.getPassword(), //
+                user.getUsername(), //
+                user.getPassword(), //
                 props.getClientId(), //
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
@@ -145,8 +151,8 @@ public class SearchCategoryIT extends AbstractIT {
                 accessToken);
 
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/search/find_category_by_name_response.json"), //
-                accessToken);
+                readFile(
+                        "/datasets/categories/search/find_category_by_name_response.json"));
     }
 
     @Test
@@ -154,12 +160,14 @@ public class SearchCategoryIT extends AbstractIT {
     public void shouldRetunNoRecordWhenMatchingNameDoesNotExist(
             @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
-        description("should return empty array when no records found with matching category");
+        description(
+                "should return empty array when no records found with matching category");
 
-        variable(USER_NAME_LABEL, props.getUsername());
+        final User user = props.getUserByRole(GET);
+        variable(USER_NAME_LABEL, user.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                props.getUsername(), //
-                props.getPassword(), //
+                user.getUsername(), //
+                user.getPassword(), //
                 props.getClientId(), //
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
@@ -167,8 +175,8 @@ public class SearchCategoryIT extends AbstractIT {
         getRequest(CATEGORY_URL + "?name=CategoryNotFound", accessToken);
 
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/search/find_category_which_does_not_exist.json"), //
-                accessToken);
+                readFile(
+                        "/datasets/categories/search/find_category_which_does_not_exist.json"));
     }
 
     @Test
@@ -180,10 +188,11 @@ public class SearchCategoryIT extends AbstractIT {
 
         variable("categoryId", "59fac5f70fcdf847c8eb4c90");
 
-        variable(USER_NAME_LABEL, props.getUsername());
+        final User user = props.getUserByRole(GET);
+        variable(USER_NAME_LABEL, user.getUsername());
         applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                props.getUsername(), //
-                props.getPassword(), //
+                user.getUsername(), //
+                user.getPassword(), //
                 props.getClientId(), //
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");

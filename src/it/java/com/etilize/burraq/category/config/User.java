@@ -28,58 +28,47 @@
 
 package com.etilize.burraq.category.config;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.context.properties.*;
-import org.springframework.context.annotation.*;
-
-import com.consol.citrus.http.client.*;
-import com.consol.citrus.report.*;
+import org.apache.commons.lang3.builder.*;
 
 /**
- * Configuration class that houses all the configs for citrus integration test framework
+ * This class contains user information of each authenticated/unauthenticated user
  *
- * @author Faisal Feroz
- *
+ * @author Nimra Inam
+ * @see citrus-application.properties
+ * @since 1.0.0
  */
-@EnableConfigurationProperties(IntegrationTestProperties.class)
-@Configuration
-public class CitrusConfig {
-
-    @Autowired
-    private IntegrationTestProperties config;
+public class User {
 
     /**
-     * {@link MessageTracingTestListener}
-     *
-     * @return MessageTracingTestListener
+     * username is used to hold username of each authenticated/unauthenticated user
      */
-    @Bean
-    MessageTracingTestListener messageTracingListener() {
-        return new MessageTracingTestListener();
+    private String username;
+
+    /**
+     * password is used to hold password of each authenticated/unauthenticated user
+     */
+    private String password;
+
+    public String getUsername() {
+        return username;
     }
 
-    /**
-     * {@link HttpClient} for interacting with the service
-     *
-     * @return {@link HttpClient}
-     */
-    @Bean
-    HttpClient serviceClient() {
-        return new HttpClientBuilder() //
-                .requestUrl(config.getServiceUrl()) //
+    public void setUsername(final String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(final String password) {
+        this.password = password;
+    }
+
+    public String toString() {
+        return new ToStringBuilder(this) //
+                .append("Username", username) //
+                .append("Password", password) //
                 .build();
     }
-
-    /**
-     * {@link HttpClient} for interacting with the authentication service
-     *
-     * @return {@link HttpClient}
-     */
-    @Bean
-    HttpClient authenticationServiceClient() {
-        return new HttpClientBuilder() //
-                .requestUrl(config.getAuthenticationServiceUrl()) //
-                .build();
-    }
-
 }
