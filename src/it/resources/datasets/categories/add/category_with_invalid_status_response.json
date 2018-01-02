@@ -1,7 +1,5 @@
 {
-    "cause": {
-        "cause": null,
-        "message": "@contains(value not one of declared Enum instance names: [INACTIVE, ACTIVE, PENDING])@"
-    },
+    "cause": null,
+    "code": 0,
     "message": "@contains(value not one of declared Enum instance names: [INACTIVE, ACTIVE, PENDING])@"
 }

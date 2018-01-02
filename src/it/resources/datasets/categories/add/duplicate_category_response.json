@@ -1,7 +1,5 @@
 {
-    "cause": {
-        "cause": null,
-        "message": "@contains(duplicate key error collection)@"
-    },
-    "message": "@contains(duplicate key error collection)@"
+    "cause": null,
+    "code": 11000,
+    "message": "@contains(name already exists in industry.)@"
 }
