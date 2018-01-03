@@ -394,4 +394,40 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                                 + "from String \"Invalid\": value not one of declared "
                                 + "Enum instance names: [INHERITED, SELF, SYSTEM]")));
     }
+
+    @Test
+    public void shouldReturnBadRequestWhenAttributeOrderRepeatedAtCreate()
+            throws JsonProcessingException, Exception {
+        final Category category = new Category("Child Category 3",
+                "some description for child category 3", Status.INACTIVE,
+                "59762d7caddb13b4a8440a38");
+        category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
+        category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
+        category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
+        mockMvc.perform(post("/categories") //
+                .with(bearerToken) //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(mapper.writeValueAsString(category))) //
+                .andExpect(status().isBadRequest()) //
+                .andExpect(
+                        jsonPath("$.message", is("attribute order can't be repeated.")));
+    }
+
+    @Test
+    public void shouldReturnBadRequestWhenAttributeOrderRepeatedAtUpdate()
+            throws JsonProcessingException, Exception {
+        final Category category = new Category("Child Category 2",
+                "some description for child category 2", Status.ACTIVE,
+                "59762d7caddb13b4a8440a38");
+        category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
+        category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
+        category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
+        mockMvc.perform(put("/categories/59b795074daf991ecaafa265") //
+                .with(bearerToken) //
+                .contentType(MediaType.APPLICATION_JSON) //
+                .content(mapper.writeValueAsString(category))) //
+                .andExpect(status().isBadRequest()) //
+                .andExpect(
+                        jsonPath("$.message", is("attribute order can't be repeated.")));
+    }
 }

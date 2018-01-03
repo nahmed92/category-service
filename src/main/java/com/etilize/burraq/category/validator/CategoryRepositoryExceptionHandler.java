@@ -82,4 +82,21 @@ public class CategoryRepositoryExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(),
                 HttpStatus.BAD_REQUEST);
     }
+
+    /**
+     * Handle IllegalArgumentException exception.
+     *
+     * @param ex Exception {@link IllegalArgumentException}
+     * @return {@link ResponseEntity} Response for given entity.
+     */
+    @ExceptionHandler(value = { IllegalArgumentException.class })
+    protected ResponseEntity<Object> handleIllegalArgumentException(
+            final IllegalArgumentException ex) {
+        final ExceptionMessage errorMessage = new ExceptionMessage(ex.getMessage(), null,
+                0);
+        // logging error message
+        logger.error("Error during request processing: " + ex.getMessage());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(),
+                HttpStatus.BAD_REQUEST);
+    }
 }
