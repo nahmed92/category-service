@@ -68,7 +68,8 @@ public class CategoryPojoTest {
     @Test
     public void hasToString() {
         final Category category = new Category("category", "category description",
-                Status.INACTIVE, "109837872");
+                "109837872");
+        category.setStatus(Status.INACTIVE);
         assertThat(ObjectUtils.identityToString(category), not(category.toString()));
     }
 

@@ -20,6 +20,9 @@
         },
         "category": {
             "href": "@endsWith(/categories/${categoryId})@"
+        },
+        "update_status": {
+            "href": "@contains(/categories)@"
         }
     }
 }

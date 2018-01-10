@@ -83,14 +83,26 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                         is("INHERITED"))) //
                 .andExpect(
                         jsonPath("$._embedded.categories[2].attributes[0].order", is(1))) //
-                .andExpect(jsonPath("$._embedded.categories[*]._links.self.href", //
-                        contains("http://localhost/categories/59b78ed24daf991ecaafa263", //
-                                "http://localhost/categories/59b78f244daf991ecaafa264", //
-                                "http://localhost/categories/59b795074daf991ecaafa265"))) //
+                .andExpect(jsonPath("$._embedded.categories[*]._links.self.href") //
+                        .value(contains(endsWith("categories/59b78ed24daf991ecaafa263"), //
+                                endsWith("categories/59b78f244daf991ecaafa264"), //
+                                endsWith("categories/59b795074daf991ecaafa265")))) //
+                .andExpect(jsonPath("$._embedded.categories[*]._links.category.href") //
+                        .value(contains(endsWith("categories/59b78ed24daf991ecaafa263"), //
+                                endsWith("categories/59b78f244daf991ecaafa264"), //
+                                endsWith("categories/59b795074daf991ecaafa265")))) //
+                .andExpect(jsonPath("$._embedded.categories[*]._links.update_status.href") //
+                        .value(contains(endsWith(
+                                "categories/59b78ed24daf991ecaafa263/update_status"), //
+                                endsWith(
+                                        "categories/59b78f244daf991ecaafa264/update_status"), //
+                                endsWith(
+                                        "categories/59b795074daf991ecaafa265/update_status")))) //
                 .andExpect(jsonPath("$.page.size", is(20))) //
                 .andExpect(jsonPath("$.page.totalElements", is(3))) //
                 .andExpect(jsonPath("$.page.totalPages", is(1))) //
                 .andExpect(jsonPath("$.page.number", is(0)));
+
     }
 
     @Test
@@ -108,15 +120,20 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .andExpect(jsonPath("$.attributes[0].attributeId",
                         is("59b78ed24daf991ecaafgfh"))) //
                 .andExpect(jsonPath("$.attributes[0].source", is("INHERITED"))) //
-                .andExpect(jsonPath("$.attributes[0].order", is(1)));
+                .andExpect(jsonPath("$.attributes[0].order", is(1))) //
+                .andExpect(jsonPath("$._links.update_status").exists()) //
+                .andExpect(jsonPath("$._links.update_status.href") //
+                        .value(endsWith(
+                                "categories/59b795074daf991ecaafa265/update_status")));
+
     }
 
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create.bson")
     public void shouldCreateNewCategory() throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -130,8 +147,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create_with_attributes.bson")
     public void shouldCreateNewCategoryWithAttributes() throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, 1)));
@@ -147,8 +164,9 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update.bson")
     public void shouldUpdateCategoryById() throws JsonProcessingException, Exception {
         final Category category = new Category("Child Category 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
@@ -163,8 +181,9 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldNotUpdateCategoryCreatedByAndCreatedDate()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Child Category 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setCreatedBy("ROLE_PTM");
         category.setCreatedDate(new Date());
@@ -188,8 +207,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenNameIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category(null,
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -206,8 +225,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenStatusIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", null,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(null);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -224,7 +243,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenIndustryIdIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE, null);
+                "some description for child category 3", null);
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -241,8 +261,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenAttributeIdIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(Sets.newHashSet(new Attribute(null, Source.SELF, 1)));
 
@@ -261,8 +281,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenAttributeSourceIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(Sets.newHashSet(new Attribute("attributeId-1", null, 1)));
 
@@ -280,8 +300,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenAttributeOrderIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, null)));
@@ -300,8 +320,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnConflictWhenCategoryNameIsAlreadyPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Parent Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -316,8 +336,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnConflictWhenCaseInsensitiveCategoryNameIsAlreadyPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("PARENT CATEGORY",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -368,9 +388,9 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .with(bearerToken)) //
                 .andExpect(status().isBadRequest()) //
                 .andExpect(jsonPath("$.message",
-                        startsWith("JSON parse error: Can not deserialize value of "
-                                + "type com.etilize.burraq.category.Status from String "
-                                + "\"INVALID\": value not one of declared Enum instance names:"
+                        startsWith("JSON parse error: Can not deserialize value of"
+                                + " type com.etilize.burraq.category.Status from String"
+                                + " \"INVALID\": value not one of declared Enum instance names:"
                                 + " [INACTIVE, ACTIVE, PENDING]")));
     }
 
@@ -390,17 +410,17 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .andExpect(status().isBadRequest()) //
                 .andExpect(jsonPath("$.message",
                         startsWith("JSON parse error: Can not deserialize value of"
-                                + " type com.etilize.burraq.category.Source "
-                                + "from String \"Invalid\": value not one of declared "
-                                + "Enum instance names: [INHERITED, SELF, SYSTEM]")));
+                                + " type com.etilize.burraq.category.Source"
+                                + " from String \"Invalid\": value not one of declared"
+                                + " Enum instance names: [INHERITED, SELF, SYSTEM]")));
     }
 
     @Test
     public void shouldReturnBadRequestWhenAttributeOrderRepeatedAtCreate()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
         category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
@@ -417,8 +437,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
     public void shouldReturnBadRequestWhenAttributeOrderRepeatedAtUpdate()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Child Category 2",
-                "some description for child category 2", Status.ACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 2", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.ACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
         category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));

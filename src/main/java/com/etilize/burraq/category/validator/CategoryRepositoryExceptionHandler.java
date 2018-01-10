@@ -30,6 +30,7 @@ package com.etilize.burraq.category.validator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.mongodb.DuplicateKeyException;
 
 /**
@@ -75,12 +77,7 @@ public class CategoryRepositoryExceptionHandler {
     @ExceptionHandler(value = { HttpMessageNotReadableException.class })
     protected ResponseEntity<Object> handleHttpMessageNotReadableException(
             final HttpMessageNotReadableException ex) {
-        final ExceptionMessage errorMessage = new ExceptionMessage(ex.getMessage(), null,
-                0);
-        // logging error message
-        logger.error("Error during request processing: " + ex.getMessage());
-        return new ResponseEntity<>(errorMessage, new HttpHeaders(),
-                HttpStatus.BAD_REQUEST);
+        return handleBadRequest(ex);
     }
 
     /**
@@ -92,11 +89,46 @@ public class CategoryRepositoryExceptionHandler {
     @ExceptionHandler(value = { IllegalArgumentException.class })
     protected ResponseEntity<Object> handleIllegalArgumentException(
             final IllegalArgumentException ex) {
-        final ExceptionMessage errorMessage = new ExceptionMessage(ex.getMessage(), null,
-                0);
+        return handleBadRequest(ex);
+    }
+
+    /**
+     * Handles exception when payload is invalid
+     *
+     * @param exception {@link InvalidFormatException}
+     * @return {@link ResponseEntity}
+     */
+    @ExceptionHandler(InvalidFormatException.class)
+    public ResponseEntity<Object> handleInvalidFormatException(
+            final InvalidFormatException exception) {
+        return handleBadRequest(exception);
+    }
+
+    /**
+     * Handles exception thrown when invalid hex string is provided as category id
+     *
+     * @param exception {@link ConversionFailedException}
+     * @return {@link ResponseEntity}
+     */
+    @ExceptionHandler(ConversionFailedException.class)
+    public ResponseEntity<Object> handleConversionFailedException(
+            final ConversionFailedException exception) {
+        return handleBadRequest(exception);
+    }
+
+    /**
+     * Create ResponseEntity object and log mesage
+     *
+     * @param exception
+     * @return
+     */
+    private ResponseEntity<Object> handleBadRequest(final Exception exception) {
+        final ExceptionMessage errorMessage = new ExceptionMessage(exception.getMessage(),
+                null, 0);
         // logging error message
-        logger.error("Error during request processing: " + ex.getMessage());
+        logger.error("Error during request processing: " + exception.getMessage());
         return new ResponseEntity<>(errorMessage, new HttpHeaders(),
                 HttpStatus.BAD_REQUEST);
     }
+
 }

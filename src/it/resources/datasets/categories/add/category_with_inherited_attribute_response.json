@@ -21,6 +21,9 @@
         },
         "category": {
             "href": "@contains(/categories)@"
+        },
+        "update_status": {
+            "href": "@contains(/categories)@"
         }
     }
 }

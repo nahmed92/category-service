@@ -68,8 +68,8 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
     public void shouldReturnUnauthorizedStatusOnCreatingNewCategoryWithoutAuthorizationHeader()
             throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -95,8 +95,9 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
     public void shouldReturnUnauthorizedStatusOnUpdatingExistingCategoryWithoutAuthorizationHeader()
             throws Exception {
         final Category category = new Category("Child Category 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.ACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
@@ -123,8 +124,8 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
     public void shouldReturnUnauthorizedStatusOnCreatingNewCategoryWithInvalidAuthorizationHeader()
             throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -152,8 +153,9 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
     public void shouldReturnUnauthorizedStatusOnUpdatingExistingCategoryWithInvalidAuthorizationHeader()
             throws Exception {
         final Category category = new Category("Child Category 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.ACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
@@ -169,8 +171,8 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
     public void shouldReturnStatusForbiddenWhenUnAuthorizedUserCreatesNewCategory()
             throws Exception {
         final Category category = new Category("Child Catgeory 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(post("/categories") //
@@ -192,8 +194,9 @@ public class CategoryRestAuthorizationTest extends AbstractRestIntegrationTest {
     public void shouldReturnStatusForbiddenWhenUnAuthorizedUserUpdatesCategory()
             throws Exception {
         final Category category = new Category("Child Catgeory 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.ACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
 
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
