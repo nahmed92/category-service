@@ -28,21 +28,22 @@
 
 package com.etilize.burraq.category.test.base;
 
-import java.io.IOException;
 import static java.nio.file.Files.*;
 import static java.nio.file.Paths.*;
+import static org.springframework.http.MediaType.*;
 
+import java.io.*;
+
+import org.apache.commons.lang3.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.core.io.*;
+import org.springframework.http.*;
+
+import com.consol.citrus.dsl.junit.*;
+import com.consol.citrus.http.client.*;
+import com.consol.citrus.http.message.HttpMessage;
 import com.consol.citrus.message.*;
 import com.etilize.burraq.category.config.*;
-import com.consol.citrus.http.message.HttpMessage;
-import com.consol.citrus.dsl.junit.JUnit4CitrusTestRunner;
-import com.consol.citrus.http.client.HttpClient;
-
-import static org.springframework.http.MediaType.*;
-import org.springframework.http.*;
-import org.springframework.core.io.ResourceLoader;
-import org.apache.commons.lang3.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class should be extended to write IT test cases. It provides methods to read file,
@@ -231,8 +232,7 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      * @param payload to verify in response
      * @param accessToken Holds access token to authenticate operation
      */
-    protected void verifyResponse(final HttpStatus httpStatus, final String payload,
-            final String accessToken) {
+    protected void verifyResponse(final HttpStatus httpStatus, final String payload) {
         // Verify Response
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //

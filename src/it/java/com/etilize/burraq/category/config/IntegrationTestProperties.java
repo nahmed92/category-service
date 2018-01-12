@@ -28,10 +28,12 @@
 
 package com.etilize.burraq.category.config;
 
+import java.util.*;
+
 import javax.validation.constraints.*;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.*;
+import org.springframework.stereotype.*;
 
 /**
  * Integration Test properties
@@ -51,19 +53,7 @@ public class IntegrationTestProperties {
     /**
      * Url at which the deployed authentication service is accessible
      */
-    private String athenticationServiceUrl = "http://localhost:8080";
-
-    /**
-     * userName to authenticate
-     */
-    @NotNull
-    private String username;
-
-    /**
-     * password to authenticate
-     */
-    @NotNull
-    private String password;
+    private String authenticationServiceUrl = "http://localhost:8080";
 
     /**
      * clientId to authenticate
@@ -77,6 +67,12 @@ public class IntegrationTestProperties {
     @NotNull
     private String clientSecret;
 
+    /**
+     * users map is used to maintain user information against it's role
+     */
+    @NotNull
+    private Map<String, User> users = new HashMap<>();
+
     public String getServiceUrl() {
         return serviceUrl;
     }
@@ -85,28 +81,12 @@ public class IntegrationTestProperties {
         this.serviceUrl = serviceUrl;
     }
 
-    public String getAthenticationServiceUrl() {
-        return athenticationServiceUrl;
+    public String getAuthenticationServiceUrl() {
+        return authenticationServiceUrl;
     }
 
-    public void setAthenticationServiceUrl(final String athenticationServiceUrl) {
-        this.athenticationServiceUrl = athenticationServiceUrl;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(final String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
+    public void setAuthenticationServiceUrl(final String authenticationServiceUrl) {
+        this.authenticationServiceUrl = authenticationServiceUrl;
     }
 
     public String getClientId() {
@@ -125,4 +105,15 @@ public class IntegrationTestProperties {
         this.clientSecret = clientSecret;
     }
 
+    public Map<String, User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(final Map<String, User> users) {
+        this.users = users;
+    }
+
+    public User getUserByRole(final String role) {
+        return this.users.get(role);
+    }
 }

@@ -28,12 +28,14 @@
 
 package com.etilize.burraq.category;
 
+import static com.etilize.burraq.category.config.Role.*;
+
 import org.junit.*;
 import org.springframework.http.*;
 
 import com.consol.citrus.annotations.*;
 import com.consol.citrus.context.*;
-import com.consol.citrus.message.*;
+import com.etilize.burraq.category.config.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
@@ -52,8 +54,13 @@ public class DeleteCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be deleted");
 
-        variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
+        final User user = props.getUserByRole(DELETE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, "59fb01890fcdf847c8eb4cec");
@@ -74,8 +81,13 @@ public class DeleteCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should not be deleted if it does not exist");
 
-        variable(USER_NAME_LABEL, props.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, props.getUsername(), props.getPassword(), props.getClientId(), props.getClientSecret()));
+        final User user = props.getUserByRole(DELETE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, "59afe1125846b8762efc30e2");

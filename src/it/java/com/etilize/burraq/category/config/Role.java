@@ -28,58 +28,36 @@
 
 package com.etilize.burraq.category.config;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.context.properties.*;
-import org.springframework.context.annotation.*;
-
-import com.consol.citrus.http.client.*;
-import com.consol.citrus.report.*;
-
 /**
- * Configuration class that houses all the configs for citrus integration test framework
+ * This class contains all constants of roles required in citrus test cases.
  *
- * @author Faisal Feroz
- *
+ * @author Nimra Inam
+ * @see citrus-application.properties
+ * @since 1.0.0
  */
-@EnableConfigurationProperties(IntegrationTestProperties.class)
-@Configuration
-public class CitrusConfig {
-
-    @Autowired
-    private IntegrationTestProperties config;
+public final class Role {
 
     /**
-     * {@link MessageTracingTestListener}
-     *
-     * @return MessageTracingTestListener
+     * GET constant is used serve as key to hold a user with get role to hold a user
+     * with create role
      */
-    @Bean
-    MessageTracingTestListener messageTracingListener() {
-        return new MessageTracingTestListener();
-    }
+    public static final String GET = "get";
 
     /**
-     * {@link HttpClient} for interacting with the service
-     *
-     * @return {@link HttpClient}
+     * CREATE constant is used serve as key to hold a user with create role to hold a user
+     * with create role
      */
-    @Bean
-    HttpClient serviceClient() {
-        return new HttpClientBuilder() //
-                .requestUrl(config.getServiceUrl()) //
-                .build();
-    }
+    public static final String CREATE = "create";
 
     /**
-     * {@link HttpClient} for interacting with the authentication service
-     *
-     * @return {@link HttpClient}
+     * UPDATE constant is used serve as key to hold a user with update role to hold a user
+     * with update role
      */
-    @Bean
-    HttpClient authenticationServiceClient() {
-        return new HttpClientBuilder() //
-                .requestUrl(config.getAuthenticationServiceUrl()) //
-                .build();
-    }
+    public static final String UPDATE = "update";
 
+    /**
+     * DELETE constant is used serve as key to hold a user with delete role to hold a user
+     * with delete role
+     */
+    public static final String DELETE = "delete";
 }

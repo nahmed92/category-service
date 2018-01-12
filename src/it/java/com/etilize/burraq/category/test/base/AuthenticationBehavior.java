@@ -28,22 +28,12 @@
 
 package com.etilize.burraq.category.test.base;
 
-import java.io.IOException;
-import static java.nio.file.Files.*;
-import static java.nio.file.Paths.*;
-
-import com.consol.citrus.actions.*;
-import com.consol.citrus.context.*;
-import com.consol.citrus.message.*;
-import com.consol.citrus.http.message.HttpMessage;
-import com.consol.citrus.dsl.junit.JUnit4CitrusTestRunner;
-import com.consol.citrus.dsl.runner.*;
-import com.consol.citrus.http.client.HttpClient;
-
-import static org.springframework.http.MediaType.*;
 import org.springframework.http.*;
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.core.io.ResourceLoader;
+
+import com.consol.citrus.dsl.runner.*;
+import com.consol.citrus.http.client.*;
+import com.consol.citrus.http.message.HttpMessage;
+import com.consol.citrus.message.*;
 
 public class AuthenticationBehavior extends AbstractTestBehavior {
 
@@ -71,7 +61,9 @@ public class AuthenticationBehavior extends AbstractTestBehavior {
         variable("accessToken", "");
 
         send(builder -> builder.endpoint(authenticationServiceClient) //
-                .message(new HttpMessage(String.format("client_id=%s&client_secret=%s&grant_type=password&username=%s&password=%s&response_type=token", clientId, clientSecret, username, password)) //
+                .message(new HttpMessage(String.format(
+                        "client_id=%s&client_secret=%s&grant_type=password&username=%s&password=%s&response_type=token",
+                        clientId, clientSecret, username, password)) //
                                 .path("/uaa/oauth/token/") //
                                 .method(HttpMethod.POST) //
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE) //
@@ -79,7 +71,7 @@ public class AuthenticationBehavior extends AbstractTestBehavior {
 
         receive(builder -> builder.endpoint(authenticationServiceClient) //
                 .message(new HttpMessage() //
-                .status(HttpStatus.OK)) //
+                        .status(HttpStatus.OK)) //
                 .messageType(MessageType.JSON) //
                 .extractFromPayload("$.access_token", "${accessToken}"));
     }
