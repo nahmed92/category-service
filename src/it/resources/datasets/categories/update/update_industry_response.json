@@ -20,6 +20,9 @@
         },
         "category": {
             "href": "@endsWith(${locationHeaderValue})@"
+        },
+        "update_status": {
+            "href": "@contains(/categories)@"
         }
     }
 }

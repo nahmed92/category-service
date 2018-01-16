@@ -46,10 +46,11 @@ public class CategoryRepositoryEventHandlerTest extends AbstractIntegrationTest 
     private CategoryRepositoryEventHandler categoryRepositoryEventHandler;
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenAttributeOrderRepeated() throws Exception {
+    public void shouldThrowIllegalArgumentExceptionWhenAttributeOrderRepeated()
+            throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
         category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
@@ -60,8 +61,8 @@ public class CategoryRepositoryEventHandlerTest extends AbstractIntegrationTest 
     public void shouldNotThrowIllegalArgumentExceptionWhenAttributeOrderIsNotRepeated()
             throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
         category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 2));

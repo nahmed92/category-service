@@ -55,8 +55,8 @@ public class CategoryRepositoryAuthorizationTest extends AbstractIntegrationTest
     public void shouldThrowAccessDeniedExceptionExceptionWhenUnAuthorizedUserCreatesNewCategory()
             throws Exception {
         final Category category = new Category("Child Catgeory 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -72,8 +72,9 @@ public class CategoryRepositoryAuthorizationTest extends AbstractIntegrationTest
     public void shouldThrowAccessDeniedExceptionExceptionWhenUnAuthorizedUserUpdatesCategory()
             throws Exception {
         final Category category = new Category("Child Catgeory 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.ACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setId(new ObjectId("59b78f244daf991ecaafa264"));
         repository.save(category);

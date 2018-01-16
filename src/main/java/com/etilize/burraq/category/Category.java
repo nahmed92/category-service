@@ -66,7 +66,7 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     private final String description;
 
     @NotNull(message = "status is required")
-    private final Status status;
+    private Status status = Status.PENDING;
 
     @NotBlank(message = "industryId is required")
     private final String industryId;
@@ -82,24 +82,21 @@ public class Category extends AbstractMongoEntity<ObjectId> {
      *
      * @param name stores category name
      * @param description stores category description
-     * @param status stores category status
      * @param industryId stores industryId of category
      */
     @JsonCreator
     public Category(@JsonProperty("name") final String name,
             @JsonProperty("description") final String description,
-            @JsonProperty("status") final Status status,
             @JsonProperty("industryId") final String industryId) {
         this.name = name;
         this.description = description;
-        this.status = status;
         this.industryId = industryId;
     }
 
     /**
      * Returns category name
      *
-     * @return name
+     * @return Name of category
      */
     public String getName() {
         return this.name;
@@ -108,7 +105,7 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     /**
      * Return category description
      *
-     * @return description
+     * @return Category description
      */
     public String getDescription() {
         return this.description;
@@ -117,10 +114,19 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     /**
      * Returns category status
      *
-     * @return status
+     * @return Category {@link Status}
      */
     public Status getStatus() {
         return this.status;
+    }
+
+    /**
+     * Sets status of a category
+     *
+     * @param status Category {@link Status}
+     */
+    public void setStatus(final Status status) {
+        this.status = status;
     }
 
     /**
@@ -162,7 +168,7 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     /**
      * Returns attributes in this category
      *
-     * @return attributes
+     * @return set of attributes
      */
     public Set<Attribute> getAttributes() {
         return this.attributes;

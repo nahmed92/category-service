@@ -32,6 +32,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.ConstraintViolationException;
 
@@ -66,12 +67,29 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldFindAllCategories() throws Exception {
         final List<Category> categories = repository.findAll();
         assertThat(categories, hasSize(3));
+        Set<Attribute> attributes = Sets.newHashSet(
+                new Attribute("59b78ed24daf991ecaafgfh", Source.INHERITED, 1));
         for (final Category category : categories) {
-            assertThat(category.getName(), anyOf(is("Parent Category"),
-                    is("Child Category 1"), is("Child Category 2")));
-            assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
-            assertThat(category.getStatus(),
-                    anyOf(is(Status.ACTIVE), is(Status.INACTIVE), is(Status.PENDING)));
+            switch (category.getName()) {
+                case "Parent Category":
+                    assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
+                    assertThat(category.getStatus(), is(Status.ACTIVE));
+                    assertThat(category.getAttributes(), is(Sets.newHashSet()));
+                    break;
+
+                case "Child Category 1":
+                    assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
+                    assertThat(category.getStatus(), is(Status.INACTIVE));
+                    assertThat(category.getAttributes(), is(Sets.newHashSet()));
+                    break;
+
+                case "Child Category 2":
+                    assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
+                    assertThat(category.getStatus(), is(Status.PENDING));
+                    assertThat(category.getAttributes(), hasSize(1));
+                    assertThat(category.getAttributes(), is(attributes));
+                    break;
+            }
         }
     }
 
@@ -79,8 +97,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create.bson")
     public void shouldCreateNewCategory() throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -89,8 +107,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_create_with_attributes.bson")
     public void shouldCreateNewCategoryWithAttributes() throws Exception {
         final Category category = new Category("Child Category 3",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, 1)));
@@ -103,8 +121,9 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         final Category category = repository.findOne(
                 new ObjectId("59b78f244daf991ecaafa264"));
         final Category updatedCategory = new Category("Child Category 1 Updated",
-                "some updated description for child category 1", Status.ACTIVE,
+                "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
+        updatedCategory.setStatus(Status.INACTIVE);
         updatedCategory.setParentCategoryId(category.getParentCategoryId());
         updatedCategory.setId(category.getId());
         updatedCategory.setCreatedBy(category.getCreatedBy());
@@ -122,8 +141,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowConstraintViolationExceptionWhenNameIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category(null,
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -132,8 +151,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowConstraintViolationExceptionWhenStatusIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", null,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(null);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -142,7 +161,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowConstraintViolationExceptionWhenIndustryIdIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE, null);
+                "some description for child category 3", null);
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -151,8 +171,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowConstraintViolationExceptionWhenAttributeIdIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(Sets.newHashSet(new Attribute(null, Source.SELF, 1)));
         repository.save(category);
@@ -162,8 +182,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowConstraintViolationExceptionWhenAttributeSourceIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(Sets.newHashSet(new Attribute("attributeId-1", null, 1)));
         repository.save(category);
@@ -173,8 +193,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowConstraintViolationExceptionWhenAttributeOrderIsNotPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, null)));
@@ -185,8 +205,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowDuplicateKeyExceptionWhenCategoryNameIsAlreadyPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("Parent Category",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -195,8 +215,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldThrowDuplicateKeyExceptionWhenCaseInsensitiveCategoryNameIsAlreadyPresent()
             throws JsonProcessingException, Exception {
         final Category category = new Category("PARENT CATEGORY",
-                "some description for child category 3", Status.INACTIVE,
-                "59762d7caddb13b4a8440a38");
+                "some description for child category 3", "59762d7caddb13b4a8440a38");
+        category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         repository.save(category);
     }
@@ -215,4 +235,5 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         assertThat(category.get(0).getParentCategoryId(),
                 is(new ObjectId("59b78ed24daf991ecaafa263")));
     }
+
 }

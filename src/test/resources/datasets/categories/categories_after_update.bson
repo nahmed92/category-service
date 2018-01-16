@@ -18,7 +18,7 @@
             "_class": "com.etilize.burraq.category.Category",
             "createdBy": "ROLE_PTE",
             "createdDate": {
-                "$date": "2017-08-11T08:10:47.321Z"
+                "$exists": true
             },
             "lastModifiedBy": "ROLE_PTM",
             "lastModifiedDate": {
@@ -26,7 +26,7 @@
             },
             "name": "Child Category 1 Updated",
             "description": "some updated description for child category 1",
-            "status": "ACTIVE",
+            "status": "INACTIVE",
             "industryId": "59762d7caddb13b4a8440a38",
             "parentCategoryId": {
                 "$oid": "59b78ed24daf991ecaafa263"

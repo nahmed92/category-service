@@ -142,32 +142,6 @@ public class AddCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnMissingStatus(@CitrusResource TestContext context)
-            throws Exception {
-        author("Nimra Inam");
-        description("A category should not be added with missing category status");
-
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        postRequest(CATEGORY_URL, //
-                readFile(
-                        "/datasets/categories/add/category_with_missing_status_request.json"), //
-                accessToken);
-
-        verifyResponse(HttpStatus.BAD_REQUEST, //
-                readFile(
-                        "/datasets/categories/add/category_with_missing_status_response.json"));
-    }
-
-    @Test
-    @CitrusTest
     public void shouldReturnBadRequestOnInvalidStatus(@CitrusResource TestContext context)
             throws Exception {
         author("Nimra Inam");
