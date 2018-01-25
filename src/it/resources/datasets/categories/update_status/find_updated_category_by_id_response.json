@@ -1,0 +1,28 @@
+{
+    "name": "Servers",
+    "description": "Servers description",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "createdBy": "testapp@etilizepak.com",
+    "createdDate": "@assertThat(not(isEmptyString())@",
+    "lastModifiedBy": "${username}",
+    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "status": "${status}",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@endsWith(/categories/${categoryId})@"
+        },
+        "category": {
+            "href": "@endsWith(/categories/${categoryId})@"
+        },
+        "update_status": {
+            "href": "@endsWith(/categories/${categoryId}/update_status)@"
+        }
+    }
+}
