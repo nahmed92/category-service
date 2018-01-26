@@ -1,0 +1,29 @@
+{
+    "name": "Switches & Bridges",
+    "description": "Switches & Bridges description",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "createdBy": "${username}",
+    "createdDate": "@assertThat(not(isEmptyString())@",
+    "lastModifiedBy": "${username}",
+    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "status": "${status}",
+    "parentCategoryId": "599421f24daf9922d012af76",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "INHERITED",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@endsWith(/categories/${categoryId})@"
+        },
+        "category": {
+            "href": "@endsWith(/categories/${categoryId})@"
+        },
+        "update_status": {
+            "href": "@endsWith(/categories/${categoryId}/update_status)@"
+        }
+    }
+}

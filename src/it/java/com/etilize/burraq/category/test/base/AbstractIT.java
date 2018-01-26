@@ -151,6 +151,7 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      */
     protected void putRequest(final String url, final String categoryId,
             final String payload, final String accessToken) {
+
         send(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage(payload) //
                         .path(url + categoryId) //
