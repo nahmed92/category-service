@@ -1,0 +1,24 @@
+{
+    "industryId": "59762d7caddb13b4a8440a38",
+    "name": "Component Speakers",
+    "status": "ACTIVE",
+    "description": "Component Speakers category",
+    "parentCategoryId": null,
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b5a8441a3m",
+            "source": "SELF",
+            "order": 1
+        },
+        {
+            "attributeId": "59762d7caddb12b4a8441a3g",
+            "source": "SELF",
+            "order": 2
+        },
+        {
+            "attributeId": "59762d7caddb12b4a8440a3k",
+            "source": "SELF",
+            "order": 3
+        }
+    ]
+}

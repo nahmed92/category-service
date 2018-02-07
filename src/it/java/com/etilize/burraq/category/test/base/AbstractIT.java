@@ -248,7 +248,7 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      * @param url this holds api's URL
      * @param headerValue this holds complete resource location to parse
      * @return headerLocation It returns the exact location, omitting the base URL. For
-     *         example: "/units/5a1805530fcdf812bee4dd66"
+     *         example: "/categories/5a1805530fcdf812bee4dd66"
      */
     protected String parseAndSetVariable(final String url, final String headerValue) {
         String headerLocation = headerValue.substring(headerValue.indexOf(url));

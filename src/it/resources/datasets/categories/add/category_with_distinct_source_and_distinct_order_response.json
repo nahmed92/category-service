@@ -1,0 +1,38 @@
+{
+    "name": "Accessories",
+    "description": "Accessories Description",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "createdBy": "${username}",
+    "createdDate": "@assertThat(not(isEmptyString())@",
+    "lastModifiedBy": "${username}",
+    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "status": "INACTIVE",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b5a8441a3m",
+            "source": "SELF",
+            "order": 3
+        },
+        {
+            "attributeId": "59762d7caddb12b4a8441a3g",
+            "source": "SYSTEM",
+            "order": 2
+        },
+        {
+            "attributeId": "59762d7caddb12b4a8440a3k",
+            "source": "INHERITED",
+            "order": 1
+        }
+    ],
+    "_links": {
+        "self": {
+            "href": "@endsWith(${locationHeaderValue})@"
+        },
+        "category": {
+            "href": "@endsWith(${locationHeaderValue})@"
+        },
+        "update_status": {
+            "href": "@contains(${locationHeaderValue})@"
+        }
+    }
+}
