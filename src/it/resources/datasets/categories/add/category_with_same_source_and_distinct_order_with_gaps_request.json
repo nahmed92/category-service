@@ -1,0 +1,24 @@
+{
+    "industryId": "59762d7caddb13b4a8440a38",
+    "name": "Laser Pointers",
+    "status": "ACTIVE",
+    "description": "Laser Pointers Description",
+    "parentCategoryId": null,
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb12b4a8440a3k",
+            "source": "INHERITED",
+            "order": 1
+        },
+        {
+            "attributeId": "59762d7caddb12b4a8441a3g",
+            "source": "SYSTEM",
+            "order": 2
+        },
+        {
+            "attributeId": "59762d7caddb13b5a8441a3m",
+            "source": "SELF",
+            "order": 3
+        }
+    ]
+}

@@ -35,6 +35,8 @@ import org.springframework.http.*;
 
 import com.consol.citrus.annotations.*;
 import com.consol.citrus.context.*;
+import com.consol.citrus.http.message.HttpMessage;
+import com.consol.citrus.message.*;
 import com.etilize.burraq.category.config.*;
 import com.etilize.burraq.category.test.base.*;
 
@@ -396,6 +398,188 @@ public class AddCategoryIT extends AbstractIT {
                 "/datasets/categories/add/category_without_attributes_response.json"), //
                 categoryLocation, //
                 accessToken);
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldAddCategoryWithAttributesHavingSameSourceAndDistinctOrder(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description("A category should be added with same source and distinct order");
+
+        final User user = props.getUserByRole(CREATE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
+        String accessToken = context.getVariable("${accessToken}");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_same_source_and_distinct_order_request.json"), //
+                accessToken);
+
+        extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+
+        verifyResponse(HttpStatus.OK, readFile(
+                "/datasets/categories/add/category_with_same_source_and_distinct_order_response.json"), //
+                categoryLocation, //
+                accessToken);
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldAddCategoryWithAttributesHavingDistinctSourceAndDistinctOrder(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description("A category should be added with distinct source and distinct order");
+
+        final User user = props.getUserByRole(CREATE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
+        String accessToken = context.getVariable("${accessToken}");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_distinct_source_and_distinct_order_request.json"), //
+                accessToken);
+
+        extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+
+        verifyResponse(HttpStatus.OK, readFile(
+                "/datasets/categories/add/category_with_distinct_source_and_distinct_order_response.json"), //
+                categoryLocation, //
+                accessToken);
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldAddCategoryWithAttributesHavingSameSourceAndDistinctOrderWithGaps(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description(
+                "A category should be added with same source and distinct order with gaps");
+
+        final User user = props.getUserByRole(CREATE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
+        String accessToken = context.getVariable("${accessToken}");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_same_source_and_distinct_order_with_gaps_request.json"), //
+                accessToken);
+
+        extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+
+        verifyResponse(HttpStatus.OK, readFile(
+                "/datasets/categories/add/category_with_same_source_and_distinct_order_with_gaps_response.json"), //
+                categoryLocation, //
+                accessToken);
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldAddCategoryWithAttributesHavingDistinctSourceAndDistinctOrderWithGaps(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description(
+                "A category should be added with distinct source and distinct order with gaps");
+
+        final User user = props.getUserByRole(CREATE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
+        String accessToken = context.getVariable("${accessToken}");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_distinct_source_and_distinct_order_with_gaps_request.json"), //
+                accessToken);
+
+        extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+
+        verifyResponse(HttpStatus.OK, readFile(
+                "/datasets/categories/add/category_with_distinct_source_and_distinct_order_with_gaps_response.json"), //
+                categoryLocation, //
+                accessToken);
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldReturnBadRequestOnAddingCategoryWithAttributesHavingSameSourceAndSameOrder(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description("A category should not be added with same source and same order");
+
+        final User user = props.getUserByRole(CREATE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
+        String accessToken = context.getVariable("${accessToken}");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_same_source_and_same_order_request.json"), //
+                accessToken);
+
+        variable("error", "attribute order can't be repeated.");
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(HttpStatus.BAD_REQUEST)) //
+                .messageType(MessageType.JSON).validate("$.message", "${error}"));
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldReturnBadRequestOnAddingCategoryWithAttributesHavingDifferentSourceAndSameOrder(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description("A category should not be added with same source and same order");
+
+        final User user = props.getUserByRole(CREATE);
+        variable(USER_NAME_LABEL, user.getUsername());
+        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
+                user.getUsername(), //
+                user.getPassword(), //
+                props.getClientId(), //
+                props.getClientSecret()));
+        String accessToken = context.getVariable("${accessToken}");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_different_source_and_same_order_request.json"), //
+                accessToken);
+
+        variable("error", "attribute order can't be repeated.");
+        receive(builder -> builder.endpoint(serviceClient) //
+                .message(new HttpMessage() //
+                        .status(HttpStatus.BAD_REQUEST)) //
+                .messageType(MessageType.JSON).validate("$.message", "${error}"));
     }
 
 }

@@ -1,0 +1,24 @@
+{
+    "industryId": "59762d7caddb13b4a8440a38",
+    "name": "Capacitors",
+    "status": "INACTIVE",
+    "description": "Capacitors Description",
+    "parentCategoryId": null,
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb12b4a8440a3k",
+            "source": "SELF",
+            "order": 1
+        },
+        {
+            "attributeId": "59762d7caddb15b4a8441a3g",
+            "source": "INHERITED",
+            "order": 1
+        },
+        {
+            "attributeId": "59762d7caddb18b4a8441a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ]
+}
