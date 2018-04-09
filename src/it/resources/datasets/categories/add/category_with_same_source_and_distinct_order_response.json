@@ -24,6 +24,7 @@
             "order": 3
         }
     ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@endsWith(${locationHeaderValue})@"

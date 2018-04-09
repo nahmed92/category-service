@@ -25,7 +25,8 @@
                 "description": "some description for parent category",
                 "status": "ACTIVE",
                 "industryId": "59762d7caddb13b4a8440a38",
-                "attributes": []
+                "attributes": [],
+                "identifiers": []
             },
             {
                 "_id": {
@@ -47,7 +48,8 @@
                 "parentCategoryId": {
                     "$oid": "59b78ed24daf991ecaafa263"
                 },
-                "attributes": []
+                "attributes": [],
+                "identifiers": []
             },
             {
                 "_id": {
@@ -65,8 +67,12 @@
                     "attributeId": "59b78ed24daf991ecaafgfh",
                     "source": "INHERITED",
                     "order": 1
-                }]
-            }
+                }],
+                "identifiers":[
+                    "attributeId1",
+                    "attributeId2"
+                ]
+           }
         ]
     }
 }

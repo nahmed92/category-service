@@ -31,6 +31,7 @@ package com.etilize.burraq.category;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -75,12 +76,14 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                     assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
                     assertThat(category.getStatus(), is(Status.ACTIVE));
                     assertThat(category.getAttributes(), is(Sets.newHashSet()));
+                    assertThat(category.getIdentifiers(), hasSize(0));
                     break;
 
                 case "Child Category 1":
                     assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
                     assertThat(category.getStatus(), is(Status.INACTIVE));
                     assertThat(category.getAttributes(), is(Sets.newHashSet()));
+                    assertThat(category.getIdentifiers(), hasSize(0));
                     break;
 
                 case "Child Category 2":
@@ -88,6 +91,9 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                     assertThat(category.getStatus(), is(Status.PENDING));
                     assertThat(category.getAttributes(), hasSize(1));
                     assertThat(category.getAttributes(), is(attributes));
+                    assertThat(category.getIdentifiers(), hasSize(2));
+                    assertThat(category.getIdentifiers(),
+                            contains("attributeId1", "attributeId2"));
                     break;
             }
         }
@@ -100,6 +106,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
+        category.setIdentifiers(
+                Sets.newTreeSet(Arrays.asList("attributeId2", "attributeId1")));
         repository.save(category);
     }
 

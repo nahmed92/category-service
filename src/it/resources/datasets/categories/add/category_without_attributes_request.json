@@ -3,5 +3,6 @@
     "name": "Carrying Cases",
     "status": "ACTIVE",
     "description": "Carrying Cases description",
-    "parentCategoryId": "599421f24daf9922d012af76"
+    "parentCategoryId": "599421f24daf9922d012af76",
+    "identifiers": []
 }

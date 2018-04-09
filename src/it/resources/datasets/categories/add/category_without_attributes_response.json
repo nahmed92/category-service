@@ -10,6 +10,7 @@
     "parentCategoryId": "599421f24daf9922d012af76",
     "attributes": [
     ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@contains(/categories)@"

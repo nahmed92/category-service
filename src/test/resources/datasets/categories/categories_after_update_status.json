@@ -27,7 +27,8 @@
                 "status": "ACTIVE",
                 "industryId": "59762d7caddb13b4a8440a38",
                 "attributes": [
-                ]
+                ],
+                "identifiers": []
             },
             {
                 "_id": {
@@ -43,6 +44,7 @@
                 },
                 "attributes": [
                 ],
+                "identifiers": [],
                 "createdBy": "ROLE_PTE",
                 "createdDate": {
                     "$exists": true
@@ -70,6 +72,10 @@
                         "source": "INHERITED",
                         "order": 1
                     }
+                ],
+                "identifiers":[
+                    "attributeId1",
+                    "attributeId2"
                 ]
             }
         ]
