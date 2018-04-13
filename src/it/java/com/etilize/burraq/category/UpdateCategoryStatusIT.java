@@ -310,8 +310,7 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
                         .status(HttpStatus.NOT_FOUND)) //
-                .messageType(MessageType.JSON).validate("$.message",
-                        "${error}"));
+                .messageType(MessageType.JSON).validate("$.message", "${error}"));
     }
 
     @Test

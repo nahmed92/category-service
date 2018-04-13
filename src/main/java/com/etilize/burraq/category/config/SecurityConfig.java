@@ -65,8 +65,8 @@ public class SecurityConfig extends ResourceServerConfigurerAdapter {
     public void configure(final HttpSecurity http) throws Exception {
         http.cors();
         http.authorizeRequests() //
-        .anyRequest() //
-        .authenticated();
+                .anyRequest() //
+                .authenticated();
     }
 
     /**

@@ -16,3 +16,6 @@ db.categories.createIndex({
         "strength" : 2
     }
 });
+
+// changeset uzubair:CAS-46
+db.categories.updateMany({"identifiers": {$exists: false}}, { $set : {"identifiers":[]}});

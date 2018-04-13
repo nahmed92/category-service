@@ -115,12 +115,14 @@ public class SearchCategoryIT extends AbstractIT {
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
-        getRequest(CATEGORY_URL //
-                + "${categoryId}", //
+        getRequest(
+                CATEGORY_URL //
+                        + "${categoryId}", //
                 accessToken);
 
         verifyResponse(HttpStatus.OK, //
-                readFile("/datasets/categories/search/find_category_by_id_response.json"));
+                readFile(
+                        "/datasets/categories/search/find_category_by_id_response.json"));
     }
 
     @Test
@@ -197,8 +199,9 @@ public class SearchCategoryIT extends AbstractIT {
                 props.getClientSecret()));
         String accessToken = context.getVariable("${accessToken}");
 
-        getRequest(CATEGORY_URL //
-                + "${categoryId}", //
+        getRequest(
+                CATEGORY_URL //
+                        + "${categoryId}", //
                 accessToken);
 
         verifyResponse(HttpStatus.NOT_FOUND);

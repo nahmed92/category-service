@@ -30,6 +30,8 @@ package com.etilize.burraq.category;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -76,6 +78,9 @@ public class Category extends AbstractMongoEntity<ObjectId> {
 
     @Valid
     private Set<Attribute> attributes = new HashSet<Attribute>();
+
+    @NotNull(message = "identifiers is required")
+    private SortedSet<String> identifiers = new TreeSet<String>();
 
     /**
      * Constructor used to initialize category
@@ -181,6 +186,23 @@ public class Category extends AbstractMongoEntity<ObjectId> {
      */
     public void addAttribute(final Attribute attribute) {
         this.attributes.add(attribute);
+    }
+
+    /**
+     * It return sorted set of attribute Id
+     *
+     * @return the identifiers
+     */
+    public SortedSet<String> getIdentifiers() {
+        return identifiers;
+    }
+
+    /**
+     * It sets sorted set of attribute Id
+     * @param identifiers the identifiers to set
+     */
+    public void setIdentifiers(final SortedSet<String> identifiers) {
+        this.identifiers = identifiers;
     }
 
     @Override

@@ -17,6 +17,7 @@
                         "order": 1
                     }
                 ],
+                "identifiers": [],
                 "_links": {
                     "self": {
                         "href": "@contains(/categories)@"
