@@ -1,0 +1,32 @@
+{
+    "name": "Eyepieces",
+    "description": "Eyepieces description",
+    "industryId": "59762d7caddb13b4a8440a38",
+    "createdBy": "${username}",
+    "createdDate": "@assertThat(not(isEmptyString())@",
+    "lastModifiedBy": "${username}",
+    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "status": "ACTIVE",
+    "parentCategoryId": "599421f24daf9922d012af76",
+    "attributes": [
+        {
+            "attributeId": "59762d7caddb13b4a8440a3g",
+            "source": "SYSTEM",
+            "order": 1
+        }
+    ],
+    "identifiers": [
+        "59762d7caddb13b4a8440a3g"
+    ],
+    "_links": {
+        "self": {
+            "href": "@contains(/categories)@"
+        },
+        "category": {
+            "href": "@contains(/categories)@"
+        },
+        "update_status": {
+            "href": "@contains(/categories)@"
+        }
+    }
+}
