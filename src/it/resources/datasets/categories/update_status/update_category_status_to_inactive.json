@@ -1,12 +1,12 @@
 {
-    "name": "Scanners",
-    "description": "Scanners description",
+    "name": "Clipboards",
+    "description": "Clipboards description",
     "industryId": "59762d7caddb13b4a8440a38",
     "createdBy": null,
     "createdDate": null,
     "lastModifiedBy": null,
     "lastModifiedDate": null,
-    "status": "PENDING",
+    "status": "INACTIVE",
     "parentCategoryId": "599421f24daf9922d012af76",
     "attributes": [
         {
@@ -19,13 +19,13 @@
     ],
     "_links": {
         "self": {
-            "href": "@contains(/categories)@"
+            "href": "@endsWith(/categories/${categoryId})@"
         },
         "category": {
-            "href": "@contains(/categories)@"
+            "href": "@endsWith(/categories/${categoryId})@"
         },
         "update_status": {
-            "href": "@contains(/categories)@"
+            "href": "@endsWith(/categories/${categoryId}/update_status)@"
         }
     }
 }

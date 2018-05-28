@@ -1,29 +1,27 @@
 {
-    "name": "Services",
-    "description": "Services description",
-    "status": "INACTIVE",
-    "industryId": "59762d7caddb13b4a8440a38",
-    "createdBy": "@assertThat(not(isEmptyString())@",
-    "createdDate": "@assertThat(not(isEmptyString())@",
-    "lastModifiedBy": "${username}",
-    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
-    "attributes": [
-        {
-            "attributeId": "59762d7caddb13b4a8440a3g",
-            "source": "SYSTEM",
-            "order": 1
-        }
-    ],
-    "identifiers": [],
-    "_links": {
-        "self": {
-            "href": "@endsWith(${locationHeaderValue})@"
-        },
-        "category": {
-            "href": "@endsWith(${locationHeaderValue})@"
-        },
-        "update_status": {
-            "href": "@contains(/categories)@"
-        }
+  "name" : "Services",
+  "description" : "Services description",
+  "industryId" : "59762d7caddb13b4a8440a38",
+  "createdBy" : null,
+  "createdDate" : null,
+  "lastModifiedBy" : null,
+  "lastModifiedDate" : null,
+  "status" : "INACTIVE",
+  "attributes" : [ {
+    "attributeId" : "59762d7caddb13b4a8440a3g",
+    "source" : "SYSTEM",
+    "order" : 1
+  } ],
+  "identifiers" : [ ],
+  "_links" : {
+    "self" : {
+      "href" : "@endsWith(${locationHeaderValue})@"
+    },
+    "category" : {
+      "href" : "@endsWith(${locationHeaderValue})@"
+    },
+    "update_status" : {
+      "href" : "@contains(/categories)@"
     }
+  }
 }

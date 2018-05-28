@@ -2,10 +2,10 @@
     "name": "Accessories",
     "description": "Accessories Description",
     "industryId": "59762d7caddb13b4a8440a38",
-    "createdBy": "${username}",
-    "createdDate": "@assertThat(not(isEmptyString())@",
-    "lastModifiedBy": "${username}",
-    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "createdBy": null,
+    "createdDate": null,
+    "lastModifiedBy": null,
+    "lastModifiedDate": null,
     "status": "INACTIVE",
     "attributes": [
         {
@@ -24,13 +24,14 @@
             "order": 1
         }
     ],
-    "identifiers": [],
+    "identifiers": [
+    ],
     "_links": {
         "self": {
-            "href": "@endsWith(${locationHeaderValue})@"
+            "href": "@contains(${locationHeaderValue})@"
         },
         "category": {
-            "href": "@endsWith(${locationHeaderValue})@"
+            "href": "@contains(${locationHeaderValue})@"
         },
         "update_status": {
             "href": "@contains(${locationHeaderValue})@"

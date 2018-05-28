@@ -32,6 +32,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -43,8 +44,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
 import com.etilize.burraq.category.test.AbstractIntegrationTest;
-import com.etilize.burraq.category.test.security.WithOAuth2Authentication;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.google.common.collect.Sets;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
@@ -58,7 +59,6 @@ import com.querydsl.core.types.Predicate;
  *
  */
 @UsingDataSet(locations = { "/datasets/categories/categories.bson" })
-@WithOAuth2Authentication(username = "ROLE_PTM")
 public class CategoryRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -108,6 +108,12 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setIdentifiers(
                 Sets.newTreeSet(Arrays.asList("attributeId2", "attributeId1")));
+        category.setCreatedBy("ROLE_PTM");
+        category.setCreatedDate(
+                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
+        category.setLastModifiedBy("ROLE_PTM");
+        category.setLastModifiedDate(
+                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
         repository.save(category);
     }
 
@@ -120,6 +126,12 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setAttributes(
                 Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, 1)));
+        category.setCreatedBy("ROLE_PTM");
+        category.setCreatedDate(
+                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
+        category.setLastModifiedBy("ROLE_PTM");
+        category.setLastModifiedDate(
+                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
         repository.save(category);
     }
 
@@ -134,8 +146,11 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         updatedCategory.setStatus(Status.INACTIVE);
         updatedCategory.setParentCategoryId(category.getParentCategoryId());
         updatedCategory.setId(category.getId());
-        updatedCategory.setCreatedBy(category.getCreatedBy());
-        updatedCategory.setCreatedDate(category.getCreatedDate());
+        updatedCategory.setCreatedBy("ROLE_PTE");
+        updatedCategory.setCreatedDate(
+                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
+        updatedCategory.setLastModifiedBy("ROLE_PTM");
+        updatedCategory.setLastModifiedDate(new Date());
         repository.save(updatedCategory);
     }
 

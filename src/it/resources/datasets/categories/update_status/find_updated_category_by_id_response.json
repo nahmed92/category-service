@@ -1,20 +1,16 @@
 {
-    "name": "Servers",
-    "description": "Servers description",
-    "industryId": "59762d7caddb13b4a8440a38",
-    "createdBy": "testapp@etilizepak.com",
+    "name": "${name}",
+    "description": "${description}",
+    "industryId": "${industryId}",
+    "createdBy": "@assertThat(not(isEmptyString())@",
     "createdDate": "@assertThat(not(isEmptyString())@",
-    "lastModifiedBy": "${username}",
+    "lastModifiedBy": "@assertThat(not(isEmptyString())@",
     "lastModifiedDate": "@assertThat(not(isEmptyString())@",
     "status": "${status}",
     "attributes": [
-        {
-            "attributeId": "59762d7caddb13b4a8440a3g",
-            "source": "SYSTEM",
-            "order": 1
-        }
     ],
-    "identifiers": [],
+    "identifiers": [
+    ],
     "_links": {
         "self": {
             "href": "@endsWith(/categories/${categoryId})@"

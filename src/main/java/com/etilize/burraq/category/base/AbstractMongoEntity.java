@@ -56,26 +56,14 @@ public abstract class AbstractMongoEntity<ID extends Serializable>
     @Id
     private ID id;
 
-    @CreatedBy
-    @JsonIgnore
-    @JsonSerialize
     private String createdBy;
 
-    @CreatedDate
     @DateTimeFormat(iso = ISO.DATE_TIME)
-    @JsonIgnore
-    @JsonSerialize
     private Date createdDate;
 
-    @LastModifiedBy
-    @JsonIgnore
-    @JsonSerialize
     private String lastModifiedBy;
 
-    @LastModifiedDate
     @DateTimeFormat(iso = ISO.DATE_TIME)
-    @JsonIgnore
-    @JsonSerialize
     private Date lastModifiedDate;
 
     @Override

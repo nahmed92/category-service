@@ -34,7 +34,6 @@ import static org.springframework.http.MediaType.*;
 
 import java.io.*;
 
-import org.apache.commons.lang3.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.core.io.*;
 import org.springframework.http.*;
@@ -59,10 +58,6 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
     protected final static String CATEGORY_ID = "categoryId";
 
     protected final static String LOCATION_HEADER_VALUE = "locationHeaderValue";
-
-    protected static final String ATHENTICATION_URL = "/uaa/oauth/token/";
-
-    protected final static String USER_NAME_LABEL = "username";
 
     @Autowired
     protected HttpClient serviceClient;
@@ -95,18 +90,14 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
     /**
      * It sends get request to service
      *
-     * @param url Url to get request
-     * @param accessToken Holds access token to authenticate operation
      */
-    public void getRequest(final String url, final String accessToken) {
+    public void getRequest(final String url) {
         send(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
                         .path(url) //
                         .method(HttpMethod.GET) //
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) //
                         .contentType(APPLICATION_JSON_VALUE) //
                         .accept(APPLICATION_JSON_VALUE)));
-
     }
 
     /**
@@ -114,31 +105,16 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      *
      * @param url Url to use to send request
      * @param payload to post
-     * @param accessToken Holds access token to authenticate operation
      */
-    protected void postRequest(final String url, final String payload,
-            final String accessToken) {
+    protected void postRequest(final String url, final String payload) {
         final HttpMessage request = new HttpMessage(payload) //
                 .path(url) //
                 .method(HttpMethod.POST) //
                 .contentType(APPLICATION_JSON_VALUE) //
                 .accept(APPLICATION_JSON_VALUE);
 
-        if (StringUtils.isNotEmpty(accessToken)) {
-            request.header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken);
-        }
         send(builder -> builder.endpoint(serviceClient) //
                 .message(request));
-    }
-
-    /**
-     * It sends post request to service without access token
-     *
-     * @param url Url to use to send request
-     * @param payload to post
-     */
-    protected void postRequest(final String url, final String payload) {
-        postRequest(url, payload, null);
     }
 
     /**
@@ -147,16 +123,14 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      * @param url Url to use to send request
      * @param categoryId to update the exact category
      * @param payload to send with put request
-     * @param accessToken Holds access token to authenticate operation
      */
     protected void putRequest(final String url, final String categoryId,
-            final String payload, final String accessToken) {
+            final String payload) {
 
         send(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage(payload) //
                         .path(url + categoryId) //
                         .method(HttpMethod.PUT) //
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) //
                         .contentType(APPLICATION_JSON_VALUE) //
                         .accept(APPLICATION_JSON_VALUE)));
     }
@@ -166,15 +140,12 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      *
      * @param url Url to use to send request
      * @param categoryId to delete the exact category
-     * @param accessToken Holds access token to authenticate operation
      */
-    protected void deleteRequest(final String url, final String categoryId,
-            final String accessToken) {
+    protected void deleteRequest(final String url, final String categoryId) {
         send(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
                         .path(url + categoryId) //
                         .method(HttpMethod.DELETE) //
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken) //
                         .contentType(APPLICATION_JSON_VALUE) //
                         .accept(APPLICATION_JSON_VALUE)));
     }
@@ -200,11 +171,10 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      * @param httpStatus HttpStatus status code
      * @param payload response data to verify
      * @param url hold resource url
-     * @param accessToken Holds access token to authenticate operation
      */
     protected void verifyResponse(final HttpStatus httpStatus, final String payload,
-            final String url, final String accessToken) {
-        getRequest(url, accessToken);
+            final String url) {
+        getRequest(url);
 
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
@@ -231,7 +201,6 @@ public abstract class AbstractIT extends JUnit4CitrusTestRunner {
      *
      * @param httpStatus HttpStatus status code
      * @param payload to verify in response
-     * @param accessToken Holds access token to authenticate operation
      */
     protected void verifyResponse(final HttpStatus httpStatus, final String payload) {
         // Verify Response

@@ -28,12 +28,14 @@
 
 package com.etilize.burraq.category.config;
 
-import org.springframework.beans.factory.annotation.*;
-import org.springframework.boot.context.properties.*;
-import org.springframework.context.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-import com.consol.citrus.http.client.*;
-import com.consol.citrus.report.*;
+import com.consol.citrus.http.client.HttpClient;
+import com.consol.citrus.http.client.HttpClientBuilder;
+import com.consol.citrus.report.MessageTracingTestListener;
 
 /**
  * Configuration class that houses all the configs for citrus integration test framework
@@ -67,18 +69,6 @@ public class CitrusConfig {
     HttpClient serviceClient() {
         return new HttpClientBuilder() //
                 .requestUrl(config.getServiceUrl()) //
-                .build();
-    }
-
-    /**
-     * {@link HttpClient} for interacting with the authentication service
-     *
-     * @return {@link HttpClient}
-     */
-    @Bean
-    HttpClient authenticationServiceClient() {
-        return new HttpClientBuilder() //
-                .requestUrl(config.getAuthenticationServiceUrl()) //
                 .build();
     }
 

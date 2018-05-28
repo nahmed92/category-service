@@ -1,12 +1,12 @@
 {
     "name": "Services",
     "description": "Services description",
-    "status": "ACTIVE",
     "industryId": "59762d7caddb13b4a8440a37",
-    "createdBy": "@assertThat(not(isEmptyString())@",
-    "createdDate": "@assertThat(not(isEmptyString())@",
-    "lastModifiedBy": "${username}",
-    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
+    "createdBy": null,
+    "createdDate": null,
+    "lastModifiedBy": null,
+    "lastModifiedDate": null,
+    "status": "ACTIVE",
     "attributes": [
         {
             "attributeId": "59762d7caddb13b4a8440a3g",
@@ -14,7 +14,8 @@
             "order": 1
         }
     ],
-    "identifiers": [],
+    "identifiers": [
+    ],
     "_links": {
         "self": {
             "href": "@endsWith(${locationHeaderValue})@"
