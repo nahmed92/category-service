@@ -55,11 +55,11 @@ import nl.jqno.equalsverifier.Warning;
  * @author Ebad Hashmi
  *
  */
-public class AttributePojoTest {
+public class SpecificationAttributePojoTest {
 
     @Test
     public void shouldFollowEqualsContract() {
-        EqualsVerifier.forClass(Attribute.class) //
+        EqualsVerifier.forClass(SpecificationAttribute.class) //
                 .suppress(Warning.ALL_FIELDS_SHOULD_BE_USED) //
                 .suppress(Warning.NONFINAL_FIELDS) //
                 .verify();
@@ -67,13 +67,15 @@ public class AttributePojoTest {
 
     @Test
     public void hasToString() {
-        final Attribute attribute = new Attribute("1636752", Source.INHERITED, 1);
+        final SpecificationAttribute attribute = new SpecificationAttribute("1636752",
+                Source.INHERITED, 1);
         assertThat(ObjectUtils.identityToString(attribute), not(attribute.toString()));
     }
 
     @Test
     public void validateAttributePojo() {
-        final PojoClass attributePojo = PojoClassFactory.getPojoClass(Attribute.class);
+        final PojoClass attributePojo = PojoClassFactory.getPojoClass(
+                SpecificationAttribute.class);
         final Validator validator = ValidatorBuilder.create() //
                 .with(new GetterMustExistRule()) //
                 .with(new SetterMustExistRule()) //

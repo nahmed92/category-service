@@ -32,7 +32,7 @@ import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.etilize.burraq.category.Attribute;
+import com.etilize.burraq.category.SpecificationAttribute;
 import com.etilize.burraq.category.Category;
 import com.etilize.burraq.category.Source;
 import com.etilize.burraq.category.Status;
@@ -52,8 +52,10 @@ public class CategoryRepositoryEventHandlerTest extends AbstractIntegrationTest 
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
-        category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
         categoryRepositoryEventHandler.handleBeforeCategorySave(category);
     }
 
@@ -64,8 +66,10 @@ public class CategoryRepositoryEventHandlerTest extends AbstractIntegrationTest 
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
-        category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 2));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("59b78ed24daf991ecaafgfe", Source.SELF, 2));
         categoryRepositoryEventHandler.handleBeforeCategorySave(category);
     }
 

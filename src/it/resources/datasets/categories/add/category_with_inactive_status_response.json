@@ -8,15 +8,15 @@
     "lastModifiedDate": null,
     "status": "INACTIVE",
     "parentCategoryId": "599421f24daf9922d012af76",
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb13b4a8440a3g",
             "source": "SYSTEM",
             "order": 1
         }
     ],
-    "identifiers": [
-    ],
+    "mediaAttributes" : [ ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@contains(/categories)@"

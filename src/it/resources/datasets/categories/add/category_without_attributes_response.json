@@ -8,10 +8,10 @@
     "lastModifiedDate": null,
     "status": "ACTIVE",
     "parentCategoryId": "599421f24daf9922d012af76",
-    "attributes": [
+    "specificationAttributes": [
     ],
-    "identifiers": [
-    ],
+    "mediaAttributes" : [ ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@contains(/categories)@"

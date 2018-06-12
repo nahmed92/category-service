@@ -2,7 +2,7 @@
  * #region
  * category-service
  * %%
- * Copyright (C) 2017 Etilize
+ * Copyright (C) 2017 - 2018 Etilize
  * %%
  * NOTICE: All information contained herein is, and remains the property of ETILIZE.
  * The intellectual and technical concepts contained herein are proprietary to
@@ -39,13 +39,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Houses reference to an attribute associated to a category
+ * Houses reference to an media attributes associated to a category
  *
- * @author Ebad Hashmi
- * @version 1.0
+ * @author Nasir Ahmed
  *
  */
-public class Attribute {
+public class MediaAttribute {
 
     @NotBlank(message = "attributeId is required")
     private final String attributeId;
@@ -53,50 +52,32 @@ public class Attribute {
     @NotNull(message = "source is required")
     private final Source source;
 
-    @NotNull(message = "order is required")
-    private final Integer order;
-
     /**
-     * Constructor for attribute associated with category
-     *
-     * @param attributeId stores attributeId
-     * @param source stores source of attribute
-     * @param order stores order of attribute
+     * Constructor {@link MediaAttribute}
+     * @param attributeId media attribute Id
+     * @param source media attribute source
      */
     @JsonCreator
-    public Attribute(@JsonProperty("attributeId") final String attributeId,
-            @JsonProperty("source") final Source source,
-            @JsonProperty("order") final Integer order) {
+    public MediaAttribute(@JsonProperty("attributeId") final String attributeId,
+            @JsonProperty("source") final Source source) {
         this.attributeId = attributeId;
         this.source = source;
-        this.order = order;
     }
 
     /**
-     * Returns attributeId
-     *
+     * Return media attributes ID
      * @return attributeId
      */
     public String getAttributeId() {
-        return this.attributeId;
+        return attributeId;
     }
 
     /**
-     * Returns attribute source
-     *
-     * @return source
+     * Return media attributes source
+     * @return {@link Source}
      */
     public Source getSource() {
-        return this.source;
-    }
-
-    /**
-     * Returns attribute order
-     *
-     * @return order
-     */
-    public Integer getOrder() {
-        return this.order;
+        return source;
     }
 
     @Override
@@ -107,14 +88,14 @@ public class Attribute {
         if (object == this) {
             return true;
         }
-        if (!(object instanceof Attribute)) {
+        if (!(object instanceof MediaAttribute)) {
             return false;
         }
 
-        final Attribute attribute = (Attribute) object;
+        final MediaAttribute mediaAttribute = (MediaAttribute) object;
 
         return new EqualsBuilder() //
-                .append(attributeId, attribute.getAttributeId()) //
+                .append(attributeId, mediaAttribute.getAttributeId()) //
                 .isEquals();
     }
 
@@ -130,7 +111,6 @@ public class Attribute {
         return new ToStringBuilder(this) //
                 .append("AttributeId", attributeId) //
                 .append("Source", source) //
-                .append("Order", order) //
                 .toString();
     }
 

@@ -7,7 +7,7 @@
     "lastModifiedBy": null,
     "lastModifiedDate": null,
     "status": "INACTIVE",
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb13b5a8441a3m",
             "source": "SELF",
@@ -24,8 +24,8 @@
             "order": 1
         }
     ],
-    "identifiers": [
-    ],
+    "mediaAttributes" : [ ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@contains(${locationHeaderValue})@"

@@ -7,10 +7,9 @@
     "lastModifiedBy": "@assertThat(not(isEmptyString())@",
     "lastModifiedDate": "@assertThat(not(isEmptyString())@",
     "status": "${status}",
-    "attributes": [
-    ],
-    "identifiers": [
-    ],
+    "specificationAttributes": [],
+    "mediaAttributes" : [ ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@endsWith(/categories/${categoryId})@"

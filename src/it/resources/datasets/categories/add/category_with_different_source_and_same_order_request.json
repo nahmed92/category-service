@@ -4,7 +4,7 @@
     "status": "INACTIVE",
     "description": "Capacitors Description",
     "parentCategoryId": null,
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb12b4a8440a3k",
             "source": "SELF",

@@ -2,20 +2,20 @@
     "name": "Printers & Scanners",
     "description": "Printers & Scanners description",
     "industryId": "59762d7caddb13b4a8440a38",
-    "createdBy": null,
-    "createdDate": null,
-    "lastModifiedBy": null,
-    "lastModifiedDate": null,
+    "createdBy": "@assertThat(not(isEmptyString())@",
+    "createdDate": "@assertThat(not(isEmptyString())@",
+    "lastModifiedBy": "@assertThat(not(isEmptyString())@",
+    "lastModifiedDate": "@assertThat(not(isEmptyString())@",
     "status": "ACTIVE",
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb13b4a8440a3g",
             "source": "SYSTEM",
             "order": 1
         }
     ],
-    "identifiers": [
-    ],
+    "mediaAttributes" : [ ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@contains(/categories)@"

@@ -4,7 +4,7 @@
     "status": "",
     "description": "Services description",
     "parentCategoryId": null,
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb13b4a8440a3g",
             "source": "SYSTEM",

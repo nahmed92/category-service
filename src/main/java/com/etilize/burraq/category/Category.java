@@ -77,7 +77,10 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     private ObjectId parentCategoryId;
 
     @Valid
-    private Set<Attribute> attributes = new HashSet<Attribute>();
+    private Set<SpecificationAttribute> specificationAttributes = new HashSet<SpecificationAttribute>();
+
+    @Valid
+    private Set<MediaAttribute> mediaAttributes = new HashSet<MediaAttribute>();
 
     @NotNull(message = "identifiers is required")
     private SortedSet<String> identifiers = new TreeSet<String>();
@@ -162,30 +165,59 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     }
 
     /**
-     * Sets attributes in this category
+     * Sets specificationAttributes in this category
      *
-     * @param attributes this category's attributes
+     * @param specificationAttribute {@link SpecificationAttribute}
      */
-    public void setAttributes(final Set<Attribute> attributes) {
-        this.attributes = attributes;
+    public void setSpecificationAttributes(
+            final Set<SpecificationAttribute> specificationAttribute) {
+        this.specificationAttributes = specificationAttribute;
     }
 
     /**
-     * Returns attributes in this category
+     * Returns specificationAttributes in this category
      *
-     * @return set of attributes
+     * @return set of specificationAttributes
      */
-    public Set<Attribute> getAttributes() {
-        return this.attributes;
+    public Set<SpecificationAttribute> getSpecificationAttributes() {
+        return this.specificationAttributes;
     }
 
     /**
-     * Adds an attribute to set of attributes in this class
+     * Sets MediaAttributes in this category
      *
-     * @param attribute Attribute to be added
+     * @param MediaAttributes {@link MediaAttribute}
      */
-    public void addAttribute(final Attribute attribute) {
-        this.attributes.add(attribute);
+    public void setMediaAttributes(final Set<MediaAttribute> mediaAttributes) {
+        this.mediaAttributes = mediaAttributes;
+    }
+
+    /**
+     * Returns {@link MediaAttribute} in this category
+     *
+     * @return set of {@link MediaAttribute}
+     */
+    public Set<MediaAttribute> getMediaAttributes() {
+        return this.mediaAttributes;
+    }
+
+    /**
+     * Adds an mediaAttribute to set of mediaAttribute in this class
+     *
+     * @param mediaAttribute {@link MediaAttribute}
+     */
+    public void addMediaAttribute(final MediaAttribute mediaAttribute) {
+        this.mediaAttributes.add(mediaAttribute);
+    }
+
+    /**
+     * Adds an specificationAttribute to set of specificationAttribute in this class
+     *
+     * @param specificationAttribute specificationAttribute to be added
+     */
+    public void addSpecificationAttribute(
+            final SpecificationAttribute specificationAttribute) {
+        this.specificationAttributes.add(specificationAttribute);
     }
 
     /**
