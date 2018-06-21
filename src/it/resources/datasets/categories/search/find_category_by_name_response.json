@@ -6,18 +6,15 @@
                 "description": "${description}",
                 "status": "${status}",
                 "industryId": "${industryId}",
+                "parentCategoryId": "599421f24daf9922d012af76",
                 "createdBy": "@assertThat(not(isEmptyString())@",
                 "createdDate": "@assertThat(not(isEmptyString())@",
                 "lastModifiedBy": "@assertThat(not(isEmptyString())@",
                 "lastModifiedDate": "@assertThat(not(isEmptyString())@",
                 "attributes": [
-                    {
-                        "attributeId": "59762d7caddb13b4a8440a3g",
-                        "source": "SYSTEM",
-                        "order": 1
-                    }
                 ],
-                "identifiers": [],
+                "identifiers": [
+                ],
                 "_links": {
                     "self": {
                         "href": "@contains(/categories)@"

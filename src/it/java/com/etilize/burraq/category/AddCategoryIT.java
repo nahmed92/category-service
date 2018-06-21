@@ -28,8 +28,6 @@
 
 package com.etilize.burraq.category;
 
-import static com.etilize.burraq.category.config.Role.*;
-
 import org.junit.*;
 import org.springframework.http.*;
 
@@ -37,7 +35,6 @@ import com.consol.citrus.annotations.*;
 import com.consol.citrus.context.*;
 import com.consol.citrus.http.message.HttpMessage;
 import com.consol.citrus.message.*;
-import com.etilize.burraq.category.config.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
@@ -56,28 +53,21 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with active status");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_active_status_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_active_status_request.json"));
+
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
                 context.getVariable("${locationHeaderValue}"));
 
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_active_status_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -87,19 +77,11 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with pending status");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_pending_status_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_pending_status_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -107,8 +89,7 @@ public class AddCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_pending_status_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -118,19 +99,11 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with inactive status");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_inactive_status_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_inactive_status_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -138,31 +111,43 @@ public class AddCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_inactive_status_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnInvalidStatus(@CitrusResource TestContext context)
-            throws Exception {
+    public void shouldCreateCategoryWithDefaultPendingStatusOnMissingStatusValue(
+            @CitrusResource TestContext context) throws Exception {
+        author("Nimra Inam");
+        description(
+                "A category should be added with default category status i.e pending");
+
+        variable(LOCATION_HEADER_VALUE, "");
+
+        postRequest(CATEGORY_URL, //
+                readFile(
+                        "/datasets/categories/add/category_with_missing_status_request.json"));
+
+        extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
+        String categoryLocation = parseAndSetVariable(CATEGORY_URL,
+                context.getVariable("${locationHeaderValue}"));
+
+        verifyResponse(HttpStatus.OK, //
+                readFile(
+                        "/datasets/categories/add/category_with_missing_status_response.json"), //
+                categoryLocation);
+    }
+
+    @Test
+    @CitrusTest
+    public void shouldReturnBadRequestOnInvalidStatus() throws Exception {
         author("Nimra Inam");
         description(
                 "Post request should return bad request when a category with invalid status is added");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_invalid_status_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_invalid_status_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
@@ -176,19 +161,11 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with industry attribute");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_industry_attribute_request.json"),
-                accessToken);
+                        "/datasets/categories/add/category_with_industry_attribute_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -196,8 +173,7 @@ public class AddCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_industry_attribute_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -207,19 +183,11 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with inherited attribute");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_inherited_attribute_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_inherited_attribute_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -227,8 +195,7 @@ public class AddCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_inherited_attribute_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -238,19 +205,11 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with self attribute");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_self_attribute_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_self_attribute_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -258,31 +217,20 @@ public class AddCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/add/category_with_self_attribute_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
     @CitrusTest
-    public void shouldRetrunBadRequestOnInvalidSource(@CitrusResource TestContext context)
-            throws Exception {
+    public void shouldRetrunBadRequestOnInvalidSource() throws Exception {
         author("Nimra Inam");
         description(
                 "Post request should return bad request when a category with invalid source is added");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_invalid_source_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_invalid_source_request.json"));
+
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
                         "/datasets/categories/add/category_with_invalid_source_response.json"));
@@ -290,52 +238,31 @@ public class AddCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldRetrunBadRequestWithoutName(@CitrusResource TestContext context)
-            throws Exception {
+    public void shouldRetrunBadRequestWithoutName() throws Exception {
         author("Nimra Inam");
         description(
                 "Post request should return bad request when a category without name is added");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/category_without_name_request.json"), //
-                accessToken);
+                readFile("/datasets/categories/add/category_without_name_request.json"));
+
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile("/datasets/categories/add/category_without_name_response.json"));
     }
 
     @Test
     @CitrusTest
-    public void shouldRetrunBadRequestOnAddingDuplicateCategory(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldRetrunBadRequestOnAddingDuplicateCategory() throws Exception {
         author("Nimra Inam");
         description("Post request should return bad request when a duplicate category");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/duplicate_category_request.json"), //
-                accessToken);
+                readFile("/datasets/categories/add/duplicate_category_request.json"));
 
         // Add again to produce duplicate
         postRequest(CATEGORY_URL, //
-                readFile("/datasets/categories/add/duplicate_category_request.json"), //
-                accessToken);
+                readFile("/datasets/categories/add/duplicate_category_request.json"));
+
         verifyResponse(HttpStatus.CONFLICT, //
                 readFile("/datasets/categories/add/duplicate_category_response.json"));
     }
@@ -347,27 +274,19 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with null in parent category id");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_null_in_parent_category_id_request.json"),
-                accessToken);
+                        "/datasets/categories/add/category_with_null_in_parent_category_id_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
                 context.getVariable("${locationHeaderValue}"));
-        verifyResponse(HttpStatus.OK, readFile(
-                "/datasets/categories/add/category_with_null_in_parent_category_id_response.json"), //
-                categoryLocation, //
-                accessToken);
+        verifyResponse(HttpStatus.OK, //
+                readFile(
+                        "/datasets/categories/add/category_with_null_in_parent_category_id_response.json"), //
+                categoryLocation);
     }
 
     @Test
@@ -377,27 +296,19 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added without any attributes");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable(LOCATION_HEADER_VALUE, "");
 
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_without_attributes_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_without_attributes_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
                 context.getVariable("${locationHeaderValue}"));
-        verifyResponse(HttpStatus.OK, readFile(
-                "/datasets/categories/add/category_without_attributes_response.json"), //
-                categoryLocation, //
-                accessToken);
+        verifyResponse(HttpStatus.OK, //
+                readFile(
+                        "/datasets/categories/add/category_without_attributes_response.json"), //
+                categoryLocation);
     }
 
     @Test
@@ -407,19 +318,9 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with same source and distinct order");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_same_source_and_distinct_order_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_same_source_and_distinct_order_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -427,8 +328,7 @@ public class AddCategoryIT extends AbstractIT {
 
         verifyResponse(HttpStatus.OK, readFile(
                 "/datasets/categories/add/category_with_same_source_and_distinct_order_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -438,19 +338,9 @@ public class AddCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be added with distinct source and distinct order");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_distinct_source_and_distinct_order_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_distinct_source_and_distinct_order_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -458,8 +348,7 @@ public class AddCategoryIT extends AbstractIT {
 
         verifyResponse(HttpStatus.OK, readFile(
                 "/datasets/categories/add/category_with_distinct_source_and_distinct_order_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -470,19 +359,9 @@ public class AddCategoryIT extends AbstractIT {
         description(
                 "A category should be added with same source and distinct order with gaps");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_same_source_and_distinct_order_with_gaps_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_same_source_and_distinct_order_with_gaps_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -490,8 +369,7 @@ public class AddCategoryIT extends AbstractIT {
 
         verifyResponse(HttpStatus.OK, readFile(
                 "/datasets/categories/add/category_with_same_source_and_distinct_order_with_gaps_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -502,19 +380,9 @@ public class AddCategoryIT extends AbstractIT {
         description(
                 "A category should be added with distinct source and distinct order with gaps");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_distinct_source_and_distinct_order_with_gaps_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_distinct_source_and_distinct_order_with_gaps_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -522,30 +390,19 @@ public class AddCategoryIT extends AbstractIT {
 
         verifyResponse(HttpStatus.OK, readFile(
                 "/datasets/categories/add/category_with_distinct_source_and_distinct_order_with_gaps_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnAddingCategoryWithAttributesHavingSameSourceAndSameOrder(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldReturnBadRequestOnAddingCategoryWithAttributesHavingSameSourceAndSameOrder()
+            throws Exception {
         author("Nimra Inam");
         description("A category should not be added with same source and same order");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_same_source_and_same_order_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_same_source_and_same_order_request.json"));
 
         variable("error", "attribute order can't be repeated.");
         receive(builder -> builder.endpoint(serviceClient) //
@@ -556,30 +413,21 @@ public class AddCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnAddingCategoryWithAttributesHavingDifferentSourceAndSameOrder(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldReturnBadRequestOnAddingCategoryWithAttributesHavingDifferentSourceAndSameOrder()
+            throws Exception {
         author("Nimra Inam");
         description("A category should not be added with same source and same order");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/add/category_with_different_source_and_same_order_request.json"), //
-                accessToken);
+                        "/datasets/categories/add/category_with_different_source_and_same_order_request.json"));
 
         variable("error", "attribute order can't be repeated.");
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
                         .status(HttpStatus.BAD_REQUEST)) //
                 .messageType(MessageType.JSON).validate("$.message", "${error}"));
+
     }
 
 }

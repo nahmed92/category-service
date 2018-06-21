@@ -36,6 +36,14 @@
                 },
                 "_class": "com.etilize.burraq.category.Category",
                 "name": "Child Category 1",
+                "createdBy": "ROLE_PTE",
+                "createdDate": {
+                    "$date": "2017-08-11T08:10:47.321Z"
+                },
+                "lastModifiedBy": "ROLE_PTE",
+                "lastModifiedDate": {
+                    "$exists": true
+                },
                 "description": "some description for child category 1",
                 "status": "ACTIVE",
                 "industryId": "59762d7caddb13b4a8440a38",
@@ -44,15 +52,7 @@
                 },
                 "attributes": [
                 ],
-                "identifiers": [],
-                "createdBy": "ROLE_PTE",
-                "createdDate": {
-                    "$exists": true
-                },
-                "lastModifiedBy": "ROLE_PTM",
-                "lastModifiedDate": {
-                    "$exists": true
-                }
+                "identifiers": []
             },
             {
                 "_id": {

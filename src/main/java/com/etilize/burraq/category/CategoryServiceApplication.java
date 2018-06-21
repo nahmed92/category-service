@@ -30,8 +30,6 @@ package com.etilize.burraq.category;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
  * Represents the Application class which houses the main entry-point to run the application
@@ -39,8 +37,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * @author Faisal Feroz
  */
 @SpringBootApplication
-@EnableResourceServer
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class CategoryServiceApplication {
 
     /**

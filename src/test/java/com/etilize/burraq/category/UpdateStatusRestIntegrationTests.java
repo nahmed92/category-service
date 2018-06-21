@@ -49,11 +49,10 @@ import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 public class UpdateStatusRestIntegrationTests extends AbstractRestIntegrationTest {
 
     @Test
-    @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update_status.json")
+    @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update_status.bson")
     public void shouldUpdateStatusOfCategoryById() throws Exception {
         final String updateStatusRequest = "{\"status\":\"ACTIVE\"}";
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264/update_status") //
-                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(updateStatusRequest)) //
                 .andExpect(status().isNoContent());
@@ -63,7 +62,6 @@ public class UpdateStatusRestIntegrationTests extends AbstractRestIntegrationTes
     public void shouldReturnBadRequestWhenStatusIsNotProvided() throws Exception {
         final String updateStatusRequest = "{}";
         mockMvc.perform(put("/categories/59b78ed24daf991ecaafa263/update_status") //
-                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(updateStatusRequest)) //
                 .andExpect(status().isBadRequest()) //
@@ -75,7 +73,6 @@ public class UpdateStatusRestIntegrationTests extends AbstractRestIntegrationTes
     public void shouldReturnBadRequestWhenInvalidStatusIsProvided() throws Exception {
         final String updateStatusRequest = "{\"status\":\"INFACTIVE\"}";
         mockMvc.perform(put("/categories/59b78ed24daf991ecaafa263/update_status") //
-                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(updateStatusRequest)) //
                 .andExpect(status().isBadRequest()) //
@@ -88,7 +85,6 @@ public class UpdateStatusRestIntegrationTests extends AbstractRestIntegrationTes
             throws Exception {
         final String updateStatusRequest = "{\"status\":\"INACTIVE\"}";
         mockMvc.perform(put("/categories/59b78ed2daf991ecaafa263/update_status") //
-                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(updateStatusRequest)) //
                 .andExpect(status().isBadRequest()) //
@@ -100,7 +96,6 @@ public class UpdateStatusRestIntegrationTests extends AbstractRestIntegrationTes
     public void shouldReturnBadRequestWhenCategoryDoesNotExist() throws Exception {
         final String updateStatusRequest = "{\"status\":\"INACTIVE\"}";
         mockMvc.perform(put("/categories/59db57dc3ac1ae4216119282/update_status") //
-                .with(bearerToken) //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(updateStatusRequest)) //
                 .andExpect(status().isNotFound());

@@ -28,8 +28,6 @@
 
 package com.etilize.burraq.category;
 
-import static com.etilize.burraq.category.config.Role.*;
-
 import org.junit.*;
 import org.springframework.http.*;
 
@@ -57,23 +55,13 @@ public class CategoryIdentifiersIT extends AbstractIT {
         author("Nimra Inam");
         description("A category identifier should be added");
 
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_identifier_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_category_identifier_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -81,25 +69,15 @@ public class CategoryIdentifiersIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_identifier_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
     @CitrusTest
-    public void shouldAddCategoryIdentifierAsSubsetOfAttributes(@CitrusResource TestContext context)
-            throws Exception {
+    public void shouldAddCategoryIdentifierAsSubsetOfAttributes(
+            @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("A category identifier should be added");
-
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
 
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
@@ -107,8 +85,7 @@ public class CategoryIdentifiersIT extends AbstractIT {
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_identifier_subset_of_attributes_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_category_identifier_subset_of_attributes_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -116,8 +93,7 @@ public class CategoryIdentifiersIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_identifier_subset_of_attributes_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -125,16 +101,8 @@ public class CategoryIdentifiersIT extends AbstractIT {
     public void shouldAddInvalidCategoryIdentifier(@CitrusResource TestContext context)
             throws Exception {
         author("Nimra Inam");
-        description("An invalid category identifier should be added (it's a bug for now)");
-
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        description(
+                "An invalid category identifier should be added (it's a bug for now)");
 
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
@@ -142,8 +110,7 @@ public class CategoryIdentifiersIT extends AbstractIT {
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_identifier_with_invalid_value_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_category_identifier_with_invalid_value_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -151,7 +118,6 @@ public class CategoryIdentifiersIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_identifier_with_invalid_value_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 }

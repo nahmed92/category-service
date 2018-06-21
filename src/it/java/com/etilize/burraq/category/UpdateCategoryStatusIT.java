@@ -28,8 +28,6 @@
 
 package com.etilize.burraq.category;
 
-import static com.etilize.burraq.category.config.Role.*;
-
 import org.junit.*;
 import org.springframework.http.*;
 
@@ -37,7 +35,6 @@ import com.consol.citrus.annotations.*;
 import com.consol.citrus.context.*;
 import com.consol.citrus.http.message.HttpMessage;
 import com.consol.citrus.message.*;
-import com.etilize.burraq.category.config.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
@@ -65,21 +62,11 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         description("Status of a new category should be updated");
         variable("status", INACTIVE);
 
-        // Pick user with create role and generate access token
-        final User user = props.getUserByRole(CREATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        // Add a new category to update it's status using update_status end point and keep the status "ACTIVE"
+        // Add a new category to update it's status using update_status end point and keep
+        // the status "ACTIVE"
         postRequest(CATEGORY_URL, //
                 readFile(
-                        "/datasets/categories/update_status/category_to_update_status_request.json"), //
-                accessToken);
+                        "/datasets/categories/update_status/category_to_update_status_request.json"));
 
         extractHeader(HttpStatus.CREATED, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -91,23 +78,22 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update_status/category_to_update_status_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
 
-        // Update status of a newly added category using update_status end point to "INACTIVE"
+        // Update status of a newly added category using update_status end point to
+        // "INACTIVE"
         putRequest(CATEGORY_URL, //
                 categoryId + "/update_status/", //
-                "{ \"status\":\"${status}\"}", //
-                accessToken);
+                "{ \"status\":\"${status}\"}");
 
         verifyResponse(HttpStatus.NO_CONTENT);
 
-        // Now make GET call to the newly added category and verify if it's status is updated to "INACTIVE"
+        // Now make GET call to the newly added category and verify if it's status is
+        // updated to "INACTIVE"
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update_status/update_new_category_status_to_inactive_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -116,35 +102,27 @@ public class UpdateCategoryStatusIT extends AbstractIT {
             @CitrusResource TestContext context) throws Exception {
         author("Nimra Inam");
         description("Status of category should be updated to inactive");
+
+        variable("name", "Paper Racks");
+        variable("description", "Paper Racks description");
         variable("status", INACTIVE);
+        variable("industryId", "59762d7caddb13b4a8440a38");
+        variable("categoryId", "5b28dc287ef998165c5b9d48");
 
-        // Pick user with create role and generate access token
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-
-        String accessToken = context.getVariable("${accessToken}");
-
-        variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
-
-        // Update status of an existing category using update_status end point to "INACTIVE"
+        // Update status of an existing category using update_status end point to
+        // "INACTIVE"
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}" + "/update_status/", //
-                "{ \"status\":\"${status}\"}", //
-                accessToken);
+                "{ \"status\":\"${status}\"}");
 
         verifyResponse(HttpStatus.NO_CONTENT);
 
-        // Now make GET call to the existing category and verify if it's status is updated to "INACTIVE"
+        // Now make GET call to the existing category and verify if it's status is updated
+        // to "INACTIVE"
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update_status/find_updated_category_by_id_response.json"), //
-                CATEGORY_URL + "${" + CATEGORY_ID + "}", //
-                accessToken);
+                CATEGORY_URL + "${" + CATEGORY_ID + "}");
     }
 
     @Test
@@ -153,34 +131,27 @@ public class UpdateCategoryStatusIT extends AbstractIT {
             throws Exception {
         author("Nimra Inam");
         description("Status of category should be updated to pending");
+
+        variable("name", "Remote Controls");
+        variable("description", "Remote Controls description");
         variable("status", PENDING);
+        variable("industryId", "59762d7caddb13b4a8440a38");
+        variable("categoryId", "5b28e2337ef998165c5b9d4a");
 
-        // Pick user with create role and generate access token
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
-
-        // Update status of an existing category using update_status end point to "PENDING"
+        // Update status of an existing category using update_status end point to
+        // "PENDING"
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}" + "/update_status/", //
-                "{ \"status\":\"${status}\"}", //
-                accessToken);
+                "{ \"status\":\"${status}\"}");
 
         verifyResponse(HttpStatus.NO_CONTENT);
 
-        // Now make GET call to the existing category and verify if it's status is updated to "PENDING"
+        // Now make GET call to the existing category and verify if it's status is updated
+        // to "PENDING"
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update_status/find_updated_category_by_id_response.json"), //
-                CATEGORY_URL + "${" + CATEGORY_ID + "}", //
-                accessToken);
+                CATEGORY_URL + "${" + CATEGORY_ID + "}");
     }
 
     @Test
@@ -189,34 +160,26 @@ public class UpdateCategoryStatusIT extends AbstractIT {
             throws Exception {
         author("Nimra Inam");
         description("Status of category should be updated to active");
+
+        variable("name", "REV Media");
+        variable("description", "REV Media description");
         variable("status", ACTIVE);
-
-        // Pick user with create role and generate access token
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
+        variable("industryId", "59762d7caddb13b4a8440a38");
+        variable("categoryId", "5b28e53d7ef998165c5b9d4b");
 
         // Update status of an existing category using update_status end point to "ACTIVE"
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}" + "/update_status/", //
-                "{ \"status\":\"${status}\"}", //
-                accessToken);
+                "{ \"status\":\"${status}\"}");
 
         verifyResponse(HttpStatus.NO_CONTENT);
 
-        // Now make GET call to the existing category and verify if it's status is updated to "ACTIVE"
+        // Now make GET call to the existing category and verify if it's status is updated
+        // to "ACTIVE"
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update_status/find_updated_category_by_id_response.json"), //
-                CATEGORY_URL + "${" + CATEGORY_ID + "}", //
-                accessToken);
+                CATEGORY_URL + "${" + CATEGORY_ID + "}");
     }
 
     @Test
@@ -227,22 +190,12 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         description(
                 "Category Status shouldn't update when status field is missing in request payload");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
         variable("error", "status is required");
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}" + "/update_status/", //
-                "{}", //
-                accessToken);
+                "{}");
 
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
@@ -258,23 +211,13 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         author("Nimra Inam");
         description("Invalid category status should not get updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
         variable("error",
                 "value not one of declared Enum instance names: [INACTIVE, ACTIVE, PENDING]");
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}" + "/update_status/", //
-                "{ \"status\":\"INVALID\"}", //
-                accessToken);
+                "{ \"status\":\"INVALID\"}");
 
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
@@ -290,22 +233,12 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         author("Nimra Inam");
         description("Category status should not get updated with an invalid category id");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(CATEGORY_ID, "59fac5f70fcdf847c8eb4ca9");
         variable("error", "category not found.");
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}" + "/update_status/", //
-                "{ \"status\":\"ACTIVE\"}", //
-                accessToken);
+                "{ \"status\":\"ACTIVE\"}");
 
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
@@ -321,22 +254,12 @@ public class UpdateCategoryStatusIT extends AbstractIT {
         description(
                 "Category status should not get updated without category id in the URL");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable("error",
                 "invalid hexadecimal representation of an ObjectId: [update_status]");
 
         putRequest(CATEGORY_URL, //
                 "/update_status/", //
-                "{ \"status\":\"ACTIVE\"}", //
-                accessToken);
+                "{ \"status\":\"ACTIVE\"}");
 
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //

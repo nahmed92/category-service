@@ -28,14 +28,12 @@
 
 package com.etilize.burraq.category;
 
-import static com.etilize.burraq.category.config.Role.*;
-
 import org.junit.*;
 import org.springframework.http.*;
 
 import com.consol.citrus.annotations.*;
 import com.consol.citrus.context.*;
-import com.etilize.burraq.category.config.*;
+import com.consol.citrus.message.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
@@ -56,32 +54,22 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Name and description of category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_name_and_description_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_category_name_and_description_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
                 context.getVariable("${locationHeaderValue}"));
+
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_name_and_description_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -90,23 +78,13 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Status of category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_category_status_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_category_status_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -114,8 +92,7 @@ public class UpdateCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_category_status_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -125,30 +102,19 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Industry of category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
-                readFile("/datasets/categories/update/update_industry_request.json"), //
-                accessToken);
+                readFile("/datasets/categories/update/update_industry_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
                 context.getVariable("${locationHeaderValue}"));
         verifyResponse(HttpStatus.OK, //
                 readFile("/datasets/categories/update/update_industry_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -158,23 +124,13 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Parent category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_parent_category_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_parent_category_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -182,8 +138,7 @@ public class UpdateCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_parent_category_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -193,23 +148,13 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Attribute id of existing attribute of a category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_attribute_id_of_existing_attribute_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_attribute_id_of_existing_attribute_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -217,8 +162,7 @@ public class UpdateCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_attribute_id_of_existing_attribute_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -228,23 +172,13 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Source of existing attribute of a category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_source_of_existing_attribute_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_source_of_existing_attribute_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -252,8 +186,7 @@ public class UpdateCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_source_of_existing_attribute_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -263,23 +196,13 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("Order of existing attribute of a category should be updated");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_order_of_existing_attribute_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_order_of_existing_attribute_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -287,8 +210,7 @@ public class UpdateCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_order_of_existing_attribute_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
@@ -298,23 +220,13 @@ public class UpdateCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("A category should be updated by adding new attributes");
 
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
         variable(LOCATION_HEADER_VALUE, "");
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_and_add_new_attributes_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_and_add_new_attributes_request.json"));
 
         extractHeader(HttpStatus.OK, HttpHeaders.LOCATION);
         String categoryLocation = parseAndSetVariable(CATEGORY_URL,
@@ -322,34 +234,23 @@ public class UpdateCategoryIT extends AbstractIT {
         verifyResponse(HttpStatus.OK, //
                 readFile(
                         "/datasets/categories/update/update_and_add_new_attributes_response.json"), //
-                categoryLocation, //
-                accessToken);
+                categoryLocation);
     }
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingIndustryIdToEmptyString(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldReturnBadRequestOnUpdatingIndustryIdToEmptyString()
+            throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when industry id is updated to empty string");
-
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_industry_id_to_empty_string_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_industry_id_to_empty_string_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
@@ -358,28 +259,17 @@ public class UpdateCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingNameToEmptyString(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldReturnBadRequestOnUpdatingNameToEmptyString() throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when name is updated to empty string");
-
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_name_to_empty_string_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_name_to_empty_string_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
@@ -388,28 +278,17 @@ public class UpdateCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingStatusToEmptyString(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldReturnBadRequestOnUpdatingStatusToEmptyString() throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when status is updated to empty string");
-
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_status_to_empty_string_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_status_to_empty_string_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(
@@ -418,28 +297,18 @@ public class UpdateCategoryIT extends AbstractIT {
 
     @Test
     @CitrusTest
-    public void shouldReturnBadRequestOnUpdatingParentCategoryIdToEmptyString(
-            @CitrusResource TestContext context) throws Exception {
+    public void shouldReturnBadRequestOnUpdatingParentCategoryIdToEmptyString()
+            throws Exception {
         author("Nimra Inam");
         description(
                 "A category should not be updated when parent category id is updated to empty string");
-
-        final User user = props.getUserByRole(UPDATE);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
 
         variable(CATEGORY_ID, EXISTING_CATEGORY_ID_TO_UPDATE);
 
         putRequest(CATEGORY_URL, //
                 "${" + CATEGORY_ID + "}", //
                 readFile(
-                        "/datasets/categories/update/update_parent_category_id_to_empty_string_request.json"), //
-                accessToken);
+                        "/datasets/categories/update/update_parent_category_id_to_empty_string_request.json"));
 
         verifyResponse(HttpStatus.BAD_REQUEST, //
                 readFile(

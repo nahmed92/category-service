@@ -28,12 +28,8 @@
 
 package com.etilize.burraq.category.config;
 
-import java.util.*;
-
-import javax.validation.constraints.*;
-
-import org.springframework.boot.context.properties.*;
-import org.springframework.stereotype.*;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * Integration Test properties
@@ -50,29 +46,6 @@ public class IntegrationTestProperties {
      */
     private String serviceUrl = "http://localhost:8080";
 
-    /**
-     * Url at which the deployed authentication service is accessible
-     */
-    private String authenticationServiceUrl = "http://localhost:8080";
-
-    /**
-     * clientId to authenticate
-     */
-    @NotNull
-    private String clientId;
-
-    /**
-     * clientSecret to authenticate
-     */
-    @NotNull
-    private String clientSecret;
-
-    /**
-     * users map is used to maintain user information against it's role
-     */
-    @NotNull
-    private Map<String, User> users = new HashMap<>();
-
     public String getServiceUrl() {
         return serviceUrl;
     }
@@ -81,39 +54,4 @@ public class IntegrationTestProperties {
         this.serviceUrl = serviceUrl;
     }
 
-    public String getAuthenticationServiceUrl() {
-        return authenticationServiceUrl;
-    }
-
-    public void setAuthenticationServiceUrl(final String authenticationServiceUrl) {
-        this.authenticationServiceUrl = authenticationServiceUrl;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(final String clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public void setClientSecret(final String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
-
-    public Map<String, User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(final Map<String, User> users) {
-        this.users = users;
-    }
-
-    public User getUserByRole(final String role) {
-        return this.users.get(role);
-    }
 }

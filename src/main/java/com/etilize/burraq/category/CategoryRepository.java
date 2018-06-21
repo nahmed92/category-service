@@ -33,7 +33,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.querydsl.core.types.dsl.StringPath;
 
@@ -54,11 +53,4 @@ public interface CategoryRepository extends MongoRepository<Category, ObjectId>,
         });
     }
 
-    @PreAuthorize("#oauth2.hasAnyScope('category.create','category.update')")
-    @Override
-    <S extends Category> S save(S entity);
-
-    @PreAuthorize("#oauth2.hasScope('category.delete')")
-    @Override
-    void delete(Category category);
 }

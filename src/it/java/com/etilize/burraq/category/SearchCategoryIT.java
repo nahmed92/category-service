@@ -28,16 +28,13 @@
 
 package com.etilize.burraq.category;
 
-import static com.etilize.burraq.category.config.Role.*;
-
 import org.junit.*;
 import org.springframework.http.*;
 
-import com.consol.citrus.annotations.*;
-import com.consol.citrus.context.*;
+import com.consol.citrus.context.TestContext;
 import com.consol.citrus.http.message.HttpMessage;
+import com.consol.citrus.annotations.*;
 import com.consol.citrus.message.*;
-import com.etilize.burraq.category.config.*;
 import com.etilize.burraq.category.test.base.*;
 
 /**
@@ -62,16 +59,7 @@ public class SearchCategoryIT extends AbstractIT {
         variable("totalPages", "1");
         variable("pageNumber", "0");
 
-        final User user = props.getUserByRole(GET);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        getRequest(CATEGORY_URL, accessToken);
+        getRequest(CATEGORY_URL);
 
         receive(builder -> builder.endpoint(serviceClient) //
                 .message(new HttpMessage() //
@@ -104,21 +92,10 @@ public class SearchCategoryIT extends AbstractIT {
         author("Nimra Inam");
         description("should return category with matching id found");
 
-        variable("categoryId", "59fac5f70fcdf847c8eb4ca5");
+        variable("categoryId", "5b2b3d143c1c263291de662f");
 
-        final User user = props.getUserByRole(GET);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        getRequest(
-                CATEGORY_URL //
-                        + "${categoryId}", //
-                accessToken);
+        getRequest(CATEGORY_URL //
+                + "${categoryId}");
 
         verifyResponse(HttpStatus.OK, //
                 readFile(
@@ -133,24 +110,14 @@ public class SearchCategoryIT extends AbstractIT {
         description(
                 "should return category with matching name, description and industry id");
 
-        variable("name", "Servers");
-        variable("description", "Servers description");
-        variable("status", "ACTIVE");
+        variable("name", "Wireless Routers");
+        variable("description", "Wireless Routers description");
+        variable("status", "PENDING");
         variable("industryId", "59762d7caddb13b4a8440a38");
-        variable("categoryId", "59fac5f70fcdf847c8eb4ca5");
-
-        final User user = props.getUserByRole(GET);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
+        variable("categoryId", "5b2b3d013c1c263291de662e");
 
         getRequest(CATEGORY_URL //
-                + "?name=Servers&description=Servers description&industryId=59762d7caddb13b4a8440a38", //
-                accessToken);
+                + "?name=Wireless Routers&description=Wireless Routers description&industryId=59762d7caddb13b4a8440a38");
 
         verifyResponse(HttpStatus.OK, //
                 readFile(
@@ -165,16 +132,7 @@ public class SearchCategoryIT extends AbstractIT {
         description(
                 "should return empty array when no records found with matching category");
 
-        final User user = props.getUserByRole(GET);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        getRequest(CATEGORY_URL + "?name=CategoryNotFound", accessToken);
+        getRequest(CATEGORY_URL + "?name=CategoryNotFound");
 
         verifyResponse(HttpStatus.OK, //
                 readFile(
@@ -190,19 +148,8 @@ public class SearchCategoryIT extends AbstractIT {
 
         variable("categoryId", "59fac5f70fcdf847c8eb4c90");
 
-        final User user = props.getUserByRole(GET);
-        variable(USER_NAME_LABEL, user.getUsername());
-        applyBehavior(new AuthenticationBehavior(authenticationServiceClient, //
-                user.getUsername(), //
-                user.getPassword(), //
-                props.getClientId(), //
-                props.getClientSecret()));
-        String accessToken = context.getVariable("${accessToken}");
-
-        getRequest(
-                CATEGORY_URL //
-                        + "${categoryId}", //
-                accessToken);
+        getRequest(CATEGORY_URL //
+                + "${categoryId}");
 
         verifyResponse(HttpStatus.NOT_FOUND);
     }
