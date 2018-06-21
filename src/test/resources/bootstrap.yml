@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: category-service
+
+  profiles:
+    active: test
