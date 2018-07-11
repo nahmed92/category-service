@@ -38,7 +38,7 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.etilize.burraq.category.Attribute;
+import com.etilize.burraq.category.SpecificationAttribute;
 import com.etilize.burraq.category.Category;
 
 /**
@@ -60,9 +60,9 @@ public class CategoryRepositoryEventHandler {
     @HandleBeforeCreate(Category.class)
     @HandleBeforeSave(Category.class)
     public void handleBeforeCategorySave(final Category category) {
-        if (!category.getAttributes().isEmpty()) {
+        if (!category.getSpecificationAttributes().isEmpty()) {
             final Set<Integer> orders = new HashSet<>();
-            final Set<Attribute> duplicates = category.getAttributes().stream().filter(
+            final Set<SpecificationAttribute> duplicates = category.getSpecificationAttributes().stream().filter(
                     // Add order in Set return false if already exist
                     // the return Attribute having duplicate order collect in duplicates
                     n -> !orders.add(n.getOrder())).collect(Collectors.toSet());

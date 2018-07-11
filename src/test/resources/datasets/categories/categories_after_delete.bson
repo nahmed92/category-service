@@ -9,7 +9,7 @@
             "description": "some description for parent category",
             "status": "ACTIVE",
             "industryId": "59762d7caddb13b4a8440a38",
-            "attributes": [],
+            "specificationAttributes": [],
             "identifiers": []
         },
         {
@@ -18,21 +18,13 @@
             },
             "_class": "com.etilize.burraq.category.Category",
             "name": "Child Category 1",
-            "createdBy": "ROLE_PTE",
-            "createdDate": {
-                "$date": "2017-08-11T08:10:47.321Z"
-            },
-            "lastModifiedBy": "ROLE_PTE",
-            "lastModifiedDate": {
-                "$date": "2017-08-11T08:10:47.321Z"
-            },
             "description": "some description for child category 1",
             "status": "INACTIVE",
             "industryId": "59762d7caddb13b4a8440a38",
             "parentCategoryId": {
                 "$oid": "59b78ed24daf991ecaafa263"
             },
-            "attributes": [],
+            "specificationAttributes": [],
             "identifiers": []
         }
     ]

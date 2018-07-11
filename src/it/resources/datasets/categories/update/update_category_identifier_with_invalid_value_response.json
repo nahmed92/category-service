@@ -2,13 +2,13 @@
     "name": "Eyepieces",
     "description": "Eyepieces description",
     "industryId": "59762d7caddb13b4a8440a38",
-    "createdBy": null,
-    "createdDate": null,
-    "lastModifiedBy": null,
-    "lastModifiedDate": null,
+    "createdBy" : null,
+    "createdDate" : null,
+    "lastModifiedBy" : null,
+    "lastModifiedDate" : null,
     "status": "ACTIVE",
     "parentCategoryId": "599421f24daf9922d012af76",
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb13b4a8440a3a",
             "source": "INHERITED",
@@ -25,6 +25,7 @@
             "order": 1
         }
     ],
+    "mediaAttributes" : [ ],
     "identifiers": [
         " ",
         "59762d7caddb13b4a8440000",

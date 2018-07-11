@@ -19,3 +19,7 @@ db.categories.createIndex({
 
 // changeset uzubair:CAS-46
 db.categories.updateMany({"identifiers": {$exists: false}}, { $set : {"identifiers":[]}});
+
+// changeset nasahmed:CAS-49
+db.categories.updateMany({"attributes": { $exists: true } }, { $rename: {"attributes": "specificationAttributes" }});
+db.categories.updateMany({"mediaAttributes": {$exists: false}}, { $set : {"mediaAttributes":[]}});

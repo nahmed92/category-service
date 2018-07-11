@@ -7,7 +7,7 @@
     "lastModifiedBy": null,
     "lastModifiedDate": null,
     "status": "ACTIVE",
-    "attributes": [
+    "specificationAttributes": [
         {
             "attributeId": "59762d7caddb13b4a8440b2h",
             "source": "INHERITED",
@@ -19,8 +19,8 @@
             "order": 1
         }
     ],
-    "identifiers": [
-    ],
+    "mediaAttributes" : [ ],
+    "identifiers": [],
     "_links": {
         "self": {
             "href": "@endsWith(${locationHeaderValue})@"

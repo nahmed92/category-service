@@ -11,10 +11,10 @@
                 "createdDate": "@assertThat(not(isEmptyString())@",
                 "lastModifiedBy": "@assertThat(not(isEmptyString())@",
                 "lastModifiedDate": "@assertThat(not(isEmptyString())@",
-                "attributes": [
-                ],
-                "identifiers": [
-                ],
+                "specificationAttributes": [
+                  ],
+                "mediaAttributes" : [ ],
+                "identifiers": [],
                 "_links": {
                     "self": {
                         "href": "@contains(/categories)@"

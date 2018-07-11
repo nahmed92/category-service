@@ -78,13 +78,17 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .andExpect(jsonPath("$._embedded.categories[1].identifiers", hasSize(0))) //
                 .andExpect(jsonPath("$._embedded.categories[2].parentCategoryId", //
                         is("59b78ed24daf991ecaafa263"))) //
-                .andExpect(jsonPath("$._embedded.categories[2].attributes", hasSize(1))) //
-                .andExpect(jsonPath("$._embedded.categories[2].attributes[0].attributeId",
+                .andExpect(jsonPath("$._embedded.categories[2].specificationAttributes",
+                        hasSize(1))) //
+                .andExpect(jsonPath(
+                        "$._embedded.categories[2].specificationAttributes[0].attributeId",
                         is("59b78ed24daf991ecaafgfh"))) //
-                .andExpect(jsonPath("$._embedded.categories[2].attributes[0].source",
+                .andExpect(jsonPath(
+                        "$._embedded.categories[2].specificationAttributes[0].source",
                         is("INHERITED"))) //
-                .andExpect(
-                        jsonPath("$._embedded.categories[2].attributes[0].order", is(1))) //
+                .andExpect(jsonPath(
+                        "$._embedded.categories[2].specificationAttributes[0].order",
+                        is(1))) //
                 .andExpect(jsonPath("$._embedded.categories[2].identifiers", hasSize(2))) //
                 .andExpect(jsonPath("$._embedded.categories[2].identifiers",
                         contains("attributeId1", "attributeId2"))) //
@@ -120,11 +124,12 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 .andExpect(jsonPath("$.status", is("PENDING"))) //
                 .andExpect(jsonPath("$.parentCategoryId", is("59b78ed24daf991ecaafa263"))) //
                 .andExpect(jsonPath("$.industryId", is("59762d7caddb13b4a8440a38"))) //
-                .andExpect(jsonPath("$.attributes", hasSize(1))) //
-                .andExpect(jsonPath("$.attributes[0].attributeId",
+                .andExpect(jsonPath("$.specificationAttributes", hasSize(1))) //
+                .andExpect(jsonPath("$.specificationAttributes[0].attributeId",
                         is("59b78ed24daf991ecaafgfh"))) //
-                .andExpect(jsonPath("$.attributes[0].source", is("INHERITED"))) //
-                .andExpect(jsonPath("$.attributes[0].order", is(1))) //
+                .andExpect(
+                        jsonPath("$.specificationAttributes[0].source", is("INHERITED"))) //
+                .andExpect(jsonPath("$.specificationAttributes[0].order", is(1))) //
                 .andExpect(jsonPath("$._links.update_status").exists()) //
                 .andExpect(jsonPath("$._links.update_status.href") //
                         .value(endsWith(
@@ -141,12 +146,6 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setIdentifiers(
                 Sets.newTreeSet(Arrays.asList("attributeId2", "attributeId1")));
-        category.setCreatedBy("ROLE_PTM");
-        category.setCreatedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
-        category.setLastModifiedBy("ROLE_PTM");
-        category.setLastModifiedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
@@ -160,14 +159,10 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(
-                Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, 1)));
-        category.setCreatedBy("ROLE_PTM");
-        category.setCreatedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
-        category.setLastModifiedBy("ROLE_PTM");
-        category.setLastModifiedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
+        category.setSpecificationAttributes(Sets.newHashSet(
+                new SpecificationAttribute("attributeId-1", Source.SELF, 1)));
+        category.setMediaAttributes(
+                Sets.newHashSet(new MediaAttribute("mediaAttribute-1", Source.SELF)));
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
@@ -182,11 +177,6 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setCreatedBy("ROLE_PTE");
-        category.setCreatedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
-        category.setLastModifiedBy("ROLE_PTM");
-        category.setLastModifiedDate(new Date());
         mockMvc.perform(put("/categories/59b78f244daf991ecaafa264") //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
@@ -258,7 +248,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(Sets.newHashSet(new Attribute(null, Source.SELF, 1)));
+        category.setSpecificationAttributes(
+                Sets.newHashSet(new SpecificationAttribute(null, Source.SELF, 1)));
 
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
@@ -277,7 +268,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(Sets.newHashSet(new Attribute("attributeId-1", null, 1)));
+        category.setSpecificationAttributes(
+                Sets.newHashSet(new SpecificationAttribute("attributeId-1", null, 1)));
 
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
@@ -295,8 +287,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(
-                Sets.newHashSet(new Attribute("attributeId-1", Source.INHERITED, 1)));
+        category.setSpecificationAttributes(Sets.newHashSet(
+                new SpecificationAttribute("attributeId-1", Source.INHERITED, 1)));
         category.setIdentifiers(null);
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
@@ -315,8 +307,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(
-                Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, null)));
+        category.setSpecificationAttributes(Sets.newHashSet(
+                new SpecificationAttribute("attributeId-1", Source.SELF, null)));
 
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
@@ -369,13 +361,17 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                         is("59b78ed24daf991ecaafa263"))) //
                 .andExpect(jsonPath("$._embedded.categories[0].industryId",
                         is("59762d7caddb13b4a8440a38"))) //
-                .andExpect(jsonPath("$._embedded.categories[0].attributes", hasSize(1))) //
-                .andExpect(jsonPath("$._embedded.categories[0].attributes[0].attributeId",
+                .andExpect(jsonPath("$._embedded.categories[0].specificationAttributes",
+                        hasSize(1))) //
+                .andExpect(jsonPath(
+                        "$._embedded.categories[0].specificationAttributes[0].attributeId",
                         is("59b78ed24daf991ecaafgfh"))) //
-                .andExpect(jsonPath("$._embedded.categories[0].attributes[0].source",
+                .andExpect(jsonPath(
+                        "$._embedded.categories[0].specificationAttributes[0].source",
                         is("INHERITED"))) //
-                .andExpect(
-                        jsonPath("$._embedded.categories[0].attributes[0].order", is(1))) //
+                .andExpect(jsonPath(
+                        "$._embedded.categories[0].specificationAttributes[0].order",
+                        is(1))) //
                 .andExpect(jsonPath("$._embedded.categories[0]._links.self.href",
                         endsWith("/categories/59b795074daf991ecaafa265"))) //
                 .andExpect(jsonPath("$.page.size", is(20))) //
@@ -410,7 +406,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                         + "\"description\": \"some description for child catgeory 1\","
                         + "\"status\": \"ACTIVE\","
                         + "\"industryId\": \"59762d7caddb13b4a8440a38\","
-                        + "\"attributes\":[" + "{"
+                        + "\"specificationAttributes\":[" + "{"
                         + "\"attributeId\": \"59762d7caddb13b4a8440a3g\","
                         + "\"source\": \"Invalid\"," + "\"order\": 1" + "}" + "]" + "}")) //
                 .andExpect(status().isBadRequest()) //
@@ -428,8 +424,10 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
-        category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
@@ -445,8 +443,10 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                 "some description for child category 2", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.ACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.addAttribute(new Attribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
-        category.addAttribute(new Attribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("79b78ed24daf991ecaafgfe", Source.SYSTEM, 1));
+        category.addSpecificationAttribute(
+                new SpecificationAttribute("59b78ed24daf991ecaafgfe", Source.SELF, 1));
         mockMvc.perform(put("/categories/59b795074daf991ecaafa265") //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //

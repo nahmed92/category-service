@@ -68,29 +68,32 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     public void shouldFindAllCategories() throws Exception {
         final List<Category> categories = repository.findAll();
         assertThat(categories, hasSize(3));
-        Set<Attribute> attributes = Sets.newHashSet(
-                new Attribute("59b78ed24daf991ecaafgfh", Source.INHERITED, 1));
+        Set<SpecificationAttribute> attributes = Sets.newHashSet(
+                new SpecificationAttribute("59b78ed24daf991ecaafgfh", Source.INHERITED,
+                        1));
         for (final Category category : categories) {
             switch (category.getName()) {
                 case "Parent Category":
                     assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
                     assertThat(category.getStatus(), is(Status.ACTIVE));
-                    assertThat(category.getAttributes(), is(Sets.newHashSet()));
+                    assertThat(category.getSpecificationAttributes(),
+                            is(Sets.newHashSet()));
                     assertThat(category.getIdentifiers(), hasSize(0));
                     break;
 
                 case "Child Category 1":
                     assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
                     assertThat(category.getStatus(), is(Status.INACTIVE));
-                    assertThat(category.getAttributes(), is(Sets.newHashSet()));
+                    assertThat(category.getSpecificationAttributes(),
+                            is(Sets.newHashSet()));
                     assertThat(category.getIdentifiers(), hasSize(0));
                     break;
 
                 case "Child Category 2":
                     assertThat(category.getIndustryId(), is("59762d7caddb13b4a8440a38"));
                     assertThat(category.getStatus(), is(Status.PENDING));
-                    assertThat(category.getAttributes(), hasSize(1));
-                    assertThat(category.getAttributes(), is(attributes));
+                    assertThat(category.getSpecificationAttributes(), hasSize(1));
+                    assertThat(category.getSpecificationAttributes(), is(attributes));
                     assertThat(category.getIdentifiers(), hasSize(2));
                     assertThat(category.getIdentifiers(),
                             contains("attributeId1", "attributeId2"));
@@ -108,12 +111,6 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
         category.setIdentifiers(
                 Sets.newTreeSet(Arrays.asList("attributeId2", "attributeId1")));
-        category.setCreatedBy("ROLE_PTM");
-        category.setCreatedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
-        category.setLastModifiedBy("ROLE_PTM");
-        category.setLastModifiedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
         repository.save(category);
     }
 
@@ -124,14 +121,10 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(
-                Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, 1)));
-        category.setCreatedBy("ROLE_PTM");
-        category.setCreatedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
-        category.setLastModifiedBy("ROLE_PTM");
-        category.setLastModifiedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
+        category.setSpecificationAttributes(Sets.newHashSet(
+                new SpecificationAttribute("attributeId-1", Source.SELF, 1)));
+        category.setMediaAttributes(
+                Sets.newHashSet(new MediaAttribute("mediaAttribute-1", Source.SELF)));
         repository.save(category);
     }
 
@@ -146,11 +139,6 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
         updatedCategory.setStatus(Status.INACTIVE);
         updatedCategory.setParentCategoryId(category.getParentCategoryId());
         updatedCategory.setId(category.getId());
-        updatedCategory.setCreatedBy("ROLE_PTE");
-        updatedCategory.setCreatedDate(
-                new ISO8601DateFormat().parse("2017-08-11T08:10:47.321Z"));
-        updatedCategory.setLastModifiedBy("ROLE_PTM");
-        updatedCategory.setLastModifiedDate(new Date());
         repository.save(updatedCategory);
     }
 
@@ -197,7 +185,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(Sets.newHashSet(new Attribute(null, Source.SELF, 1)));
+        category.setSpecificationAttributes(
+                Sets.newHashSet(new SpecificationAttribute(null, Source.SELF, 1)));
         repository.save(category);
     }
 
@@ -208,7 +197,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(Sets.newHashSet(new Attribute("attributeId-1", null, 1)));
+        category.setSpecificationAttributes(
+                Sets.newHashSet(new SpecificationAttribute("attributeId-1", null, 1)));
         repository.save(category);
     }
 
@@ -219,8 +209,8 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
                 "some description for child category 3", "59762d7caddb13b4a8440a38");
         category.setStatus(Status.INACTIVE);
         category.setParentCategoryId(new ObjectId("59b78ed24daf991ecaafa263"));
-        category.setAttributes(
-                Sets.newHashSet(new Attribute("attributeId-1", Source.SELF, null)));
+        category.setSpecificationAttributes(Sets.newHashSet(
+                new SpecificationAttribute("attributeId-1", Source.SELF, null)));
         repository.save(category);
     }
 
