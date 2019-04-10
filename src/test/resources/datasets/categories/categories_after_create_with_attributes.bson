@@ -67,8 +67,10 @@
                 "order": 1
             }],
             "mediaAttributes": [{
-            "attributeId": "mediaAttribute-1",
-            "source": "SELF"}],
+                "attributeId": "mediaAttribute-1",
+                "source": "SELF",
+                "order": 1
+            }],
             "identifiers": []
         }
     ]

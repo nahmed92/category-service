@@ -61,7 +61,8 @@ public class MediaAttributePojoTest {
 
     @Test
     public void hasToString() {
-        final MediaAttribute attribute = new MediaAttribute("1636752", Source.INHERITED);
+        final MediaAttribute attribute = new MediaAttribute("1636752", Source.INHERITED,
+                1);
         assertThat(ObjectUtils.identityToString(attribute), not(attribute.toString()));
     }
 
