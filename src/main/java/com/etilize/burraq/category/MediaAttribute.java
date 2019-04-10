@@ -52,16 +52,22 @@ public class MediaAttribute {
     @NotNull(message = "source is required")
     private final Source source;
 
+    @NotNull(message = "order is required")
+    private final Integer order;
+
     /**
      * Constructor {@link MediaAttribute}
      * @param attributeId media attribute Id
      * @param source media attribute source
+     * @param order stores order of attribute
      */
     @JsonCreator
     public MediaAttribute(@JsonProperty("attributeId") final String attributeId,
-            @JsonProperty("source") final Source source) {
+            @JsonProperty("source") final Source source,
+            @JsonProperty("order") final Integer order) {
         this.attributeId = attributeId;
         this.source = source;
+        this.order = order;
     }
 
     /**
@@ -78,6 +84,13 @@ public class MediaAttribute {
      */
     public Source getSource() {
         return source;
+    }
+
+    /**
+     * @return the order
+     */
+    public Integer getOrder() {
+        return order;
     }
 
     @Override
@@ -111,6 +124,7 @@ public class MediaAttribute {
         return new ToStringBuilder(this) //
                 .append("AttributeId", attributeId) //
                 .append("Source", source) //
+                .append("Order", order) //
                 .toString();
     }
 

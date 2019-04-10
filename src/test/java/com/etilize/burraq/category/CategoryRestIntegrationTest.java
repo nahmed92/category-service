@@ -162,7 +162,7 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
         category.setSpecificationAttributes(Sets.newHashSet(
                 new SpecificationAttribute("attributeId-1", Source.SELF, 1)));
         category.setMediaAttributes(
-                Sets.newHashSet(new MediaAttribute("mediaAttribute-1", Source.SELF)));
+                Sets.newHashSet(new MediaAttribute("mediaAttribute-1", Source.SELF, 1)));
         mockMvc.perform(post("/categories") //
                 .contentType(MediaType.APPLICATION_JSON) //
                 .content(mapper.writeValueAsString(category))) //
