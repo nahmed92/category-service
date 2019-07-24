@@ -1,10 +1,23 @@
 spring:
+  profiles: dev
   application:
     name: category-service
-
-  profiles:
-    active: dev
   cloud:
     config:
-      profile: dev
       uri: ${SPRING_CONFIG_URI:http://localhost:8888}
+---
+spring:
+  profiles: staging
+  application:
+    name: category-service
+  cloud:
+    config:
+      uri: ${SPRING_CONFIG_URI:http://localhost:8888}
+---
+spring:
+  profiles: aws-prod
+  application:
+    name: category-service
+  cloud:
+    config:
+      uri: ${SPRING_CONFIG_URI:http://burraq-config-service:8888}
