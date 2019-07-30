@@ -48,13 +48,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class SpecificationAttribute {
 
     @NotBlank(message = "attributeId is required")
-    private final String attributeId;
+    private String attributeId;
 
     @NotNull(message = "source is required")
-    private final Source source;
+    private Source source;
 
     @NotNull(message = "order is required")
-    private final Integer order;
+    private Integer order;
 
     /**
      * Constructor for attribute associated with category
@@ -97,6 +97,33 @@ public class SpecificationAttribute {
      */
     public Integer getOrder() {
         return this.order;
+    }
+
+    /**
+     * Set attribute id.
+     *
+     * @param attributeId {@link String} attribute id.
+     */
+    public void setAttributeId(final String attributeId) {
+        this.attributeId = attributeId;
+    }
+
+    /**
+     * Set source.
+     *
+     * @param source {@link String} source.
+     */
+    public void setSource(final Source source) {
+        this.source = source;
+    }
+
+    /**
+     * Set order.
+     *
+     * @param order {@link String} order.
+     */
+    public void setOrder(final Integer order) {
+        this.order = order;
     }
 
     @Override

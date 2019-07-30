@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Arrays;
-import java.util.Date;
 
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -43,10 +42,11 @@ import org.springframework.http.MediaType;
 import com.etilize.burraq.category.test.AbstractRestIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.google.common.collect.Sets;
+import com.lordofthejars.nosqlunit.annotation.CustomComparisonStrategy;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
+import com.lordofthejars.nosqlunit.mongodb.MongoFlexibleComparisonStrategy;
 
 /**
  * Houses rest integration tests
@@ -56,6 +56,7 @@ import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
  *
  */
 @UsingDataSet(locations = { "/datasets/categories/categories.bson" })
+@CustomComparisonStrategy(comparisonStrategy = MongoFlexibleComparisonStrategy.class)
 public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
 
     @Autowired
@@ -391,8 +392,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                         + "\"industryId\": \"59762d7caddb13b4a8440a38\"}")) //
                 .andExpect(status().isBadRequest()) //
                 .andExpect(jsonPath("$.message",
-                        startsWith("JSON parse error: Can not deserialize value of"
-                                + " type com.etilize.burraq.category.Status from String"
+                        startsWith("JSON parse error: Cannot deserialize value of"
+                                + " type `com.etilize.burraq.category.Status` from String"
                                 + " \"INVALID\": value not one of declared Enum instance names:"
                                 + " [INACTIVE, ACTIVE, PENDING]")));
     }
@@ -411,8 +412,8 @@ public class CategoryRestIntegrationTest extends AbstractRestIntegrationTest {
                         + "\"source\": \"Invalid\"," + "\"order\": 1" + "}" + "]" + "}")) //
                 .andExpect(status().isBadRequest()) //
                 .andExpect(jsonPath("$.message",
-                        startsWith("JSON parse error: Can not deserialize value of"
-                                + " type com.etilize.burraq.category.Source"
+                        startsWith("JSON parse error: Cannot deserialize value of"
+                                + " type `com.etilize.burraq.category.Source`"
                                 + " from String \"Invalid\": value not one of declared"
                                 + " Enum instance names: [INHERITED, SELF, SYSTEM]")));
     }

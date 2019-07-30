@@ -36,8 +36,10 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 
 import com.etilize.burraq.category.test.AbstractRestIntegrationTest;
+import com.lordofthejars.nosqlunit.annotation.CustomComparisonStrategy;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
+import com.lordofthejars.nosqlunit.mongodb.MongoFlexibleComparisonStrategy;
 
 /**
  * Houses rest integration tests for Update status controller
@@ -46,6 +48,7 @@ import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
  *
  */
 @UsingDataSet(locations = { "/datasets/categories/categories.bson" })
+@CustomComparisonStrategy(comparisonStrategy = MongoFlexibleComparisonStrategy.class)
 public class UpdateStatusRestIntegrationTests extends AbstractRestIntegrationTest {
 
     @Test

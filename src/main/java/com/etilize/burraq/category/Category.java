@@ -62,16 +62,16 @@ public class Category extends AbstractMongoEntity<ObjectId> {
     public static final String COLLECTION_NAME = "categories";
 
     @NotBlank(message = "name is required")
-    private final String name;
+    private String name;
 
     @JsonInclude(Include.NON_NULL)
-    private final String description;
+    private String description;
 
     @NotNull(message = "status is required")
     private Status status = Status.PENDING;
 
     @NotBlank(message = "industryId is required")
-    private final String industryId;
+    private String industryId;
 
     @JsonInclude(Include.NON_NULL)
     private ObjectId parentCategoryId;
@@ -126,6 +126,28 @@ public class Category extends AbstractMongoEntity<ObjectId> {
      */
     public Status getStatus() {
         return this.status;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Set description.
+     *
+     * @param description {@link String} description
+     */
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    /**
+     * Set industry id.
+     *
+     * @param industryId {@link String} industry id.
+     */
+    public void setIndustryId(final String industryId) {
+        this.industryId = industryId;
     }
 
     /**

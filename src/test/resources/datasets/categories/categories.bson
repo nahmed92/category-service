@@ -3,7 +3,7 @@
         "indexes": [
             {
                 "index": {
-                    "name": 1,
+                    "name": 2,
                     "industryId": 1
                 },
                 "options": {
