@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.mongodb.DuplicateKeyException;
+import com.mongodb.MongoWriteException;
 
 /**
  * This class implements exception handling for category services.
@@ -63,6 +64,20 @@ public class CategoryRepositoryExceptionHandler {
     @ExceptionHandler(value = { DuplicateKeyException.class })
     protected ResponseEntity<Object> handleDuplicateKeyException(
             final DuplicateKeyException ex) {
+        final ExceptionMessage errorMessage = new ExceptionMessage(
+                "name already exists in industry.", ex.getCause(), ex.getCode());
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
+    /**
+     * Handle repository duplicate key exception.
+     *
+     * @param ex Exception {@link MongoWriteException}
+     * @return {@link ResponseEntity} Response for given entity.
+     */
+    @ExceptionHandler(value = { MongoWriteException.class })
+    protected ResponseEntity<Object> handleDuplicateKeyException(
+            final MongoWriteException ex) {
         final ExceptionMessage errorMessage = new ExceptionMessage(
                 "name already exists in industry.", ex.getCause(), ex.getCode());
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.CONFLICT);

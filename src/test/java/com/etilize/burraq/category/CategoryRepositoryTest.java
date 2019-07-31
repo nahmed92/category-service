@@ -28,11 +28,9 @@
 
 package com.etilize.burraq.category;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -45,11 +43,14 @@ import org.springframework.dao.DuplicateKeyException;
 
 import com.etilize.burraq.category.test.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.google.common.collect.Sets;
+import com.lordofthejars.nosqlunit.annotation.CustomComparisonStrategy;
 import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet;
 import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
+import com.lordofthejars.nosqlunit.mongodb.MongoFlexibleComparisonStrategy;
 import com.querydsl.core.types.Predicate;
+
+import static org.hamcrest.MatcherAssert.*;
 
 /**
  * Houses repository test cases
@@ -59,6 +60,7 @@ import com.querydsl.core.types.Predicate;
  *
  */
 @UsingDataSet(locations = { "/datasets/categories/categories.bson" })
+@CustomComparisonStrategy(comparisonStrategy = MongoFlexibleComparisonStrategy.class)
 public class CategoryRepositoryTest extends AbstractIntegrationTest {
 
     @Autowired
@@ -131,8 +133,9 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_update.bson")
     public void shouldUpdateCategory() throws JsonProcessingException, Exception {
-        final Category category = repository.findOne(
-                new ObjectId("59b78f244daf991ecaafa264"));
+        final Category category = repository.findById(
+                new ObjectId("59b78f244daf991ecaafa264")) //
+                .get();
         final Category updatedCategory = new Category("Child Category 1 Updated",
                 "some updated description for child category 1",
                 "59762d7caddb13b4a8440a38");
@@ -145,7 +148,7 @@ public class CategoryRepositoryTest extends AbstractIntegrationTest {
     @Test
     @ShouldMatchDataSet(location = "/datasets/categories/categories_after_delete.bson")
     public void shouldDeleteCategoryById() throws Exception {
-        repository.delete(new ObjectId("59b795074daf991ecaafa265"));
+        repository.deleteById(new ObjectId("59b795074daf991ecaafa265"));
     }
 
     @Test(expected = ConstraintViolationException.class)
